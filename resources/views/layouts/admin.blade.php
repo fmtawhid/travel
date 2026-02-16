@@ -170,6 +170,16 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-calendar-o" aria-hidden="true"></i> Blogs</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ route('admin.blogs.index') }}">All Blogs</a>
+                                    </li>
+                                    <li><a href="{{ route('admin.blogs.create') }}">Add New Blog</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-braille" aria-hidden="true"></i> Ui-Kits</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>

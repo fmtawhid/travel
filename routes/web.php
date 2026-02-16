@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\BookingController;
 
 
 
@@ -15,6 +16,19 @@ Route::get('/sightseeings', [MainController::class, 'sightseeings'])->name('sigh
 Route::get('/hotels', [MainController::class, 'hotels'])->name('hotels');
 Route::get('/hotel-details/{id}', [MainController::class, 'hotelDetails'])->name('hotel.details');
 
+route::get('/contact', [MainController::class, 'contact'])->name('contact');
+route::get('/about-us', [MainController::class, 'about'])->name('about');
+route::get('/testimonials', [MainController::class, 'testimonials'])->name('testimonials');
+route::get('/blog', [MainController::class, 'blog'])->name('blog');
+route::get('/blog-details/{slug}', [MainController::class, 'blogDetails'])->name('blog.details');
+route::get('/faq', [MainController::class, 'faq'])->name('faq');
+route::get('/tips', [MainController::class, 'tips'])->name('tips');
+
+
+route::get('/booking/tour-package', [BookingController::class, 'tour_package'])->name('booking.tour-package');
+route::get('/booking/flight', [BookingController::class, 'flight'])->name('booking.flight');
+route::get('/booking/car', [BookingController::class, 'car'])->name('booking.car');
+route::get('/booking/hotel', [BookingController::class, 'hotel'])->name('booking.hotel');
 
 
 

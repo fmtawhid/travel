@@ -8,6 +8,7 @@ use App\Models\RoomType;
 use App\Models\SightSeeing;
 use Illuminate\Http\Request;
 use App\Models\Package;
+use App\Models\Blog;
 class MainController extends Controller
 {
     public function index()
@@ -117,5 +118,47 @@ class MainController extends Controller
         $hotel = Hotel::findOrFail($id);
         $roomTypes = RoomType::where('hotel_id', $hotel->id)->get();
         return view('template.hotel-detail', compact('hotel', 'roomTypes'));
+    }
+
+    public function contact()
+    {
+        return view('template.contact');
+    }
+
+    public function about()
+    {
+        return view('template.about');
+    }
+
+    public function testimonials()
+    {
+        return view('template.testimonials');
+    }
+
+    public function blog()
+    {
+        $blogs = Blog::latest()->paginate(10);
+        $recentBlogs = Blog::latest()->take(5)->get();
+
+        return view('template.blog', compact('blogs', 'recentBlogs'));
+    }
+
+    public function blogDetails($slug)
+    {
+        $blog = Blog::where('slug', $slug)->firstOrFail();
+        $recentBlogs = Blog::latest()->take(5)->get();
+
+        return view('template.blog-details', compact('blog', 'recentBlogs'));
+    }
+
+    public function faq()
+    {
+        
+        return view('template.faq');
+    }
+
+    public function tips()
+    {
+        return view('template.tips');
     }
 }

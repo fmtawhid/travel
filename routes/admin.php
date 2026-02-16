@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\SightSeeingController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\HotelAmenityController;
+use App\Http\Controllers\Admin\BlogController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])
@@ -27,5 +28,5 @@ Route::middleware(['auth', 'admin'])
         Route::resource('sightseeings', SightSeeingController::class);
         Route::resource('packages', PackageController::class);
         Route::resource('hotel-amenities', HotelAmenityController::class);
-
+        Route::resource('blogs', BlogController::class);
     });
