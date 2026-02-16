@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+
     <!--HEADER SECTION-->
     <section>
         <div class="tourz-search">
@@ -8,60 +9,75 @@
                     <div class="tourz-search-1">
                         <h1>Plan Your Travel Now!</h1>
                         <p>650+ Travel Agents serving 65+ Destinations worldwide</p>
+
                         <div class="ban-search form-select pop pop-search">
-                            <form>
+
+                            <form method="GET" action="{{ route('packages') }}">
                                 <ul>
+
+                                    <!-- Location -->
                                     <li class="sr-look">
                                         <div class="form-group">
                                             <label>Your destination</label>
-                                            <select class="chosen-select">
-                                                <option>Your destination</option>
-                                                <option>Any location</option>
-                                                <option>Chennai</option>
-                                                <option>New york</option>
-                                                <option>Perth</option>
-                                                <option>London</option>
+                                            <select name="location" class="chosen-select">
+                                                <option value="">Any location</option>
+                                                @foreach($locations as $location)
+                                                    <option value="{{ $location }}">
+                                                        {{ $location }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </li>
+
+                                    <!-- Package -->
                                     <li class="sr-gue">
                                         <div class="form-group">
                                             <label>Package</label>
-                                            <select class="chosen-select">
-                                                <option>Package</option>
-                                                <option>Family Package</option>
-                                                <option>Honeymoon Package</option>
-                                                <option>Group Package</option>
-                                                <option>WeekEnd Package</option>
-                                                <option>Regular Package</option>
+                                            <select name="package_id" class="chosen-select">
+                                                <option value="">Any Package</option>
+                                                @foreach($packageTypes as $package)
+                                                    <option value="{{ $package->id }}">
+                                                        {{ $package->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </li>
+
+                                    <!-- Check In -->
                                     <li class="sr-date">
                                         <div class="form-group">
-                                            <label>Age</label>
-                                            <input type="text" class="form-control datepicker" name="from" placeholder="Check in">
+                                            <label>Check In</label>
+                                            <input type="date" name="check_in" class="form-control">
                                         </div>
                                     </li>
+
+                                    <!-- Check Out -->
                                     <li class="sr-date">
                                         <div class="form-group">
-                                            <label>Age</label>
-                                            <input type="text" class="form-control datepicker" name="to" placeholder="Check out">
+                                            <label>Check Out</label>
+                                            <input type="date" name="check_out" class="form-control">
                                         </div>
                                     </li>
+
+                                    <!-- Submit -->
                                     <li class="sr-btn">
                                         <input type="submit" value="Search">
                                     </li>
+
                                 </ul>
                             </form>
+
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!--END HEADER SECTION-->
+
 
     <section>
         <div class="rows tb-space pad-bot-redu tb-space">
@@ -71,28 +87,28 @@
                         <li>
                             <div class="hom-quick-acc hom-quick-acc-1">
                                 <h2>Book your<span>Travel package</span></h2>
-                                <a href="booking-tour-package.html" class="cta-1">Book now</a>
+                                <a href="{{ route('booking.tour-package') }}" class="cta-1">Book now</a>
                                 <img src="{{ asset('assets/templates/images/home-1.png') }}" loading="lazy" alt="">
                             </div>
                         </li>
                         <li>
                             <div class="hom-quick-acc hom-quick-acc-2">
                                 <h2>Book your<span>Car Rentals</span></h2>
-                                <a href="booking-car-rentals.html" class="cta-1">Book now</a>
+                                <a href="{{ route('booking.car') }}" class="cta-1">Book now</a>
                                 <img src="{{ asset('assets/templates/images/home-2.png') }}" loading="lazy" alt="">
                             </div>
                         </li>
                         <li>
                             <div class="hom-quick-acc hom-quick-acc-3">
                                 <h2>Explore<span>Destinations </span></h2>
-                                <a href="destinations.html" class="cta-1">Explore</a>
+                                <a href="{{ route('sightseeing') }}" class="cta-1">Explore</a>
                                 <img src="{{ asset('assets/templates/images/home-3.png') }}" loading="lazy" alt="">
                             </div>
                         </li>
                         <li>
                             <div class="hom-quick-acc hom-quick-acc-4">
                                 <h2>Over 30,000+<span>Hotels</span></h2>
-                                <a href="hotels-list.html" class="cta-1">Book now</a>
+                                <a href="{{ route('hotels') }}" class="cta-1">Book now</a>
                                 <img src="{{ asset('assets/templates/images/home-4.png') }}" loading="lazy" alt="">
                             </div>
                         </li>
@@ -127,7 +143,7 @@
                 <div class="col-md-6">
                     <a href="tour-details.html">
                         <div class="tour-mig-like-com">
-                            <div class="tour-mig-lc-img"> <img src="images/listing/home.jpg" alt=""> </div>
+                            <div class="tour-mig-lc-img"> <img src="{{ asset('assets/templates/images/listing/home.jpg') }}" alt=""> </div>
                             <div class="tour-mig-lc-con">
                                 <h5>Europe</h5>
                                 <p><span>12 Packages</span> Starting from $2400</p>
@@ -183,10 +199,12 @@
         </div>
     </section>
 
+
     <section>
         <div class="rows pad-bot-redu">
             <div class="container">
-                <!-- TITLE & DESCRIPTION -->
+
+                <!-- TITLE -->
                 <div class="spe-title">
                     <h2>Tour <span>Packages</span></h2>
                     <div class="title-line">
@@ -196,121 +214,44 @@
                     </div>
                     <p>World's leading tour and travels Booking website,Over 30,000 packages worldwide.</p>
                 </div>
+
                 <!-- HOTEL GRID -->
                 <div class="to-ho-hotel">
                     <ul class="multiple-items">
-                        <li class="col-md-4">
-                            <div class="to-ho-hotel-con pack-new-box">
-                                <div class="to-ho-hotel-con-1">
-                                    <img src="{{ asset('assets/templates/images/places/8.jpg') }}" alt="">
-                                    <div class="hom-pack-deta">
-                                        <h2>Family package</h2>
-                                        <h4><span>20+</span> destinations</h4>
-                                        <span class="cta-2">Book now</span>
+
+                        @foreach($packages as $package)
+
+                            <li class="col-md-4">
+                                <div class="to-ho-hotel-con pack-new-box">
+                                    <div class="to-ho-hotel-con-1">
+
+                                        <img src="{{ asset('assets/templates/images/places/1.jpg') }}" alt="">
+
+                                        <div class="hom-pack-deta">
+                                            <h2>{{ $package->name }}</h2>
+                                            <h4>
+                                                <span>{{ $package->tours_count }}+</span> destinations
+                                            </h4>
+                                            <span class="cta-2">Book now</span>
+                                        </div>
+
                                     </div>
+
+                                    <a href="#" class="fclick"></a>
+
                                 </div>
-                                <a href="hotel-details.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="to-ho-hotel-con pack-new-box">
-                                <div class="to-ho-hotel-con-1">
-                                    <img src="{{ asset('assets/templates/images/places/7.jpg') }}" alt="">
-                                    <div class="hom-pack-deta">
-                                        <h2>Honeymoon package</h2>
-                                        <h4><span>20+</span> destinations</h4>
-                                        <span class="cta-2">Book now</span>
-                                    </div>
-                                </div>
-                                <a href="hotel-details.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="to-ho-hotel-con pack-new-box">
-                                <div class="to-ho-hotel-con-1">
-                                    <img src="{{ asset('assets/templates/images/places/12.jpg') }}" alt="">
-                                    <div class="hom-pack-deta">
-                                        <h2>Group package</h2>
-                                        <h4><span>20+</span> destinations</h4>
-                                        <span class="cta-2">Book now</span>
-                                    </div>
-                                </div>
-                                <a href="hotel-details.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="to-ho-hotel-con pack-new-box">
-                                <div class="to-ho-hotel-con-1">
-                                    <img src="{{ asset('assets/templates/images/places/4.jpg') }}" alt="">
-                                    <div class="hom-pack-deta">
-                                        <h2>Friends package</h2>
-                                        <h4><span>20+</span> destinations</h4>
-                                        <span class="cta-2">Book now</span>
-                                    </div>
-                                </div>
-                                <a href="hotel-details.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="to-ho-hotel-con pack-new-box">
-                                <div class="to-ho-hotel-con-1">
-                                    <img src="{{ asset('assets/templates/images/places/2.jpg') }}" alt="">
-                                    <div class="hom-pack-deta">
-                                        <h2>Solo package</h2>
-                                        <h4><span>20+</span> destinations</h4>
-                                        <span class="cta-2">Book now</span>
-                                    </div>
-                                </div>
-                                <a href="hotel-details.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="to-ho-hotel-con pack-new-box">
-                                <div class="to-ho-hotel-con-1">
-                                    <img src="{{ asset('assets/templates/images/places/18.jpg') }}" alt="">
-                                    <div class="hom-pack-deta">
-                                        <h2>Adventure package</h2>
-                                        <h4><span>20+</span> destinations</h4>
-                                        <span class="cta-2">Book now</span>
-                                    </div>
-                                </div>
-                                <a href="hotel-details.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="to-ho-hotel-con pack-new-box">
-                                <div class="to-ho-hotel-con-1">
-                                    <img src="{{ asset('assets/templates/images/places/11.jpg') }}" alt="">
-                                    <div class="hom-pack-deta">
-                                        <h2>Religious package</h2>
-                                        <h4><span>20+</span> destinations</h4>
-                                        <span class="cta-2">Book now</span>
-                                    </div>
-                                </div>
-                                <a href="hotel-details.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="to-ho-hotel-con pack-new-box">
-                                <div class="to-ho-hotel-con-1">
-                                    <img src="{{ asset('assets/templates/images/places/1.jpg') }}" alt="">
-                                    <div class="hom-pack-deta">
-                                        <h2>Water sports package</h2>
-                                        <h4><span>20+</span> destinations</h4>
-                                        <span class="cta-2">Book now</span>
-                                    </div>
-                                </div>
-                                <a href="hotel-details.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        
+                            </li>
+
+                        @endforeach
+
                     </ul>
                 </div>
+
             </div>
         </div>
     </section>
-    
-    <!--====== HOME HOTELS ==========-->
+
+    <!--====== Populer Destination ==========-->
     <section>
         <div class="rows hom-hotels tb-space pad-top-o">
             <div class="container">
@@ -327,84 +268,22 @@
                 <!-- HOTEL GRID -->
                 <div class="to-ho-hotel">
                     <ul class="multiple-items7">
-                        <li class="col-md-4">
-                            <div class="plac-hom-box">
-                                <div class="plac-hom-box-im">
-                                    <img src="{{ asset('assets/templates/images/places/10.jpg') }}" alt="" loading="lazy">
-                                    <h4>Taj Mahal</h4>
+                        @foreach($sightSeeings as $sightSeeing)
+                            <li class="col-md-4">
+                                <div class="plac-hom-box">
+                                    <div class="plac-hom-box-im">
+                                        <img src="{{ asset('uploads/sightseeing/'.$sightSeeing->image) }}" alt="{{ $sightSeeing->name }}" loading="lazy">
+                                        <h4>{{ $sightSeeing->name }}</h4>
+                                    </div>
+                                    <div class="plac-hom-box-txt">
+                                        <span>{{ $sightSeeing->description }}</span>
+                                        <span>More details</span>
+                                    </div>
+                                    <a href="#" class="fclick"></a>
                                 </div>
-                                <div class="plac-hom-box-txt">
-                                    <span>Symbol of love</span>
-                                    <span>More details</span>
-                                </div>
-                                <a href="destinations.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="plac-hom-box">
-                                <div class="plac-hom-box-im">
-                                    <img src="{{ asset('assets/templates/images/places/11.jpg') }}" alt="" loading="lazy">
-                                    <h4>Open House</h4>
-                                </div>
-                                <div class="plac-hom-box-txt">
-                                    <span>Beach & Historical</span>
-                                    <span>More details</span>
-                                </div>
-                                <a href="destinations.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="plac-hom-box">
-                                <div class="plac-hom-box-im">
-                                    <img src="{{ asset('assets/templates/images/places/19.jpg') }}" alt="" loading="lazy">
-                                    <h4>Eiffel Tower</h4>
-                                </div>
-                                <div class="plac-hom-box-txt">
-                                    <span>Historical places</span>
-                                    <span>More details</span>
-                                </div>
-                                <a href="destinations.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="plac-hom-box">
-                                <div class="plac-hom-box-im">
-                                    <img src="{{ asset('assets/templates/images/places/17.jpg') }}" alt="" loading="lazy">
-                                    <h4>Rio de Janeiro</h4>
-                                </div>
-                                <div class="plac-hom-box-txt">
-                                    <span>Historical places</span>
-                                    <span class="cta-3-sml">More details</span>
-                                </div>
-                                <a href="destinations.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="plac-hom-box">
-                                <div class="plac-hom-box-im">
-                                    <img src="{{ asset('assets/templates/images/places/18.jpg') }}" alt="" loading="lazy">
-                                    <h4>Mauritius</h4>
-                                </div>
-                                <div class="plac-hom-box-txt">
-                                    <span>Beach places</span>
-                                    <span>More details</span>
-                                </div>
-                                <a href="destinations.html" class="fclick"></a>
-                            </div>
-                        </li>
-                        <li class="col-md-4">
-                            <div class="plac-hom-box">
-                                <div class="plac-hom-box-im">
-                                    <img src="{{ asset('assets/templates/images/places/22.jpg') }}" alt="" loading="lazy">
-                                    <h4>Burj khalifa</h4>
-                                </div>
-                                <div class="plac-hom-box-txt">
-                                    <span>Modern architecture</span>
-                                    <span>More details</span>
-                                </div>
-                                <a href="destinations.html" class="fclick"></a>
-                            </div>
-                        </li>
+                            </li>
+                        @endforeach
+                        
                     </ul>
                 </div>
             </div>
@@ -419,20 +298,20 @@
                         <div class="offer-l"> <span class="ol-1"></span> <span class="ol-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> <span class="ol-4">Standardized Budget Packages</span>                            <span class="ol-3"></span> <span class="ol-5">$99/-</span>
                             <ul>
                                 <li class="wow fadeInUp" data-wow-duration="0.5s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="images/icon/dis1.png" alt="">
+                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis1.png') }}" alt="">
 									</a><span>Free WiFi</span>
                                 </li>
                                 <li class="wow fadeInUp" data-wow-duration="0.7s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="images/icon/dis2.png" alt=""> </a><span>Breakfast</span>
+                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis2.png') }}" alt=""> </a><span>Breakfast</span>
                                 </li>
                                 <li class="wow fadeInUp" data-wow-duration="0.9s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="images/icon/dis3.png" alt=""> </a><span>Pool</span>
+                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis3.png') }}" alt=""> </a><span>Pool</span>
                                 </li>
                                 <li class="wow fadeInUp" data-wow-duration="1.1s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="images/icon/dis4.png" alt=""> </a><span>Television</span>
+                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis4.png') }}" alt=""> </a><span>Television</span>
                                 </li>
                                 <li class="wow fadeInUp" data-wow-duration="1.3s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="images/icon/dis5.png" alt=""> </a><span>GYM</span>
+                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis5.png') }}" alt=""> </a><span>GYM</span>
                                 </li>
                             </ul>
                         </div>
@@ -813,55 +692,7 @@
         </div>
     </section>
     <!--====== REQUEST A QUOTE ==========-->
-    <!--<section>
-        <div class="form tb-space">
-            <div class="rows container">
-                <div class="spe-title">
-                    <h2>Book your <span>favourite Package</span> Now!</h2>
-                    <div class="title-line">
-                        <div class="tl-1"></div>
-                        <div class="tl-2"></div>
-                        <div class="tl-3"></div>
-                    </div>
-                    <p>World's leading tour and travels Booking website,Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience</p>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12 form_1">
-                    <div class="succ_mess">Thank you for contacting us we will get back to you soon.</div>
-                    <form id="home_form" name="home_form" action="mail/send.php">
-                        <ul>
-                            <li>
-                                <input type="text" name="ename" value="" id="ename" placeholder="Name" required>
-                            </li>
-                            <li>
-                                <input type="tel" name="emobile" value="" id="emobile" placeholder="Mobile" required>
-                            </li>
-                            <li>
-                                <input type="email" name="eemail" value="" id="eemail" placeholder="Email id" required>
-                            </li>
-                            <li>
-                                <input type="text" name="esubject" value="" id="esubject" placeholder="Subject" required>
-                            </li>
-                            <li>
-                                <input type="text" name="ecity" value="" id="ecity" placeholder="City" required>
-                            </li>
-                            <li>
-                                <input type="text" name="ecount" value="" id="ecount" placeholder="Country" required>
-                            </li>
-                            <li>
-                                <textarea name="emess" cols="40" rows="3" id="text-comment" placeholder="Enter your message"></textarea>
-                            </li>
-                            <li>
-                                <input type="submit" value="Submit" id="send_button">
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12 family">
-                    <img src="images/family.png" alt="" />
-                </div>
-            </div>
-        </div>
-    </section>-->
+    
     <!--====== TIPS BEFORE TRAVEL ==========-->
     <section>
         <div class="rows tips tips-home tb-space home_title">

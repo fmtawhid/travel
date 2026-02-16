@@ -13,7 +13,12 @@ class MainController extends Controller
 {
     public function index()
     {
-        return view('template.main');
+        $locations = Tour::select('location')->distinct()->pluck('location');
+        $packageTypes = Package::all();
+        $sightSeeings = SightSeeing::latest()->take(6)->get();
+        $packages = Package::withCount('tours')->latest()->get();
+        
+        return view('template.main', compact('locations', 'packageTypes', 'sightSeeings', 'packages'));
     }
 
     public function packages(Request $request)
