@@ -3,7 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\BookingController;
 
@@ -25,12 +24,19 @@ route::get('/faq', [MainController::class, 'faq'])->name('faq');
 route::get('/tips', [MainController::class, 'tips'])->name('tips');
 
 
-route::get('/booking/tour-package', [BookingController::class, 'tour_package'])->name('booking.tour-package');
+Route::get('/booking/tour-package/{tour_id?}', [BookingController::class, 'tour_package'])->name('booking.tour-package');
+Route::post('/booking/tour-package', [BookingController::class, 'storeTourBooking'])->name('booking.tour-package.store');
+
+
 route::get('/booking/flight', [BookingController::class, 'flight'])->name('booking.flight');
 route::get('/booking/car', [BookingController::class, 'car'])->name('booking.car');
+route::post('/booking/car', [BookingController::class, 'storeCarBooking'])->name('booking.car.store');
 route::get('/booking/hotel', [BookingController::class, 'hotel'])->name('booking.hotel');
 
-
+// web.php
+Route::post('/tour/review', [MainController::class, 'storeTourReview'])
+    ->middleware('auth')
+    ->name('tour.review.store');
 
 Route::get('/dashboard', function () {
     if (!auth()->check()) {
@@ -51,17 +57,8 @@ Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
     ->name('admin.dashboard');
 
-Route::get('/user/dashboard', [UserDashboardController::class, 'index'])
-    ->middleware(['auth', \App\Http\Middleware\UserMiddleware::class])
-    ->name('user.dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
-
+require __DIR__.'/user.php';
 

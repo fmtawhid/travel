@@ -39,7 +39,8 @@
             <div class="ed-mob-menu-con">
                 <div class="ed-mm-left">
                     <div class="wed-logo">
-                        <a href="main.html"><img src="{{ asset('assets/templates/images/logo.png') }}" alt="" />
+                        <a href="main.html">
+                            <img src="{{ asset('uploads/settings/' . $settings['logo']) }}" alt="{{ $settings['name'] }}" />
 						</a>
                     </div>
                 </div>
@@ -122,30 +123,30 @@
                     <div class="col-md-12">
                         <div class="ed-com-t1-left">
                             <ul>
-                                <li><a href="#">Contact: Lake Road, Suite 180 Farmington Hills, U.S.A.</a>
+                                <li><a href="#">Contact: {{ $settings['address'] ?? 'N/A' }}</a>
                                 </li>
-                                <li><a href="#">Phone: +101-1231-1231</a>
+                                <li><a href="#">Phone: {{ $settings['phone'] ?? 'N/A' }}</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="ed-com-t1-right">
                             <ul>
-                                <li><span class="sear-pop pop-ini" data-pop="pop-search"><i class="fa fa-search aria-hidden="true"></i></span></li>
-                                <li><a href="login.html" class="top-sign">Sign In</a>
+                                <li><span class="sear-pop pop-ini" data-pop="pop-search"><i class="fa fa-search" aria-hidden="true"></i></span></li>
+                                <li><a href="{{ route('login') }}" class="top-sign">Sign In</a>
                                 </li>
-                                <li><a href="register.html" class="top-regi">Sign Up</a>
+                                <li><a href="{{ route('register') }}" class="top-regi">Sign Up</a>
                                 </li>
-                                <li><a href="dashboard.html" class="top-prof">Profile</a>
+                                <li><a href="{{ route('dashboard') }}" class="top-prof">Profile</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="ed-com-t1-social">
                             <ul>
-                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                <li><a href="{{ $settings['facebook'] ?? '#' }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                                 </li>
-                                <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                                <li><a href="{{ $settings['youtube'] ?? '#' }}"><i class="fa fa-youtube" aria-hidden="true"></i></a>
                                 </li>
-                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                <li><a href="{{ $settings['x'] ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -160,7 +161,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="wed-logo">
-                            <a href="{{ route('home') }}"><img src="{{ asset('assets/templates/images/logo.png') }}" alt="" />
+                            <a href="{{ route('home') }}">
+                                <img src="{{ asset('uploads/settings/' . $settings['logo']) }}" alt="{{ $settings['name'] }}" />
                             </a>
                         </div>
                         <div class="main-menu">

@@ -108,7 +108,7 @@
                                             <select multiple name="amenities[]">
                                                 <option value="" disabled>Select Amenities</option>
                                                 @foreach($amenities as $amenity)
-                                                    <option value="{{ $amenity->id }}" {{ in_array($amenity->id, old('amenities', $selectedAmenities ?? [])) ? 'selected' : '' }}>
+                                                    <option value="{{ $amenity->id }}" {{ (is_array($hotel->amenities) && in_array($amenity->id, $hotel->amenities)) ? 'selected' : '' }}>
                                                         {{ $amenity->name }}
                                                     </option>
                                                 @endforeach
@@ -177,6 +177,7 @@
                                                     <th>Room Type</th>
                                                     <th>Price</th>
                                                     <th>Description</th>
+                                                    <th>Amenities</th>
                                                     <th>Image</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -185,6 +186,7 @@
                                                 @if($hotel->roomTypes && $hotel->roomTypes->count() > 0)
                                                     @foreach($hotel->roomTypes as $index => $room)
                                                         <tr class="room-type-row">
+                                                            <input type="hidden" name="room_types[{{ $index }}][id]" value="{{ $room->id }}">
                                                             <td><input type="text" name="room_types[{{ $index }}][room_type]"
                                                                     value="{{ $room->room_type }}"
                                                                     style="width: 100%; padding: 5px;"></td>
@@ -195,9 +197,19 @@
                                                                     value="{{ $room->description }}"
                                                                     style="width: 100%; padding: 5px;"></td>
                                                             <td>
+                                                                <select multiple name="room_types[{{ $index }}][amenities][]" style="width: 100%; padding: 5px;">
+                                                                    <option value="" disabled>Select Amenities</option>
+                                                                    @foreach($amenities as $amenity)
+                                                                        <option value="{{ $amenity->id }}" {{ (is_array($room->amenities) && in_array($amenity->id, $room->amenities)) ? 'selected' : '' }}>
+                                                                            {{ $amenity->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td>
                                                                 @if($room->images)
                                                                     <div style="margin-bottom: 10px;">
-                                                                        @foreach(json_decode($room->images, true) ?? [] as $img)
+                                                                        @foreach($room->images as $img)
                                                                             <div
                                                                                 style="display: inline-block; position: relative; margin-right: 5px; margin-bottom: 5px;">
                                                                                 <img src="{{ asset('uploads/hotels/room_types/' . $img) }}"
@@ -232,6 +244,14 @@
                                                                 placeholder="Description" style="width: 100%; padding: 5px;">
                                                         </td>
                                                         <td>
+                                                            <select multiple name="room_types[0][amenities][]" style="width: 100%; padding: 5px;">
+                                                                <option value="" disabled>Select Amenities</option>
+                                                                @foreach($amenities as $amenity)
+                                                                    <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td>
                                                             <input type="file" name="room_types[0][images][]" accept="image/*"
                                                                 multiple class="room-type-images"
                                                                 style="padding: 5px; font-size: 12px;">
@@ -263,6 +283,23 @@
                             <div class="bor">
                                 <div class="row">
                                     <div class="input-field col s12">
+                                        {{-- Display existing gallery images --}}
+                                        @if($hotel->gallery_images && is_array($hotel->gallery_images))
+                                            <div style="margin-bottom: 15px;">
+                                                <p style="font-weight: bold; margin-bottom: 10px;">Existing Gallery Images:</p>
+                                                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                                    @foreach($hotel->gallery_images as $img)
+                                                        @if(is_string($img))
+                                                            <div style="position: relative; display: inline-block;">
+                                                                <img src="{{ asset('uploads/hotels/gallery/' . $img) }}"
+                                                                    style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ddd; border-radius: 3px;">
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+
                                         <div class="file-field input-field">
                                             <div class="btn green">
                                                 <span>Upload Images</span>
@@ -486,12 +523,25 @@
                     <td><input type="number" name="room_types[${roomTypeCount}][price]" placeholder="0.00" step="0.01" style="width: 100%; padding: 5px;"></td>
                     <td><input type="text" name="room_types[${roomTypeCount}][description]" placeholder="Description" style="width: 100%; padding: 5px;"></td>
                     <td>
+                        <select multiple name="room_types[${roomTypeCount}][amenities][]" style="width: 100%; padding: 5px;">
+                            <option value="" disabled>Select Amenities</option>
+                            @foreach($amenities as $amenity)
+                                <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
                         <input type="file" name="room_types[${roomTypeCount}][images][]" accept="image/*" multiple class="room-type-images" style="padding: 5px; font-size: 12px;">
                         <small style="display: block; margin-top: 5px; color: #666;">Multiple images allowed</small>
                     </td>
                     <td><button type="button" class="btn btn-danger btn-sm remove-room-type">Remove</button></td>
                 `;
             tbody.appendChild(row);
+            // Re-initialize select elements
+            const newSelects = row.querySelectorAll('select');
+            newSelects.forEach(select => {
+                M.FormSelect.init(select);
+            });
             roomTypeCount++;
         });
 

@@ -100,13 +100,35 @@
                 <!--== USER INFO ==-->
                 <div class="sb2-12">
                     <ul>
-                        <li><img src="{{ asset('assets/admin/images/user/6.png') }}" alt="">
-                        </li>
                         <li>
-                            <h5>{{ auth()->user()->name ?? 'Admin' }} <span> Santa Ana, CA</span></h5>
+                            @if(auth()->user()->image)
+                                <img src="{{ asset('uploads/users/' . auth()->user()->image) }}" 
+                                    alt="User Image"
+                                    width="80"
+                                    style="border-radius:50%;">
+                            @else
+                                <img src="{{ asset('assets/admin/images/user/6.png') }}" 
+                                    alt="Default Image"
+                                    width="80"
+                                    style="border-radius:50%;">
+                            @endif
                         </li>
+
+                        <li>
+                            <h5>
+                                {{ auth()->user()->name ?? 'User' }}
+                                <span>
+                                    {{ auth()->user()->city ?? 'No City' }}
+                                    @if(auth()->user()->country)
+                                        , {{ auth()->user()->country }}
+                                    @endif
+                                </span>
+                            </h5>
+                        </li>
+
                         <li></li>
                     </ul>
+
                 </div>
                 <!--== LEFT MENU ==-->
                 <div class="sb2-13">
@@ -145,8 +167,8 @@
                                     </li>
                                     <li><a href="{{ route('admin.hotel-amenities.index') }}">Aminity</a>
                                     </li>
-                                    <li><a href="hotel-room-type-add.html">Add Room Type</a>
-                                    </li>
+                                    {{-- <li><a href="hotel-room-type-add.html">Add Room Type</a>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </li>
@@ -163,9 +185,9 @@
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-calendar-o" aria-hidden="true"></i> Events</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="event-all.html">All Events</a>
+                                    <li><a href="{{ route('admin.events.index') }}">All Events</a>
                                     </li>
-                                    <li><a href="event-add.html">Add New Event</a>
+                                    <li><a href="{{ route('admin.events.create') }}">Add New Event</a>
                                     </li>
                                 </ul>
                             </div>
@@ -180,7 +202,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-braille" aria-hidden="true"></i> Ui-Kits</a>
+                        {{-- <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-braille" aria-hidden="true"></i> Ui-Kits</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
                                     <li><a href="ui-form.html">ui-form</a>
@@ -199,8 +221,8 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-usd" aria-hidden="true"></i> Discounts</a>
+                        </li> --}}
+                        {{-- <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-usd" aria-hidden="true"></i> Discounts</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
                                     <li><a href="discount.html">All Discounts</a>
@@ -219,7 +241,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-ticket" aria-hidden="true"></i> Booking & Enquiry</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>

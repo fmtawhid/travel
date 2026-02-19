@@ -11,10 +11,22 @@ class Tour extends Model
 
     protected $fillable = [
         'title', 'short_description', 'long_description', 'location',
-        'price', 'discount_percentage', 'discount_price', 'duration', 'package_id', 
-        'image', 'rating', 'start_date', 'end_date',
+        'price', 'discount_price', 'duration', 'package_id', 
+        'image', 'start_date', 'end_date',
         'include_sightseeing', 'include_hotel', 'include_transfer', 'include_luggage'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'start_date' => 'date',
+            'end_date' => 'date',
+            'include_sightseeing' => 'boolean',
+            'include_hotel' => 'boolean',
+            'include_transfer' => 'boolean',
+            'include_luggage' => 'boolean',
+        ];
+    }
 
     public function itineraries()
     {
@@ -30,6 +42,7 @@ class Tour extends Model
     {
         return $this->hasMany(Review::class);
     }
+
 
     public function package()
     {

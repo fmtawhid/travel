@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\HotelAmenityController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\BlogController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\BookingInquiryController;
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
@@ -30,7 +32,17 @@ Route::middleware(['auth', 'admin'])
         Route::resource('packages', PackageController::class);
         Route::resource('hotel-amenities', HotelAmenityController::class);
         Route::resource('blogs', BlogController::class);
+        Route::resource('events', EventController::class)->names('events');
 
         Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
         Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+
+
+        Route::get('/booking-inquiries/tour-package', [BookingInquiryController::class, 'tour_package_inquiries'])->name('booking-inquiries.tour-package');
+        Route::delete('/booking-inquiries/tour-package/{id}', [BookingInquiryController::class, 'destroy_tour_package'])->name('booking-inquiries.tour-package.destroy');
+
+
+        // Car booking inquiries
+        Route::get('/booking-inquiries/car', [BookingInquiryController::class, 'car_booking_inquiries'])->name('booking-inquiries.car');
+        Route::delete('/booking-inquiries/car/{id}', [BookingInquiryController::class, 'destroy_car_booking'])->name('booking-inquiries.car.destroy');
     });

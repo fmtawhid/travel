@@ -103,7 +103,7 @@
                                             <select multiple name="amenities[]">
                                                 <option value="" disabled>Select Amenities</option>
                                                 @foreach($amenities as $amenity)
-                                                    <option value="{{ $amenity->id }}" {{ in_array($amenity->id, old('amenities', $selectedAmenities ?? [])) ? 'selected' : '' }}>
+                                                    <option value="{{ $amenity->id }}" {{ in_array($amenity->id, old('amenities', [])) ? 'selected' : '' }}>
                                                         {{ $amenity->name }}
                                                     </option>
                                                 @endforeach
@@ -162,6 +162,7 @@
                                                     <th>Room Type</th>
                                                     <th>Price</th>
                                                     <th>Description</th>
+                                                    <th>Amenities</th>
                                                     <th>Image</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -175,6 +176,14 @@
                                                             step="0.01" style="width: 100%; padding: 5px;"></td>
                                                     <td><input type="text" name="room_types[0][description]"
                                                             placeholder="Description" style="width: 100%; padding: 5px;">
+                                                    </td>
+                                                    <td>
+                                                        <select multiple name="room_types[0][amenities][]" style="width: 100%; padding: 5px;">
+                                                            <option value="" disabled>Select Amenities</option>
+                                                            @foreach($amenities as $amenity)
+                                                                <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </td>
                                                     <td>
                                                         <input type="file" name="room_types[0][images][]" accept="image/*"
@@ -399,12 +408,25 @@
                 <td><input type="number" name="room_types[${roomTypeCount}][price]" placeholder="0.00" step="0.01" style="width: 100%; padding: 5px;"></td>
                 <td><input type="text" name="room_types[${roomTypeCount}][description]" placeholder="Description" style="width: 100%; padding: 5px;"></td>
                 <td>
+                    <select multiple name="room_types[${roomTypeCount}][amenities][]" style="width: 100%; padding: 5px;">
+                        <option value="" disabled>Select Amenities</option>
+                        @foreach($amenities as $amenity)
+                            <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
                     <input type="file" name="room_types[${roomTypeCount}][images][]" accept="image/*" multiple class="room-type-images" style="padding: 5px; font-size: 12px;">
                     <small style="display: block; margin-top: 5px; color: #666;">Multiple images allowed</small>
                 </td>
                 <td><button type="button" class="btn btn-danger btn-sm remove-room-type">Remove</button></td>
             `;
             tbody.appendChild(row);
+            // Re-initialize select elements
+            const newSelects = row.querySelectorAll('select');
+            newSelects.forEach(select => {
+                M.FormSelect.init(select);
+            });
             roomTypeCount++;
         });
 

@@ -2,99 +2,103 @@
 
 @section('content')
 <div class="sb2-2">
-    {{-- Success Message --}}
+
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    {{-- Breadcrumb --}}
     <div class="sb2-2-2">
         <ul>
             <li>
                 <a href="{{ route('admin.dashboard') }}">
-                    <i class="fa fa-home" aria-hidden="true"></i> Home
+                    <i class="fa fa-home"></i> Home
                 </a>
             </li>
-            <li class="active-bre">
-                <a href="#">Packages</a>
-            </li>
+            <li class="active-bre">Packages</li>
         </ul>
     </div>
 
     <div class="sb2-2-3">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box-inn-sp">
+        <div class="box-inn-sp">
 
-                    {{-- Title --}}
-                    <div class="inn-title">
-                        <h4>All Packages</h4>
-                        <a href="{{ route('admin.packages.create') }}" class="btn btn-sm btn-primary pull-right">
-                            + Add Package
-                        </a>
-                    </div>
+            <div class="inn-title">
+                <h4>All Packages</h4>
+                <a href="{{ route('admin.packages.create') }}"
+                   class="btn btn-sm blue pull-right">
+                    + Add Package
+                </a>
+            </div>
 
-                    {{-- Table --}}
-                    <div class="tab-inn">
-                        <div class="table-responsive table-desi">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Package Name</th>
-                                        <th>Created At</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
+            <div class="tab-inn">
+                <div class="table-responsive">
+                    <table class="table table-hover">
 
-                                <tbody>
-                                @forelse($packages as $package)
-                                    <tr>
-                                        <td>{{ $package->id }}</td>
-                                        <td>{{ $package->name }}</td>
-                                        <td>{{ $package->created_at->format('d M Y') }}</td>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Created</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
 
-                                        {{-- EDIT --}}
-                                        <td>
-                                            <a href="{{ route('admin.packages.edit', $package) }}">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
+                        <tbody>
+                        @forelse($packages as $package)
+                            <tr>
+                                <td>{{ $package->id }}</td>
 
-                                        {{-- DELETE --}}
-                                        <td>
-                                            <form action="{{ route('admin.packages.destroy', $package) }}"
-                                                  method="POST"
-                                                  onsubmit="return confirm('Delete this package?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" style="background:none;border:none;color:red;">
-                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">No packages found</td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
+                                <td>
+                                    @if($package->image)
+                                        <img src="{{ asset('uploads/packages/'.$package->image) }}"
+                                             width="70"
+                                             style="border-radius:5px;">
+                                    @else
+                                        No Image
+                                    @endif
+                                </td>
 
-                            </table>
+                                <td>{{ $package->name }}</td>
+                                <td>{{ $package->created_at->format('d M Y') }}</td>
 
-                            {{-- Pagination --}}
-                            <div class="mt-3">
-                                {{ $packages->links() }}
-                            </div>
-                        </div>
-                    </div>
+                                <td>
+                                    <a href="{{ route('admin.packages.edit', $package) }}">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <form action="{{ route('admin.packages.destroy', $package) }}"
+                                          method="POST"
+                                          onsubmit="return confirm('Delete this package?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                style="border:none;background:none;color:red;">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    No packages found
+                                </td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+
+                    </table>
+
+                    {{ $packages->links() }}
 
                 </div>
             </div>
+
         </div>
     </div>
 </div>

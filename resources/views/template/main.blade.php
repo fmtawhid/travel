@@ -125,7 +125,7 @@
         </div>
     </section>
 
-    <!--====== HOME HOTELS ==========-->
+    {{-- <!--====== Location HOTELS ==========-->
     <section>
         <div class="rows pad-bot-redu">
             <div class="container">
@@ -197,7 +197,74 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
+
+<!--====== Location HOTELS ==========-->
+<section>
+    <div class="rows pad-bot-redu">
+        <div class="container">
+
+            <!-- TITLE -->
+            <div class="spe-title">
+                <h2>Top <span>Destinations</span></h2>
+                <div class="title-line">
+                    <div class="tl-1"></div>
+                    <div class="tl-2"></div>
+                    <div class="tl-3"></div>
+                </div>
+                <p>World's leading Hotel Booking website, Over 30,000 Hotel rooms worldwide.</p>
+            </div>
+
+            @foreach($topLocations as $index => $location)
+
+                {{-- First Item Big (col-6) --}}
+                @if($index == 0)
+                    <div class="col-md-6">
+                        <a href="{{ route('packages', ['location' => $location->location]) }}">
+                            <div class="tour-mig-like-com">
+                                <div class="tour-mig-lc-img">
+                                    <img src="{{ asset('assets/templates/images/listing/home.jpg') }}" alt="">
+                                </div>
+                                <div class="tour-mig-lc-con">
+                                    <h5>{{ $location->location }}</h5>
+                                    <p>
+                                        <span>{{ $location->total_packages }} Packages</span>
+                                        Starting from ${{ $location->min_price }}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                {{-- Others Small (col-3) --}}
+                @else
+                    <div class="col-md-3">
+                        <a href="{{ route('packages', ['location' => $location->location]) }}">
+                            <div class="tour-mig-like-com">
+                                <div class="tour-mig-lc-img">
+                                    <img src="{{ asset('assets/templates/images/listing/home3.jpg') }}" alt="">
+                                </div>
+                                <div class="tour-mig-lc-con tour-mig-lc-con2">
+                                    <h5>{{ $location->location }}</h5>
+                                    <p>
+                                        {{-- <span>{{ $location->total_packages }} Packages</span><br> --}}
+                                        Starting from ${{ $location->min_price }}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+
+            @endforeach
+
+        </div>
+    </div>
+</section>
+
+
+
+
 
 
     <section>
@@ -225,12 +292,16 @@
                                 <div class="to-ho-hotel-con pack-new-box">
                                     <div class="to-ho-hotel-con-1">
 
-                                        <img src="{{ asset('assets/templates/images/places/1.jpg') }}" alt="">
+                                        @if($package->image)
+                                            <img src="{{ asset('uploads/packages/'.$package->image) }}" alt="{{ $package->name }}">
+                                        @else
+                                            <img src="{{ asset('assets/templates/images/places/1.jpg') }}" alt="No Image">
+                                        @endif
 
                                         <div class="hom-pack-deta">
                                             <h2>{{ $package->name }}</h2>
                                             <h4>
-                                                <span>{{ $package->tours_count }}+</span> destinations
+                                                <span>{{ $package->tours_count ?? 0 }}+</span> destinations
                                             </h4>
                                             <span class="cta-2">Book now</span>
                                         </div>
@@ -436,55 +507,65 @@
             </div>
         </div>
     </section>-->
-    <!--====== POPULAR TOUR PLACES ==========-->
-    <section>
-        <div class="rows pla pad-bot-redu tb-space">
-            <div class="pla1 p-home container">
-                <!-- TITLE & DESCRIPTION -->
-                <div class="spe-title spe-title-1">
-                    <h2>Top <span>Sight Seeing</span> in this month</h2>
-                    <div class="title-line">
-                        <div class="tl-1"></div>
-                        <div class="tl-2"></div>
-                        <div class="tl-3"></div>
-                    </div>
-                    <p>World's leading tour and travels Booking website,Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience</p>
+<!--====== POPULAR TOUR PLACES ==========-->
+<section>
+    <div class="rows pla pad-bot-redu tb-space">
+        <div class="pla1 p-home container">
+            <!-- TITLE & DESCRIPTION -->
+            <div class="spe-title spe-title-1">
+                <h2>Top <span>Sight Seeing</span> in this month</h2>
+                <div class="title-line">
+                    <div class="tl-1"></div>
+                    <div class="tl-2"></div>
+                    <div class="tl-3"></div>
                 </div>
-                <div class="popu-places-home">
-                    <!-- POPULAR PLACES 1 -->
-                    <div class="col-md-6 col-sm-6 col-xs-12 place">
-                        <div class="col-md-6 col-sm-12 col-xs-12"> <img src="{{ asset('assets/templates/images/place2.jpg') }}" alt="" /> </div>
-                        <div class="col-md-6 col-sm-12 col-xs-12">
-                            <h3><span>Honeymoon Package</span> 7 Days / 6 Nights</h3>
-                            <p>lorem ipsum simplelorem ipsum simplelorem ipsum simplelorem ipsum simple</p> <a href="tour-details.html" class="link-btn">more info</a> </div>
-                    </div>
-                    <!-- POPULAR PLACES 2 -->
-                    <div class="col-md-6 col-sm-6 col-xs-12 place">
-                        <div class="col-md-6 col-sm-12 col-xs-12"> <img src="{{ asset('assets/templates/images/place1.jpg') }}" alt="" /> </div>
-                        <div class="col-md-6 col-sm-12 col-xs-12">
-                            <h3><span>Family package</span> 14 Days / 13 Nights</h3>
-                            <p>lorem ipsum simplelorem ipsum simplelorem ipsum simplelorem ipsum simple</p> <a href="tour-details.html" class="link-btn">more info</a> </div>
-                    </div>
-                </div>
-                <div class="popu-places-home">
-                    <!-- POPULAR PLACES 3 -->
-                    <div class="col-md-6 col-sm-6 col-xs-12 place">
-                        <div class="col-md-6 col-sm-12 col-xs-12"> <img src="{{ asset('assets/templates/images/place3.jpg') }}" alt="" /> </div>
-                        <div class="col-md-6 col-sm-12 col-xs-12">
-                            <h3><span>Weekend Package </span> 3 Days / 2 Nights</h3>
-                            <p>lorem ipsum simplelorem ipsum simplelorem ipsum simplelorem ipsum simple</p> <a href="tour-details.html" class="link-btn">more info</a> </div>
-                    </div>
-                    <!-- POPULAR PLACES 4 -->
-                    <div class="col-md-6 col-sm-6 col-xs-12 place">
-                        <div class="col-md-6 col-sm-12 col-xs-12"> <img src="{{ asset('assets/templates/images/place4.jpg') }}" alt="" /> </div>
-                        <div class="col-md-6 col-sm-12 col-xs-12">
-                            <h3><span>Group Package</span> 10 Days / 9 Nights</h3>
-                            <p>lorem ipsum simplelorem ipsum simplelorem ipsum simplelorem ipsum simple</p> <a href="tour-details.html" class="link-btn">more info</a> </div>
-                    </div>
-                </div>
+                <p>
+                    World's leading tour and travels Booking website,
+                    Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience
+                </p>
             </div>
+
+            @foreach($featuredPackages->chunk(2) as $chunk)
+                <div class="popu-places-home">
+                    @foreach($chunk as $package)
+                        @php
+                            $tour = $package->tours->first(); // latest tour
+                        @endphp
+
+                        @if($tour)
+                            <div class="col-md-6 col-sm-6 col-xs-12 place">
+                                <!-- Image -->
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <img src="{{ asset('uploads/packages/'.$package->image) }}" 
+                                         alt="{{ $tour->title }}" 
+                                         loading="lazy">
+                                </div>
+
+                                <!-- Content -->
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <h3>
+                                        <span>{{ $package->name }}</span> 
+                                        {{ $tour->duration }}
+                                    </h3>
+
+                                    <p>{{ \Illuminate\Support\Str::limit($tour->short_description, 120) }}</p>
+
+                                    <a href="{{ route('packages', ['package_id' => $package->id]) }}" 
+                                       class="link-btn">
+                                        more info
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
+
+                    @endforeach
+                </div>
+            @endforeach
+
         </div>
-    </section>
+    </div>
+</section>
+
     <!--====== REQUEST A QUOTE ==========-->
     <section>
         <div class="ho-popu tb-space pad-bot-redu">

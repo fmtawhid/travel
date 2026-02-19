@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->decimal('price', 10, 2)->nullable();
             $table->string('duration')->nullable(); // 8N/9D etc
             $table->string('image')->nullable(); // featured image
-            $table->decimal('rating', 2, 1)->default(0);
             $table->timestamps();
         });
     }

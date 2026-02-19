@@ -27,6 +27,9 @@ class User extends Authenticatable
         'country',
         'password',
         'role',
+        'image',
+        'date_of_birth',
+        'status',
     ];
 
 
@@ -50,6 +53,18 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'date_of_birth' => 'date',
         ];
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function tourBookings()
+    {
+        return $this->hasMany(TourBooking::class);
+    }
+
 }

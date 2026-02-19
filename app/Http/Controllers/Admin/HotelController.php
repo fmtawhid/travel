@@ -31,6 +31,7 @@ class HotelController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
             'gallery_images' => 'nullable|array',
+            'gallery_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
             'facebook_url' => 'nullable|url',
             'google_plus_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
@@ -46,6 +47,8 @@ class HotelController extends Controller
             'room_types.*.room_type' => 'nullable|string',
             'room_types.*.price' => 'nullable|numeric',
             'room_types.*.description' => 'nullable|string',
+            'room_types.*.amenities' => 'nullable|array',
+            'room_types.*.amenities.*' => 'integer|exists:hotel_amenities,id',
             'amenities' => 'nullable|array',
             'amenities.*' => 'integer|exists:hotel_amenities,id',
         ]);
@@ -58,8 +61,26 @@ class HotelController extends Controller
             $data['image'] = $filename;
         }
 
-        if ($request->has('gallery_images')) {
-            $data['gallery_images'] = json_encode($request->gallery_images);
+        // Gallery images - process files and store filenames
+        $galleryImages = [];
+        if ($request->hasFile('gallery_images')) {
+            $galleryPath = public_path('uploads/hotels/gallery');
+            if (!file_exists($galleryPath)) {
+                mkdir($galleryPath, 0755, true);
+            }
+            foreach ($request->file('gallery_images') as $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($galleryPath, $filename);
+                $galleryImages[] = $filename;
+            }
+        }
+        if (!empty($galleryImages)) {
+            $data['gallery_images'] = $galleryImages;
+        }
+
+        // Amenities as array
+        if ($request->has('amenities')) {
+            $data['amenities'] = $request->amenities;
         }
 
         $hotel = Hotel::create($data);
@@ -74,6 +95,12 @@ class HotelController extends Controller
                         'description' => $room['description'] ?? null,
                     ];
 
+                    // Ensure room types directory exists
+                    $roomTypePath = public_path('uploads/hotels/room_types');
+                    if (!file_exists($roomTypePath)) {
+                        mkdir($roomTypePath, 0755, true);
+                    }
+
                     // Handle multiple room type image uploads
                     $uploadedImages = [];
                     if (isset($_FILES['room_types']) && isset($_FILES['room_types']['tmp_name'][$roomIndex]['images'])) {
@@ -87,7 +114,7 @@ class HotelController extends Controller
                             foreach ($tmpFiles as $idx => $tmpFile) {
                                 if ($fileErrors[$idx] === UPLOAD_ERR_OK && !empty($tmpFile)) {
                                     $filename = time() . '_' . basename($fileNames[$idx]);
-                                    if (move_uploaded_file($tmpFile, public_path('uploads/hotels/room_types/' . $filename))) {
+                                    if (move_uploaded_file($tmpFile, $roomTypePath . '/' . $filename)) {
                                         $uploadedImages[] = $filename;
                                     }
                                 }
@@ -95,7 +122,7 @@ class HotelController extends Controller
                         } elseif (!empty($tmpFiles) && $fileErrors === UPLOAD_ERR_OK) {
                             // Single file case
                             $filename = time() . '_' . basename($fileNames);
-                            if (move_uploaded_file($tmpFiles, public_path('uploads/hotels/room_types/' . $filename))) {
+                            if (move_uploaded_file($tmpFiles, $roomTypePath . '/' . $filename)) {
                                 $uploadedImages[] = $filename;
                             }
                         }
@@ -103,6 +130,11 @@ class HotelController extends Controller
 
                     if (!empty($uploadedImages)) {
                         $roomData['images'] = $uploadedImages;
+                    }
+
+                    // Handle room type amenities
+                    if (!empty($room['amenities'])) {
+                        $roomData['amenities'] = $room['amenities'];
                     }
 
                     $hotel->roomTypes()->create($roomData);
@@ -137,6 +169,7 @@ class HotelController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
             'gallery_images' => 'nullable|array',
+            'gallery_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
             'facebook_url' => 'nullable|url',
             'google_plus_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
@@ -152,6 +185,8 @@ class HotelController extends Controller
             'room_types.*.room_type' => 'nullable|string',
             'room_types.*.price' => 'nullable|numeric',
             'room_types.*.description' => 'nullable|string',
+            'room_types.*.amenities' => 'nullable|array',
+            'room_types.*.amenities.*' => 'integer|exists:hotel_amenities,id',
             'amenities' => 'nullable|array',
             'amenities.*' => 'integer|exists:hotel_amenities,id',
         ]);
@@ -167,15 +202,31 @@ class HotelController extends Controller
             $data['image'] = $filename;
         }
 
-        if ($request->has('gallery_images')) {
-            $data['gallery_images'] = json_encode($request->gallery_images);
+        // Gallery images - process new files and store filenames
+        $galleryImages = $hotel->gallery_images ?? [];
+        if ($request->hasFile('gallery_images')) {
+            $galleryPath = public_path('uploads/hotels/gallery');
+            if (!file_exists($galleryPath)) {
+                mkdir($galleryPath, 0755, true);
+            }
+            foreach ($request->file('gallery_images') as $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($galleryPath, $filename);
+                $galleryImages[] = $filename;
+            }
+            $data['gallery_images'] = $galleryImages;
+        }
+
+        // Amenities as array
+        if ($request->has('amenities')) {
+            $data['amenities'] = $request->amenities;
         }
 
         $hotel->update($data);
 
         // Update room types if provided
         if ($request->filled('room_types')) {
-            $hotel->roomTypes()->delete();
+            $submittedRoomIds = [];
             foreach ($request->room_types as $roomIndex => $room) {
                 if ($room['room_type']) {
                     $roomData = [
@@ -183,6 +234,12 @@ class HotelController extends Controller
                         'price' => $room['price'] ?? 0,
                         'description' => $room['description'] ?? null,
                     ];
+
+                    // Ensure room types directory exists
+                    $roomTypePath = public_path('uploads/hotels/room_types');
+                    if (!file_exists($roomTypePath)) {
+                        mkdir($roomTypePath, 0755, true);
+                    }
 
                     // Handle multiple room type image uploads
                     $uploadedImages = [];
@@ -197,7 +254,7 @@ class HotelController extends Controller
                             foreach ($tmpFiles as $idx => $tmpFile) {
                                 if ($fileErrors[$idx] === UPLOAD_ERR_OK && !empty($tmpFile)) {
                                     $filename = time() . '_' . basename($fileNames[$idx]);
-                                    if (move_uploaded_file($tmpFile, public_path('uploads/hotels/room_types/' . $filename))) {
+                                    if (move_uploaded_file($tmpFile, $roomTypePath . '/' . $filename)) {
                                         $uploadedImages[] = $filename;
                                     }
                                 }
@@ -205,7 +262,7 @@ class HotelController extends Controller
                         } elseif (!empty($tmpFiles) && $fileErrors === UPLOAD_ERR_OK) {
                             // Single file case
                             $filename = time() . '_' . basename($fileNames);
-                            if (move_uploaded_file($tmpFiles, public_path('uploads/hotels/room_types/' . $filename))) {
+                            if (move_uploaded_file($tmpFiles, $roomTypePath . '/' . $filename)) {
                                 $uploadedImages[] = $filename;
                             }
                         }
@@ -215,9 +272,30 @@ class HotelController extends Controller
                         $roomData['images'] = $uploadedImages;
                     }
 
-                    $hotel->roomTypes()->create($roomData);
+                    // Handle room type amenities
+                    if (!empty($room['amenities'])) {
+                        $roomData['amenities'] = $room['amenities'];
+                    }
+
+                    // If room ID exists, update; otherwise create
+                    if (!empty($room['id'])) {
+                        $roomType = RoomType::find($room['id']);
+                        if ($roomType) {
+                            // Keep existing images if no new images uploaded
+                            if (empty($uploadedImages)) {
+                                unset($roomData['images']);
+                            }
+                            $roomType->update($roomData);
+                            $submittedRoomIds[] = $room['id'];
+                        }
+                    } else {
+                        $createdRoom = $hotel->roomTypes()->create($roomData);
+                        $submittedRoomIds[] = $createdRoom->id;
+                    }
                 }
             }
+            // Delete room types that were not in the submission
+            $hotel->roomTypes()->whereNotIn('id', $submittedRoomIds)->delete();
         }
 
         return redirect()->route('admin.hotels.index')->with('success', 'Hotel updated successfully.');

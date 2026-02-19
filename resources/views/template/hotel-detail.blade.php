@@ -105,7 +105,7 @@
 				<div class="col-md-8 tour_lhs">
 					<!--====== HOTEL TITLE ==========-->
 					<div class="tour_head">
-						<h2>{{ $hotel->name }} <span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span><span class="tour_rat">4.5</span></h2> 
+						<h2>{{ $hotel->name }} <span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span><span class="tour_rat">4.5</span></h2>
 					</div>
 					<!--====== HOTEL DESCRIPTION ==========-->
 					<div class="tour_head1 hotel-com-color">
@@ -113,35 +113,64 @@
 						<p>{{ $hotel->description ?? 'Welcome to ' . $hotel->name . '. A premium hotel offering world-class amenities and services.' }}</p>
 					</div>
 
-					<!--====== HOTEL GALLERY ==========-->
+
+
+
+
+
+					<!--====== HOTEL AMENITIES ==========-->
+					@if($hotel->amenities && is_array($hotel->amenities) && count($hotel->amenities) > 0)
+						<div class="tour_head1">
+							<h3>Hotel Amenities</h3>
+							<ul style="list-style: none; padding: 0;">
+								@php
+									// Get the amenities details from database
+									$amenityIds = $hotel->amenities;
+									$amenities = \App\Models\HotelAmenity::whereIn('id', $amenityIds)->get();
+								@endphp
+								@forelse($amenities as $amenity)
+									<li style="padding: 8px 0; display: flex; align-items: center;">
+										<i class="fa fa-check" style="color: #28a745; margin-right: 10px;"></i>
+										<span>{{ $amenity->name }}</span>
+									</li>
+								@empty
+									<li><i class="fa fa-info-circle" style="color: #999;"></i> No amenities available</li>
+								@endforelse
+							</ul>
+						</div>
+					@endif
+
+
+
+
+
 					<div class="tour_head1 hotel-book-room">
 						<h3>Photo Gallery</h3>
-						@if($hotel->gallery_images && is_array($hotel->gallery_images) && count($hotel->gallery_images) > 0)
-							<div id="hotelCarousel" class="carousel slide" data-ride="carousel">
-								<ol class="carousel-indicators carousel-indicators-1">
-									@foreach($hotel->gallery_images as $key => $image)
-										<li data-target="#hotelCarousel" data-slide-to="{{ $key }}" @if($key == 0) class="active" @endif>
-											<img src="{{ asset('uploads/' . $image) }}" alt="Hotel Gallery">
+						<div id="myCarousel1" class="carousel slide" data-ride="carousel">
+							<!-- Indicators -->
+							<ol class="carousel-indicators carousel-indicators-1">
+								@foreach($hotel->gallery_images as $image)
+									@if(is_string($image))
+										<li data-target="#myCarousel1" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif><img src="{{ asset('uploads/hotels/gallery/' . $image) }}" alt="Hotel Gallery">
 										</li>
-									@endforeach
-								</ol>
-								<div class="carousel-inner carousel-inner1" role="listbox">
-									@foreach($hotel->gallery_images as $key => $image)
-										<div class="item @if($key == 0) active @endif">
-											<img src="{{ asset('uploads/' . $image) }}" alt="Hotel Gallery" width="460" height="345">
-										</div>
-									@endforeach
-								</div>
-								<a class="left carousel-control" href="#hotelCarousel" role="button" data-slide="prev">
-									<span><i class="fa fa-angle-left hotel-gal-arr" aria-hidden="true"></i></span>
-								</a>
-								<a class="right carousel-control" href="#hotelCarousel" role="button" data-slide="next">
-									<span><i class="fa fa-angle-right hotel-gal-arr hotel-gal-arr1" aria-hidden="true"></i></span>
-								</a>
+									@endif
+								@endforeach
+
+								
+							</ol>
+							<!-- Wrapper for slides -->
+							<div class="carousel-inner carousel-inner1" role="listbox">
+								@foreach($hotel->gallery_images as $image)
+									@if(is_string($image))
+										<div class="item @if($loop->first) active @endif"> <img src="{{ asset('uploads/hotels/gallery/' . $image) }}" alt="Hotel Gallery" width="460" height="345"> </div>
+									@endif
+								@endforeach
+								<div class="item active"> <img src="{{ asset('uploads/hotels/' . $hotel->image) }}" alt="No Gallery Available" width="460" height="345"></div>
 							</div>
-						@else
-							<p style="color: #999;">No gallery images available.</p>
-						@endif
+							<!-- Left and right controls -->
+							<a class="left carousel-control" href="#myCarousel1" role="button" data-slide="prev"> <span><i class="fa fa-angle-left hotel-gal-arr" aria-hidden="true"></i></span> </a>
+							<a class="right carousel-control" href="#myCarousel1" role="button" data-slide="next"> <span><i class="fa fa-angle-right hotel-gal-arr hotel-gal-arr1" aria-hidden="true"></i></span> </a>
+						</div>
 					</div>
 
 					<!--====== HOTEL ROOM TYPES ==========-->
@@ -153,12 +182,24 @@
 									<li>
 										<div class="tr-room-type-list">
 											<div class="col-md-3 tr-room-type-list-1">
-												<img src="{{ $roomType->image ?? asset('images/rooms/default.jpg') }}" alt="{{ $roomType->name }}" />
+												@if($roomType->images && is_array($roomType->images) && count($roomType->images) > 0 && is_string($roomType->images[0]))
+													<img src="{{ asset('uploads/hotels/room_types/' . $roomType->images[0]) }}" alt="{{ $roomType->room_type }}" />
+												@else
+													<img src="{{ asset('images/rooms/default.jpg') }}" alt="{{ $roomType->room_type }}" />
+												@endif
 											</div>
 											<div class="col-md-6 tr-room-type-list-2">
-												<h4>{{ $roomType->name }}</h4>
+												<h4>{{ $roomType->room_type }}</h4>
 												<p><b>Description: </b>{{ $roomType->description ?? 'Room description not available.' }}</p>
 												<span><b>Capacity: </b>{{ $roomType->capacity ?? '2' }} Persons</span>
+												@if(!empty($roomType->amenities) && is_array($roomType->amenities))
+													<div style="margin-top: 10px;">
+														<b>Facilities:</b>
+														{{ \App\Models\HotelAmenity::whereIn('id', $roomType->amenities)->pluck('name')->implode(', ') }}
+													</div>
+												@endif
+
+
 											</div>
 											<div class="col-md-3 tr-room-type-list-3">
 												<span class="hot-list-p3-1">Price Per Night</span>
@@ -178,8 +219,25 @@
 					<div class="tour_head1 tout-map map-container">
 						<h3>Location</h3>
 						<p><strong>Address:</strong> {{ $hotel->location }}</p>
-						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354805187447!2d144.95373631531556!3d-37.80787097975154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z{{ urlencode($hotel->location) }}!5e0!3m2!1sen!2sin!4v" allowfullscreen></iframe>
+
+						@php
+							// Location string কে URL safe বানানো
+							$mapLocation = urlencode($hotel->location);
+						@endphp
+
+						<iframe 
+							width="100%" 
+							height="450" 
+							style="border:0;" 
+							loading="lazy" 
+							allowfullscreen
+							referrerpolicy="no-referrer-when-downgrade"
+							src="https://www.google.com/maps?q={{ $mapLocation }}&output=embed">
+						</iframe>
 					</div>
+
+
+
 
 					<!--====== CONTACT SECTION ==========-->
 					<div class="tour_head1" id="contact">
@@ -224,11 +282,11 @@
 					<div class="tour_right head_right tour_social tour-ri-com">
 						<h3>Share This Hotel</h3>
 						<ul>
-							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-							<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-							<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-							<li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> </li>
+							<li><a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
+							<li><a href=""><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+							<li><a href="https://twitter.com/share?url={{ urlencode(url()->current()) }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
+							<li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+							<li><a href="https://wa.me/?text={{ urlencode(url()->current()) }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> </li>
 						</ul>
 					</div>
 

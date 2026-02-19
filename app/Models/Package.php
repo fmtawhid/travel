@@ -9,11 +9,16 @@ class Package extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','image',];
 
 
     public function tours()
     {
         return $this->hasMany(Tour::class);
     }
+
+    public function tourBookings()
+{
+    return $this->hasMany(TourBooking::class);
+}
 }

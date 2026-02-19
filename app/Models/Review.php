@@ -9,10 +9,29 @@ class Review extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tour_id', 'user_id', 'user_name', 'email', 'comment', 'rating', 'message'];
+    protected $fillable = [
+        'tour_id',
+        'hotel_id',
+        'user_id',
+        'name',
+        'email',
+        'message',
+        'rating'
+    ];
 
+    // Relationships
     public function tour()
     {
         return $this->belongsTo(Tour::class);
+    }
+
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -9,6 +9,8 @@ use App\Models\SightSeeing;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Blog;
+use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 class MainController extends Controller
 {
     public function index()
@@ -17,8 +19,19 @@ class MainController extends Controller
         $packageTypes = Package::all();
         $sightSeeings = SightSeeing::latest()->take(6)->get();
         $packages = Package::withCount('tours')->latest()->get();
-        
-        return view('template.main', compact('locations', 'packageTypes', 'sightSeeings', 'packages'));
+        $topLocations = Tour::select('location')
+        ->selectRaw('COUNT(*) as total_packages')
+        ->selectRaw('MIN(price) as min_price')
+        ->groupBy('location')
+        ->orderByDesc('total_packages') // বেশি package যেটায় সেটা আগে
+        ->take(5) // শুধু ৫টা দেখাবো (template অনুযায়ী)
+        ->get();
+        $featuredPackages = Package::with(['tours' => function ($query) {
+            $query->latest()->take(1); // প্রতিটা package এর latest 1 tour
+        }])
+        ->take(4) // শুধু ৪টা package homepage এ
+        ->get();
+        return view('template.main', compact('locations', 'packageTypes', 'sightSeeings', 'packages', 'topLocations', 'featuredPackages'));
     }
 
     public function packages(Request $request)
@@ -94,8 +107,12 @@ class MainController extends Controller
         $itineraries = $tour->itineraries()->orderBy('day_number')->get();
         $galleries = $tour->galleries()->get();
         $reviews = $tour->reviews()->get();
-        
-        return view('template.package-details', compact('tour', 'itineraries', 'galleries', 'reviews'));
+        // Popular packages (latest 3 tours excluding current tour)
+        $popularPackages = Tour::where('id', '!=', $tour->id)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+        return view('template.package-details', compact('tour', 'itineraries', 'galleries', 'reviews', 'popularPackages'));
     }
 
 
@@ -165,5 +182,43 @@ class MainController extends Controller
     public function tips()
     {
         return view('template.tips');
+    }
+
+    public function event()
+    {
+        return view('template.event');
+    }
+    
+
+
+
+
+    public function storeTourReview(Request $request)
+    {
+        $request->validate([
+            'tour_id' => 'required|exists:tours,id',
+            'rating'  => 'required|integer|min:1|max:5',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        // Prevent duplicate review
+        $alreadyReviewed = Review::where('user_id', Auth::id())
+            ->where('tour_id', $request->tour_id)
+            ->exists();
+
+        if ($alreadyReviewed) {
+            return back()->with('error', 'You already reviewed this tour.');
+        }
+
+        Review::create([
+            'tour_id' => $request->tour_id,
+            'user_id' => Auth::id(),
+            'name'    => Auth::user()->name,
+            'email'   => Auth::user()->email,
+            'message' => $request->message,
+            'rating'  => $request->rating,
+        ]);
+
+        return back()->with('success', 'Review submitted successfully!');
     }
 }

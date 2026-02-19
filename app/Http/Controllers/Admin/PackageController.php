@@ -22,12 +22,24 @@ class PackageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'  => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        Package::create($request->all());
+        $data = $request->only('name');
 
-        return redirect()->route('admin.packages.index')->with('success', 'Package created successfully!');
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/packages'), $filename);
+            $data['image'] = $filename;
+        }
+
+        Package::create($data);
+
+        return redirect()->route('admin.packages.index')
+            ->with('success', 'Package created successfully!');
     }
 
     public function edit(Package $package)
@@ -38,18 +50,41 @@ class PackageController extends Controller
     public function update(Request $request, Package $package)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'  => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        $package->update($request->all());
+        $data = $request->only('name');
 
-        return redirect()->route('admin.packages.index')->with('success', 'Package updated successfully!');
+        // Handle image upload
+        if ($request->hasFile('image')) {
+
+            // Delete old image
+            if ($package->image && file_exists(public_path('uploads/packages/' . $package->image))) {
+                unlink(public_path('uploads/packages/' . $package->image));
+            }
+
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/packages'), $filename);
+            $data['image'] = $filename;
+        }
+
+        $package->update($data);
+
+        return redirect()->route('admin.packages.index')
+            ->with('success', 'Package updated successfully!');
     }
 
     public function destroy(Package $package)
     {
+        if ($package->image && file_exists(public_path('uploads/packages/' . $package->image))) {
+            unlink(public_path('uploads/packages/' . $package->image));
+        }
+
         $package->delete();
 
-        return redirect()->route('admin.packages.index')->with('success', 'Package deleted successfully!');
+        return redirect()->route('admin.packages.index')
+            ->with('success', 'Package deleted successfully!');
     }
 }
