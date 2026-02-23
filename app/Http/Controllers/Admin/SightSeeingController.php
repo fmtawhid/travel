@@ -43,7 +43,7 @@ class SightSeeingController extends Controller
 
         SightSeeing::create($data);
 
-        return redirect()->route('admin.sightseeing.index')->with('success', 'SightSeeing created successfully.');
+        return redirect()->route('admin.sightseeings.index')->with('success', 'SightSeeing created successfully.');
     }
 
     // Show sightseeing details
@@ -85,7 +85,7 @@ class SightSeeingController extends Controller
 
         $sightseeing->update($data);
 
-        return redirect()->route('admin.sightseeing.index')->with('success', 'SightSeeing updated successfully.');
+        return redirect()->route('admin.sightseeings.index')->with('success', 'SightSeeing updated successfully.');
     }
 
     // Delete sightseeing
@@ -98,6 +98,6 @@ class SightSeeingController extends Controller
 
         $sightseeing->delete();
 
-        return redirect()->route('admin.sightseeing.index')->with('success', 'SightSeeing deleted successfully.');
+        return redirect()->route('admin.sightseeings.index')->with('success', 'SightSeeing deleted successfully.');
     }
 }

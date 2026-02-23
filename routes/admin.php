@@ -45,4 +45,12 @@ Route::middleware(['auth', 'admin'])
         // Car booking inquiries
         Route::get('/booking-inquiries/car', [BookingInquiryController::class, 'car_booking_inquiries'])->name('booking-inquiries.car');
         Route::delete('/booking-inquiries/car/{id}', [BookingInquiryController::class, 'destroy_car_booking'])->name('booking-inquiries.car.destroy');
+
+        // Flight booking inquiries
+        Route::get('/booking-inquiries/flight', [BookingInquiryController::class, 'flight_booking_inquiries'])->name('booking-inquiries.flight');
+        Route::delete('/booking-inquiries/flight/{id}', [BookingInquiryController::class, 'destroy_flight_booking'])->name('booking-inquiries.flight.destroy');
+
+        // Hotel booking inquiries
+        Route::get('/booking-inquiries/hotel', [BookingInquiryController::class, 'hotel_booking_inquiries'])->name('booking-inquiries.hotel');
+        Route::delete('/booking-inquiries/hotel/{id}', [BookingInquiryController::class, 'destroy_hotel_booking'])->name('booking-inquiries.hotel.destroy');
     });

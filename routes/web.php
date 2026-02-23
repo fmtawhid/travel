@@ -12,6 +12,7 @@ Route::get('/', [MainController::class, 'index'])->name('home');
 Route::get('/packages', [MainController::class, 'packages'])->name('packages');
 Route::get('/package-details/{id}', [MainController::class, 'packageDetails'])->name('package.details');
 Route::get('/sightseeings', [MainController::class, 'sightseeings'])->name('sightseeing');
+Route::get('/sightseeing-details/{id}', [MainController::class, 'sightseeingDetails'])->name('sightseeing.details');
 Route::get('/hotels', [MainController::class, 'hotels'])->name('hotels');
 Route::get('/hotel-details/{id}', [MainController::class, 'hotelDetails'])->name('hotel.details');
 
@@ -28,15 +29,25 @@ Route::get('/booking/tour-package/{tour_id?}', [BookingController::class, 'tour_
 Route::post('/booking/tour-package', [BookingController::class, 'storeTourBooking'])->name('booking.tour-package.store');
 
 
-route::get('/booking/flight', [BookingController::class, 'flight'])->name('booking.flight');
+Route::get('/booking/flight', [BookingController::class, 'flight'])->name('booking.flight');
+Route::post('/booking/flight/store', [BookingController::class, 'storeFlightBooking'])->name('booking.flight.store');
+
 route::get('/booking/car', [BookingController::class, 'car'])->name('booking.car');
 route::post('/booking/car', [BookingController::class, 'storeCarBooking'])->name('booking.car.store');
-route::get('/booking/hotel', [BookingController::class, 'hotel'])->name('booking.hotel');
+
+// route::get('/booking/hotel', [BookingController::class, 'hotel'])->name('booking.hotel');
+Route::get('/booking/hotel', [BookingController::class,'hotel'])->name('booking.hotel');
+Route::post('/booking/hotel/store', [BookingController::class,'storeHotelBooking'])->name('booking.hotel.store');
+
 
 // web.php
 Route::post('/tour/review', [MainController::class, 'storeTourReview'])
     ->middleware('auth')
     ->name('tour.review.store');
+
+Route::post('/hotel/review', [MainController::class, 'storeHotelReview'])
+    ->middleware('auth')
+    ->name('hotel.review.store');
 
 Route::get('/dashboard', function () {
     if (!auth()->check()) {

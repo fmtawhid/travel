@@ -18,7 +18,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.sightseeing.update', $sightseeing) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.sightseeings.update', $sightseeing) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

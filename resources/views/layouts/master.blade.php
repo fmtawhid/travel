@@ -39,7 +39,7 @@
             <div class="ed-mob-menu-con">
                 <div class="ed-mm-left">
                     <div class="wed-logo">
-                        <a href="main.html">
+                        <a href="{{ route('home') }}">
                             <img src="{{ asset('uploads/settings/' . $settings['logo']) }}" alt="{{ $settings['name'] }}" />
 						</a>
                     </div>
@@ -148,6 +148,10 @@
                                 </li>
                                 <li><a href="{{ $settings['x'] ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                                 </li>
+                                <li><a href="{{ $settings['instagram'] ?? '#' }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                </li>
+                                <li><a href="{{ $settings['linkedin'] ?? '#' }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -176,35 +180,54 @@
                                         <div class="about-mm m-menu">
                                             <div class="m-menu-inn">
                                                 <div class="mm1-com mm1-s1">
-                                                    <div class="ed-course-in">
-                                                        <a class="course-overlay menu-about" href="all-package.html">
-                                                            <img src="{{ asset('assets/templates/images/sight/5.jpg') }}" alt="">
-                                                            <span>Popular Package</span>
-                                                        </a>
-                                                    </div>
+                                                    @php
+                                                        $latestTour = \App\Models\Tour::latest()->first();
+                                                        $imageUrl = $latestTour && $latestTour->image ? asset('uploads/tours/' . $latestTour->image) : asset('assets/templates/images/sight/5.jpg');
+                                                    @endphp
+                                                    @if($latestTour)
+                                                        <div class="ed-course-in">
+                                                            <a class="course-overlay menu-about" href="{{ route('package.details', $latestTour->id) }}">
+                                                                <img src="{{ $imageUrl }}" alt="{{ $latestTour->title }}">
+                                                                <span>{{ $latestTour->title }}</span>
+                                                            </a>
+                                                        </div>
+                                                    @else
+                                                        <div class="ed-course-in">
+                                                            <a class="course-overlay menu-about" href="{{ route('packages') }}">
+                                                                <img src="{{ asset('assets/templates/images/sight/5.jpg') }}" alt="">
+                                                                <span>Popular Package</span>
+                                                            </a>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <div class="mm1-com mm1-s2">
-                                                    <p>Want to change the world? At Berkeley we’re doing just that. When you join the Golden Bear community, you’re part of an institution that shifts the global conversation every single day.</p>
-                                                    <a href="all-package.html" class="mm-r-m-btn">Read more</a>
+                                                    @php
+                                                        $latestTour = \App\Models\Tour::latest()->first();
+                                                    @endphp
+                                                    @if($latestTour)
+                                                        <p>{{ $latestTour->short_description ?? 'Explore amazing travel packages with great experiences and unforgettable memories.' }}</p>
+                                                        <a href="{{ route('package.details', $latestTour->id) }}" class="mm-r-m-btn">Read more</a>
+                                                    @else
+                                                        <p>Want to change the world? At Berkeley we're doing just that. When you join the Golden Bear community, you're part of an institution that shifts the global conversation every single day.</p>
+                                                        <a href="{{ route('packages') }}" class="mm-r-m-btn">Read more</a>
+                                                    @endif
                                                 </div>
                                                 <div class="mm1-com mm1-s3">
                                                     <ul>
-                                                        <li><a href="booking-all.html">All Booking</a></li>
-                                                        <li><a href="booking-tour-package.html">Tour Package Booking</a></li>
-                                                        <li><a href="booking-hotel.html">Hotel Booking</a></li>
-                                                        <li><a href="booking-car-rentals.html">Car Rentals Booking</a></li>
-                                                        <li><a href="booking-flight.html">Flight Booking</a></li>
-                                                        <li><a href="booking-slider.html">Slider Booking</a></li>
+                                                        {{-- <li><a href="booking-all.html">All Booking</a></li> --}}
+                                                        <li><a href="{{ route('booking.tour-package') }}">Tour Package Booking</a></li>
+                                                        <li><a href="{{ route('booking.hotel') }}">Hotel Booking</a></li>
+                                                        <li><a href="{{ route('booking.car') }}">Car Rentals Booking</a></li>
+                                                        <li><a href="{{ route('booking.flight') }}">Flight Booking</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="mm1-com mm1-s4">
+                                                    <h5>Package Types</h5>
                                                     <ul>
-                                                        <li><a href="all-package.html">All Package</a></li><li><a href="family-package.html">Family Package</a></li>
-                                                        <li><a href="honeymoon-package.html">Honeymoon Package</a></li>
-                                                        <li><a href="group-package.html">Group Package</a></li>
-                                                        <li><a href="weekend-package.html">WeekEnd Package</a></li>
-                                                        <li><a href="regular-package.html">Regular Package</a></li>
-                                                        <li><a href="custom-package.html">Custom Package</a></li>
+                                                        <li><a href="{{ route('packages') }}">All Packages</a></li>
+                                                        @foreach($packageTypes as $package)
+                                                            <li><a href="{{ route('packages', ['package_id' => $package->id]) }}">{{ $package->name }}</a></li>
+                                                        @endforeach
                                                     </ul>
                                                 </div>
                                             </div>
@@ -217,46 +240,18 @@
                                     <div class="mm-pos">
                                         <div class="admi-mm m-menu">
                                             <div class="m-menu-inn">
-                                                <div class="mm2-com mm1-com mm1-s1">
-                                                    <div class="ed-course-in">
-                                                        <a class="course-overlay" href="destinations.html">
-                                                            <img src="{{ asset('assets/templates/images/sight/1.jpg') }}" alt="">
-                                                            <span>Seight Seeing - 1</span>
-                                                        </a>
+                                                @foreach($latestSightSeeings as $sightseeing)
+                                                    <div class="mm2-com mm1-com mm1-s1">
+                                                        <div class="ed-course-in">
+                                                            <a class="course-overlay" href="{{ route('sightseeing.details', $sightseeing->id) }}">
+                                                                <img src="{{ $sightseeing->image ? asset('uploads/sightseeing/' . $sightseeing->image) : asset('assets/templates/images/sight/5.jpg') }}" alt="{{ $sightseeing->name }}">
+                                                                <span>{{ $sightseeing->name }}</span>
+                                                            </a>
+                                                        </div>
+                                                        <p>{{ $sightseeing->short_description ?? 'Amazing sightseeing location to explore.' }}</p>
+                                                        <a href="{{ route('sightseeing.details', $sightseeing->id) }}" class="mm-r-m-btn">Read more</a>
                                                     </div>
-                                                    <p>Donec lacus libero, rutrum ac sollicitudin sed, mattis non eros. Vestibulum congue nec eros quis lacinia. Mauris non tincidunt lectus. Nulla mollis, orci vitae accumsan rhoncus.</p>
-                                                    <a href="destinations.html" class="mm-r-m-btn">Read more</a>
-                                                </div>
-                                                <div class="mm2-com mm1-com mm1-s1">
-                                                    <div class="ed-course-in">
-                                                        <a class="course-overlay" href="places-1.html">
-                                                            <img src="{{ asset('assets/templates/images/sight/2.jpg') }}" alt="">
-                                                            <span>Seight Seeing - 2</span>
-                                                        </a>
-                                                    </div>
-                                                    <p>Donec lacus libero, rutrum ac sollicitudin sed, mattis non eros. Vestibulum congue nec eros quis lacinia. Mauris non tincidunt lectus. Nulla mollis, orci vitae accumsan rhoncus.</p>
-                                                    <a href="places-1.html" class="mm-r-m-btn">Read more</a>
-                                                </div>
-                                                <div class="mm2-com mm1-com mm1-s1">
-                                                    <div class="ed-course-in">
-                                                        <a class="course-overlay" href="places-2.html">
-                                                            <img src="{{ asset('assets/templates/images/sight/3.jpg') }}" alt="">
-                                                            <span>Seight Seeing - 3</span>
-                                                        </a>
-                                                    </div>
-                                                    <p>Donec lacus libero, rutrum ac sollicitudin sed, mattis non eros. Vestibulum congue nec eros quis lacinia. Mauris non tincidunt lectus. Nulla mollis, orci vitae accumsan rhoncus.</p>
-                                                    <a href="places-2.html" class="mm-r-m-btn">Read more</a>
-                                                </div>
-                                                <div class="mm2-com mm1-com mm1-s4">
-                                                    <div class="ed-course-in">
-                                                        <a class="course-overlay" href="places-3.html">
-                                                            <img src="{{ asset('assets/templates/images/sight/4.jpg') }}" alt="">
-                                                            <span>Seight Seeing - 4</span>
-                                                        </a>
-                                                    </div>
-                                                    <p>Donec lacus libero, rutrum ac sollicitudin sed, mattis non eros. Vestibulum congue nec eros quis lacinia. Mauris non tincidunt lectus. Nulla mollis, orci vitae accumsan rhoncus.</p>
-                                                    <a href="places-3.html" class="mm-r-m-btn">Read more</a>
-                                                </div>
+                                                @endforeach
 
                                             </div>
                                         </div>
@@ -270,18 +265,7 @@
                                     <div class="mm-pos">
                                         <div class="cour-mm m-menu">
                                             <div class="m-menu-inn">
-                                                <div class="mm1-com mm1-cour-com mm1-s3">
-                                                    <h4>Home pages</h4>
-                                                    <ul>
-                                                        <li><a href="booking-all.html">Home page 1</a></li>
-                                                        <li><a href="booking-all.html">Home page 2</a></li>
-                                                        <li><a href="booking-tour-package.html">Home page 3</a></li>
-                                                        <li><a href="booking-hotel.html">Home page 4</a></li>
-                                                        <li><a href="booking-car-rentals.html">Home page 5</a></li>
-                                                        <li><a href="booking-flight.html">Home page 6</a></li>
-                                                        <li><a href="booking-slider.html">Home page 7</a></li>
-                                                    </ul>
-                                                </div>
+                                                
                                                 <div class="mm1-com mm1-cour-com mm1-s3">
                                                     <h4>Tour Packages</h4>
                                                     <ul>
@@ -334,13 +318,11 @@
                                                 <div class="mm1-com mm1-cour-com mm1-s4">
                                                     <h4>Other pages:2</h4>
                                                     <ul>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="testimonials.html">Testimonials</a></li>
-                                                        <li><a href="events.html">Events</a></li>
-                                                        <li><a href="blog.html">Blog</a></li>
-                                                        <li><a href="tips.html">Tips Before Travel</a></li>
-                                                        <li><a href="price-list.html">Price List</a></li>
-                                                        <li><a href="discount.html">Discount</a></li>
+                                                        <li><a href="{{ route('about') }}">About Us</a></li>
+                                                        <li><a href="{{ route('testimonials') }}">Testimonials</a></li>
+                                                        <li><a href="">Events</a></li>
+                                                        <li><a href="{{ route('blog') }}">Blog</a></li>
+                                                        <li><a href="{{ route('tips') }}">Tips Before Travel</a></li>
                                                         <li><a href="faq.html">FAQ</a></li>
                                                         <li><a href="sitemap.html">Site map</a></li>
                                                         <li><a href="404.html">404 Page</a></li>
@@ -351,9 +333,9 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li><a href="dashboard.html">Profile</a>
+                                <li><a href="{{ route('user.dashboard') }}">Profile</a>
                                 </li>
-                                <li><a href="contact.html">Contact us</a>
+                                <li><a href="{{ route('contact') }}">Contact us</a>
                                 </li>
                             </ul>
                         </div>

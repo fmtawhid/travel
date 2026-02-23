@@ -125,21 +125,67 @@ class MainController extends Controller
     public function sightseeingDetails($id)
     {
         $sightseeing = SightSeeing::findOrFail($id);
-        return view('template.sightseeing-details', compact('sightseeing'));
+        // Get other sightseeings excluding current one
+        $relatedSightSeeings = SightSeeing::where('id', '!=', $sightseeing->id)
+            ->latest()
+            ->take(3)
+            ->get();
+        return view('template.sightseeing-details', compact('sightseeing', 'relatedSightSeeings'));
     }
 
 
 
-    public function hotels()
+    public function hotels(Request $request)
     {
-        $hotels = Hotel::latest()->paginate(10);
-        return view('template.hotels', compact('hotels'));
+        $query = Hotel::query();
+
+        // Filter by location
+        if ($request->filled('location') && $request->location !== 'Any location') {
+            $query->where('location', 'like', '%' . $request->location . '%');
+        }
+
+        // Filter by min price
+        if ($request->filled('min_price')) {
+            $query->whereHas('roomTypes', function($q) use ($request) {
+                $q->where('price', '>=', $request->min_price);
+            });
+        }
+
+        // Filter by max price
+        if ($request->filled('max_price')) {
+            $query->whereHas('roomTypes', function($q) use ($request) {
+                $q->where('price', '<=', $request->max_price);
+            });
+        }
+
+        // Filter by minimum rating
+        if ($request->filled('min_rating')) {
+            $query->withAvg('reviews', 'rating')
+                ->having('reviews_avg_rating', '>=', $request->min_rating);
+        }
+
+        // Paginate results - 10 per page
+        $hotels = $query->latest()->paginate(10);
+        
+        // Get top 5 hotels by average rating for sidebar
+        $topHotels = Hotel::withAvg('reviews', 'rating')
+            ->orderByDesc('reviews_avg_rating')
+            ->take(5)
+            ->get();
+        
+        // Get unique locations for dropdown
+        $locations = Hotel::select('location')->distinct()->pluck('location');
+        
+        return view('template.hotels', compact('hotels', 'topHotels', 'locations'));
     }
     public function hotelDetails($id)
     {
         $hotel = Hotel::findOrFail($id);
         $roomTypes = RoomType::where('hotel_id', $hotel->id)->get();
-        return view('template.hotel-detail', compact('hotel', 'roomTypes'));
+        $reviews = $hotel->reviews()->latest()->get();
+        // Calculate average rating
+        $averageRating = $hotel->reviews()->avg('rating') ?? 0;
+        return view('template.hotel-detail', compact('hotel', 'roomTypes', 'reviews', 'averageRating'));
     }
 
     public function contact()
@@ -212,6 +258,35 @@ class MainController extends Controller
 
         Review::create([
             'tour_id' => $request->tour_id,
+            'user_id' => Auth::id(),
+            'name'    => Auth::user()->name,
+            'email'   => Auth::user()->email,
+            'message' => $request->message,
+            'rating'  => $request->rating,
+        ]);
+
+        return back()->with('success', 'Review submitted successfully!');
+    }
+
+    public function storeHotelReview(Request $request)
+    {
+        $request->validate([
+            'hotel_id' => 'required|exists:hotels,id',
+            'rating'  => 'required|integer|min:1|max:5',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        // Prevent duplicate review
+        $alreadyReviewed = Review::where('user_id', Auth::id())
+            ->where('hotel_id', $request->hotel_id)
+            ->exists();
+
+        if ($alreadyReviewed) {
+            return back()->with('error', 'You already reviewed this hotel.');
+        }
+
+        Review::create([
+            'hotel_id' => $request->hotel_id,
             'user_id' => Auth::id(),
             'name'    => Auth::user()->name,
             'email'   => Auth::user()->email,

@@ -319,7 +319,11 @@
 								<div class="dir-rat-inn dir-rat-review">
 									<div class="row">
 										<div class="col-md-3 dir-rat-left">
-											<img src="{{ asset('assets/templates/images/reviewer/1.jpg') }}" alt="">
+											@if($review->user && $review->user->image)
+												<img src="{{ asset('uploads/users/' . $review->user->image) }}" alt="{{ $review->name }}" style="width: -webkit-fill-available; height: 100px; object-fit: cover; border-radius: 50%;"/>
+											@else
+												<img src="{{ asset('assets/templates/images/reviewer/1.jpg') }}" alt="{{ $review->name }}" />
+											@endif
 											<p>
 												{{ $review->name ?? 'Anonymous' }}
 												<span>{{ $review->created_at->format('d F, Y') }}</span>

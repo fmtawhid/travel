@@ -37,7 +37,8 @@
             <div class="col-md-2 col-sm-3 col-xs-6 sb1-1">
                 <a href="#" class="btn-close-menu"><i class="fa fa-times" aria-hidden="true"></i></a>
                 <a href="#" class="atab-menu"><i class="fa fa-bars tab-menu" aria-hidden="true"></i></a>
-                <a href="index.html" class="logo"><img src="{{ asset('assets/admin/images/logo1.png') }}" alt="" />
+                <a href="{{ route('admin.dashboard') }}" class="logo">
+                    <img src="{{ $settings && $settings->logo ? asset('uploads/settings/' . $settings->logo) : asset('assets/admin/images/logo1.png') }}" alt="Logo" />
                 </a>
             </div>
             <!--== SEARCH ==-->
@@ -133,75 +134,86 @@
                 <!--== LEFT MENU ==-->
                 <div class="sb2-13">
                     <ul class="collapsible" data-collapsible="accordion">
-                        <li><a href="index.html" class="menu-active"><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
+                        <li><a href="{{ route('admin.dashboard') }}" class="{{ Route::is('admin.dashboard') ? 'menu-active active' : '' }}"><i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i> Users</a>
+                        <li>
+                            @php
+                                $isUsersActive = Route::is('admin.users.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isUsersActive ? 'menu-active active' : '' }}"><i class="fa fa-user" aria-hidden="true"></i> Users</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="{{ route('admin.users.index') }}">All Users</a>
+                                    <li><a href="{{ route('admin.users.index') }}" class="{{ Route::is('admin.users.index') ? 'menu-active active' : '' }}">All Users</a>
                                     </li>
-                                    <li><a href="{{ route('admin.users.create') }}">Add New user</a>
+                                    <li><a href="{{ route('admin.users.create') }}" class="{{ Route::is('admin.users.create') ? 'menu-active active' : '' }}">Add New user</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-umbrella" aria-hidden="true"></i> Tour Packages</a>
+                        <li>
+                            @php
+                                $isToursActive = Route::is('admin.tours.*', 'admin.packages.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isToursActive ? 'menu-active active' : '' }}"><i class="fa fa-umbrella" aria-hidden="true"></i> Tour Packages</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="{{ route('admin.tours.index') }}">All Packages</a>
+                                    <li><a href="{{ route('admin.tours.index') }}" class="{{ Route::is('admin.tours.index') ? 'menu-active active' : '' }}">All Packages</a>
                                     </li>
-                                    <li><a href="{{ route('admin.tours.create') }}">Add New Package</a>
+                                    <li><a href="{{ route('admin.tours.create') }}" class="{{ Route::is('admin.tours.create') ? 'menu-active active' : '' }}">Add New Package</a>
                                     </li>
-                                    <li><a href="{{ route('admin.packages.index') }}">Packages Type</a>
+                                    <li><a href="{{ route('admin.packages.index') }}" class="{{ Route::is('admin.packages.index') ? 'menu-active active' : '' }}">Packages Type</a>
                                     </li>
                                     
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-h-square" aria-hidden="true"></i> Hotels</a>
+                        <li>
+                            @php
+                                $isHotelsActive = Route::is('admin.hotels.*', 'admin.room-types.*', 'admin.hotel-amenities.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isHotelsActive ? 'menu-active active' : '' }}"><i class="fa fa-h-square" aria-hidden="true"></i> Hotels</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="{{ route('admin.hotels.index') }}">All Hotels</a>
+                                    <li><a href="{{ route('admin.hotels.index') }}" class="{{ Route::is('admin.hotels.index') ? 'menu-active active' : '' }}">All Hotels</a>
                                     </li>
-                                    <li><a href="{{ route('admin.hotels.create') }}">Add New Hotel</a>
+                                    <li><a href="{{ route('admin.hotels.create') }}" class="{{ Route::is('admin.hotels.create') ? 'menu-active active' : '' }}">Add New Hotel</a>
                                     </li>
-                                    <li><a href="{{ route('admin.hotel-amenities.index') }}">Aminity</a>
+                                    <li><a href="{{ route('admin.hotel-amenities.index') }}" class="{{ Route::is('admin.hotel-amenities.index') ? 'menu-active active' : '' }}">Aminity</a>
                                     </li>
                                     {{-- <li><a href="hotel-room-type-add.html">Add Room Type</a>
                                     </li> --}}
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-picture-o" aria-hidden="true"></i> Sight Seeings</a>
+                        <li>
+                            @php
+                                $isSightSeeingtActive = Route::is('admin.sightseeings.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isSightSeeingtActive ? 'menu-active active' : '' }}"><i class="fa fa-picture-o" aria-hidden="true"></i> Sight Seeings</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="{{ route('admin.sightseeings.index') }}">All Sight Seeings</a>
+                                    <li><a href="{{ route('admin.sightseeings.index') }}" class="{{ Route::is('admin.sightseeings.index') ? 'menu-active active' : '' }}">All Sight Seeings</a>
                                     </li>
-                                    <li><a href="{{ route('admin.sightseeings.create') }}">Add New Sight Seeing</a>
+                                    <li><a href="{{ route('admin.sightseeings.create') }}" class="{{ Route::is('admin.sightseeings.create') ? 'menu-active active' : '' }}">Add New Sight Seeing</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-calendar-o" aria-hidden="true"></i> Events</a>
+                        <li>
+                            @php
+                                $isEventsActive = Route::is('admin.events.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isEventsActive ? 'menu-active active' : '' }}"><i class="fa fa-calendar-o" aria-hidden="true"></i> Events</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="{{ route('admin.events.index') }}">All Events</a>
+                                    <li><a href="{{ route('admin.events.index') }}" class="{{ Route::is('admin.events.index') ? 'menu-active active' : '' }}">All Events</a>
                                     </li>
-                                    <li><a href="{{ route('admin.events.create') }}">Add New Event</a>
+                                    <li><a href="{{ route('admin.events.create') }}" class="{{ Route::is('admin.events.create') ? 'menu-active active' : '' }}">Add New Event</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-calendar-o" aria-hidden="true"></i> Blogs</a>
-                            <div class="collapsible-body left-sub-menu">
-                                <ul>
-                                    <li><a href="{{ route('admin.blogs.index') }}">All Blogs</a>
-                                    </li>
-                                    <li><a href="{{ route('admin.blogs.create') }}">Add New Blog</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                        
                         {{-- <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-braille" aria-hidden="true"></i> Ui-Kits</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
@@ -242,26 +254,34 @@
                                 </ul>
                             </div>
                         </li> --}}
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-ticket" aria-hidden="true"></i> Booking & Enquiry</a>
+                        <li>
+                            @php
+                                $isBookingActive = Route::is('admin.booking-inquiries.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isBookingActive ? 'menu-active active' : '' }}"><i class="fa fa-ticket" aria-hidden="true"></i> Booking & Enquiry</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="hotel-booking-all.html">Hotel</a>
+                                    <li><a href="{{ route('admin.booking-inquiries.hotel') }}" class="{{ Route::is('admin.booking-inquiries.hotel') ? 'menu-active active' : '' }}">Hotel</a>
                                     </li>
-                                    <li><a href="package-booking-all.html">Package</a>
+                                    <li><a href="{{ route('admin.booking-inquiries.tour-package') }}" class="{{ Route::is('admin.booking-inquiries.tour-package') ? 'menu-active active' : '' }}">Package</a>
                                     </li>
-                                    <li><a href="sight-see-booking-all.html">Sight Seeings</a>
+                                    <li><a href="{{ route('admin.booking-inquiries.flight') }}" class="{{ Route::is('admin.booking-inquiries.flight') ? 'menu-active active' : '' }}">Flight</a>
                                     </li>
-                                    <li><a href="event-booking-all.html">Events</a>
+                                    <li><a href="{{ route('admin.booking-inquiries.car') }}" class="{{ Route::is('admin.booking-inquiries.car') ? 'menu-active active' : '' }}">Car</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-rss" aria-hidden="true"></i> Blog & Articals</a>
+                        <li>
+                            @php
+                                $isBlogArticlesActive = Route::is('admin.blogs.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isBlogArticlesActive ? 'menu-active active' : '' }}"><i class="fa fa-rss" aria-hidden="true"></i> Blog & Articals</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="blog-all.html">All Blogs</a>
+                                    <li><a href="{{ route('admin.blogs.index') }}" class="{{ Route::is('admin.blogs.index') ? 'menu-active active' : '' }}">All Blogs</a>
                                     </li>
-                                    <li><a href="blog-add.html">Add Blog</a>
+                                    <li><a href="{{ route('admin.blogs.create') }}" class="{{ Route::is('admin.blogs.create') ? 'menu-active active' : '' }}">Add Blog</a>
                                     </li>
                                 </ul>
                             </div>

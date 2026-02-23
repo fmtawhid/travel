@@ -68,11 +68,15 @@ class UserDashboardController extends Controller
 
     public function travel_booking()
     {
-        return view('user.travel-booking');
+        $user = Auth::user();
+        $bookings = $user->tourBookings()->with(['package', 'tour'])->latest()->get();
+        return view('user.travel-booking', compact('bookings'));
     }
-    public function travel_booking_details()
+    public function travel_booking_details($id)
     {
-        return view('user.travel-booking-details');
+        $user = Auth::user();
+        $booking = $user->tourBookings()->with(['package', 'tour'])->findOrFail($id);
+        return view('user.travel-booking-details', compact('booking'));
     }
     public function hotel_booking()
     {

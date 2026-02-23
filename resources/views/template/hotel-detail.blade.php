@@ -105,7 +105,25 @@
 				<div class="col-md-8 tour_lhs">
 					<!--====== HOTEL TITLE ==========-->
 					<div class="tour_head">
-						<h2>{{ $hotel->name }} <span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span><span class="tour_rat">4.5</span></h2>
+						@php
+							$totalReviews = $reviews->count();
+							$displayRating = round($averageRating, 1);
+						@endphp
+						<h2>
+							{{ $hotel->name }} 
+							<span class="tour_star">
+								@for($i = 1; $i <= 5; $i++)
+									@if($i <= round($displayRating))
+										<i class="fa fa-star" aria-hidden="true"></i>
+									@elseif($i - 0.5 <= $displayRating)
+										<i class="fa fa-star-half-o" aria-hidden="true"></i>
+									@else
+										<i class="fa fa-star-o" aria-hidden="true"></i>
+									@endif
+								@endfor
+							</span>
+							<span class="tour_rat">{{ $displayRating }} ({{ $totalReviews }} reviews)</span>
+						</h2>
 					</div>
 					<!--====== HOTEL DESCRIPTION ==========-->
 					<div class="tour_head1 hotel-com-color">
@@ -204,7 +222,7 @@
 											<div class="col-md-3 tr-room-type-list-3">
 												<span class="hot-list-p3-1">Price Per Night</span>
 												<span class="hot-list-p3-2">${{ number_format($roomType->price ?? 0, 2) }}</span>
-												<a href="#" class="hot-page2-alp-quot-btn spec-btn-text">Book Now</a>
+												<a href="{{ route('booking.hotel') }}?hotel_id={{ $hotel->id }}" class="hot-page2-alp-quot-btn spec-btn-text">Book Now</a>
 											</div>
 										</div>
 									</li>
@@ -255,6 +273,125 @@
 							</ul>
 						</div>
 					</div>
+
+					<div>
+						<div class="dir-rat">
+
+							{{-- ================= RATING FORM ================= --}}
+							<div class="dir-rat-inn dir-rat-title">
+								<h3>Write Your Rating Here</h3>
+								<p>Share your experience about this hotel</p>
+							</div>
+
+							<div class="dir-rat-inn">
+								@auth
+									<form action="{{ route('hotel.review.store') }}" method="POST">
+										@csrf
+
+										{{-- Hotel ID --}}
+										<input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
+
+										{{-- ⭐ Star Rating --}}
+										<fieldset class="rating">
+											@for($i = 5; $i >= 1; $i--)
+												<input type="radio" id="hotel-star{{ $i }}" name="rating" value="{{ $i }}" required />
+												<label class="full" for="hotel-star{{ $i }}"></label>
+											@endfor
+										</fieldset>
+
+										<div class="clearfix"></div>
+										<br>
+
+										{{-- Name --}}
+										<div class="form-group col-md-6 pad-left-o">
+											<input type="text" name="name" class="form-control" placeholder="Enter Name"
+												value="{{ auth()->user()->name }}" readonly required>
+										</div>
+
+										{{-- Email --}}
+										<div class="form-group col-md-6 pad-left-o">
+											<input type="email" name="email" class="form-control" placeholder="Enter Email id"
+												value="{{ auth()->user()->email }}" readonly>
+										</div>
+
+										{{-- Message --}}
+										<div class="form-group col-md-12 pad-left-o">
+											<textarea name="message" class="form-control" placeholder="Write your message"
+												required>{{ old('message') }}</textarea>
+										</div>
+
+										{{-- Submit --}}
+										<div class="form-group col-md-12 pad-left-o">
+											<button type="submit" class="link-btn">SUBMIT</button>
+										</div>
+									</form>
+								@else
+									<div style="padding: 20px; background: #fff3cd; border-radius: 5px; margin-top: 20px;">
+										<p><strong>Please <a href="{{ route('login') }}">login</a> to write a review</strong></p>
+									</div>
+								@endauth
+							</div>
+
+							{{-- ================= REVIEW LIST ================= --}}
+							@forelse($reviews as $review)
+								<div class="dir-rat-inn dir-rat-review">
+									<div class="row">
+										<div class="col-md-3 dir-rat-left">
+											@if($review->user && $review->user->image)
+												<img src="{{ asset('uploads/users/' . $review->user->image) }}" alt="{{ $review->name }}" style="width: -webkit-fill-available; height: 100px; object-fit: cover; border-radius: 50%;"/>
+											@else
+												<img src="{{ asset('assets/templates/images/reviewer/1.jpg') }}" alt="{{ $review->name }}" />
+											@endif
+											<p>
+												{{ $review->name ?? 'Anonymous' }}
+												<span>{{ $review->created_at->format('d F, Y') }}</span>
+											</p>
+										</div>
+
+										<div class="col-md-9 dir-rat-right">
+											<div class="dir-rat-star">
+												@for($i = 1; $i <= 5; $i++)
+													<i class="fa fa-star{{ $i <= $review->rating ? '' : '-o' }}"></i>
+												@endfor
+											</div>
+
+											<p>{{ $review->message }}</p>
+										</div>
+									</div>
+								</div>
+							@empty
+								<div class="dir-rat-inn">
+									<p>No reviews yet</p>
+								</div>
+							@endforelse
+
+						</div>
+					</div>
+
+					<style>
+					.rating {
+						border: none;
+						float: left;
+					}
+					.rating>input {
+						display: none;
+					}
+					.rating>label {
+						float: right;
+						font-size: 30px;
+						color: #ddd;
+						cursor: pointer;
+					}
+					.rating>label:before {
+						content: "\f005";
+						font-family: FontAwesome;
+					}
+					.rating>input:checked~label,
+					.rating>label:hover,
+					.rating>label:hover~label {
+						color: #ffc107;
+					}
+					</style>
 				</div>
 
 				<!--====== RIGHT SIDEBAR ==========-->
@@ -264,7 +401,7 @@
 						<div class="band1"><img src="{{ asset('images/offer.png') }}" alt="" /> </div>
 						<p>Hotel Special</p>
 						<h4>{{ $hotel->name }}</h4>
-						<a href="#contact" class="link-btn">Contact Now</a>
+						<a href="{{ route('booking.hotel') }}?hotel_id={{ $hotel->id }}" class="link-btn">Contact Now</a>
 					</div>
 
 					<!--====== TRIP INFORMATION ==========-->

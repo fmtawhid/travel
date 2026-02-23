@@ -1,69 +1,6 @@
 @extends('layouts.master')
 @section('content')
 
-    <!--END HEADER SECTION-->
-	<!-- TOP SEARCH BOX -->
-	<section>
-        <div class="search-top pop pop-search">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="ban-search form-select">
-                            <form>
-                                <ul>
-                                    <li class="sr-look">
-                                        <div class="form-group">
-                                            <label>Your destination</label>
-                                            <select class="chosen-select">
-                                                <option>Your destination</option>
-                                                <option>Any location</option>
-                                                <option>Chennai</option>
-                                                <option>New york</option>
-                                                <option>Perth</option>
-                                                <option>London</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="sr-gue">
-                                        <div class="form-group">
-                                            <label>Package</label>
-                                            <select class="chosen-select">
-                                                <option>Package</option>
-                                                <option>Family Package</option>
-                                                <option>Honeymoon Package</option>
-                                                <option>Group Package</option>
-                                                <option>WeekEnd Package</option>
-                                                <option>Regular Package</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="sr-date">
-                                        <div class="form-group">
-                                            <label>Check in</label>
-                                            <input type="text" class="form-control datepicker" name="from" placeholder="Check in">
-                                        </div>
-                                    </li>
-                                    <li class="sr-date">
-                                        <div class="form-group">
-                                            <label>Check out</label>
-                                            <input type="text" class="form-control datepicker" name="to" placeholder="Check out">
-                                        </div>
-                                    </li>
-                                    <li class="sr-btn">
-                                        <input type="submit" value="Search">
-                                    </li>
-                                </ul>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-        </div>
-		<!-- END TOP SEARCH BOX -->
-    </section>
-    <!--END HEADER SECTION-->
-	
 	<!--====== HOTELS LIST ==========-->
 	<section class="hot-page2-alp hot-page2-pa-sp-top all-hot-bg">
 		<div class="container">
@@ -88,107 +25,47 @@
 						<!--PART 2 : LEFT LISTINGS-->
 						<div class="hot-page2-hom-pre hot-page2-alp-left-ner-notb">
 							<ul>
-								<!--LISTINGS-->
-								<li>
-									<a href="hotel-details.html">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="images/hotels/1.jpg" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>Taaj Club House</h5> <span>City: illunois, United States</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>4.2</span> </div>
-									</a>
-								</li>
-								<!--LISTINGS-->
-								<li>
-									<a href="hotel-details.html">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="images/hotels/2.jpg" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>Lake Palace view Hotel</h5> <span>City: Beijing,China</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>4.4</span> </div>
-									</a>
-								</li>
-								<!--LISTINGS-->
-								<li>
-									<a href="hotel-details.html">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="images/hotels/3.jpg" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>First Class Grandd Hotel</h5> <span>City: Berlin,Germany</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>5.0</span> </div>
-									</a>
-								</li>
-								<!--LISTINGS-->
-								<li>
-									<a href="hotel-details.html">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="images/hotels/4.jpg" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>Barcelona Grand Pales</h5> <span>City: Chennai,India</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>3.0</span> </div>
-									</a>
-								</li>
-								<!--LISTINGS-->
-								<li>
-									<a href="hotel-details.html">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="images/hotels/8.jpg" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>Universal luxury Grand Hotel</h5> <span>City: Rio,Brazil</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>3.4</span> </div>
-									</a>
-								</li>
+								<!--LISTINGS by reviews-->
+								@forelse($topHotels as $hotel)
+									<li>
+										<a href="{{ route('hotel.details', $hotel->id) }}">
+											<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="{{ $hotel->image ? asset('uploads/hotels/' . $hotel->image) : asset('assets/templates/images/sight/5.jpg') }}" alt="{{ $hotel->name }}"> </div>
+											<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
+												<h5>{{ $hotel->name }}</h5> <span>City: {{ $hotel->location }}</span> </div>
+											<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>{{ round($hotel->reviews_avg_rating ?? 0, 1) }}</span> </div>
+										</a>
+									</li>
+								@empty
+									<li><p style="padding: 20px; color: #999;">No hotels with reviews available.</p></li>
+								@endforelse
 							</ul>
 						</div>
 						<!--PART 7 : LEFT LISTINGS-->
 						<div class="hot-page2-alp-l3 hot-page2-alp-l-com">
-							<h4><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Travel Available Check</h4>
+							<h4><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Filter Hotels</h4>
 							<div class="hot-room-ava-check">
-							<form class="package-form">
+							<form method="GET" action="{{ route('hotels') }}" class="package-form">
 							<div>
 								<div class="form-group">
-										<label>Your destination</label>
-										<select class="chosen-select">
-											<option>Your destination</option>
-											<option>Any location</option>
-											<option>Chennai</option>
-											<option>New york</option>
-											<option>Perth</option>
-											<option>London</option>
+										<label>Search by Location</label>
+										<select name="location" class="chosen-select">
+											<option value="">All Locations</option>
+											<option value="Any location">Any location</option>
+											@foreach($locations as $loc)
+												<option value="{{ $loc }}" {{ request('location') === $loc ? 'selected' : '' }}>{{ $loc }}</option>
+											@endforeach
 										</select>
 									</div>
+									<div class="form-group">
+										<label>Min Price ($)</label>
+										<input type="number" name="min_price" class="form-control" placeholder="Min Price" value="{{ request('min_price') }}" min="0">
+									</div>
+									<div class="form-group">
+										<label>Max Price ($)</label>
+										<input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request('max_price') }}" min="0">
+									</div>
 							</div>
-							<div class="row">
-								<div class="form-group col-md-6">
-									<label>Min Price</label>
-									<select class="chosen-select">
-										<option value="" disabled selected>Min</option>
-										<option value="1">$200</option>
-										<option value="2">$500</option>
-										<option value="3">$1000</option>
-										<option value="1">$5000</option>
-										<option value="1">$10,000</option>
-										<option value="1">$50,000</option>
-									</select>
-								</div>
-								<div class="form-group col-md-6">
-									<label>Max Price</label>
-									<select class="chosen-select">
-										<option value="" disabled selected>Max</option>
-										<option value="1">$200</option>
-										<option value="2">$500</option>
-										<option value="3">$1000</option>
-										<option value="1">$5000</option>
-										<option value="1">$10,000</option>
-										<option value="1">$50,000</option>
-									</select>
-								</div>								
-							</div>
-							<div class="row">
-								<div class="form-group col-md-6">
-									<label>Check in</label>
-									<input type="text" class="form-control datepicker" name="from" placeholder="Select date">
-								</div>
-								<div class="form-group col-md-6">
-									<label>Check out</label>
-									<input type="text" class="form-control datepicker" name="to" placeholder="Select date">
-								</div>
-							</div>
+							<button type="submit" class="link-btn" style="width: 100%; margin-top: 10px;">Search Hotels</button>
 						</form>
 							</div>
 						</div>
@@ -197,11 +74,15 @@
 						<div class="hot-page2-alp-l3 hot-page2-alp-l-com">
 							<h4><i class="fa fa-star-o" aria-hidden="true"></i> Select Ratings</h4>
 							<div class="hot-page2-alp-l-com1 hot-page2-alp-p5">
-								<form>
+								<form method="GET" action="{{ route('hotels') }}" class="rating-filter-form">
+									<!-- Hidden inputs to preserve other filters -->
+									<input type="hidden" name="location" value="{{ request('location') }}">
+									<input type="hidden" name="min_price" value="{{ request('min_price') }}">
+									<input type="hidden" name="max_price" value="{{ request('max_price') }}">
 									<ul>
 										<li>
 											<div class="chbox">
-												<input id="chp61" class="styled" type="checkbox" checked="">
+												<input id="chp61" class="styled rating-checkbox" type="checkbox" name="min_rating" value="5" {{ request('min_rating') === '5' ? 'checked' : '' }}>
 												<label for="chp61"> <span class="ho-hot-rat-star-list">
                                                         <span class="hot-list-left-part-rat">5.0</span> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i> </span>
 												</label>
@@ -209,7 +90,7 @@
 										</li>
 										<li>
 											<div class="chbox">
-												<input id="chp62" class="styled" type="checkbox">
+												<input id="chp62" class="styled rating-checkbox" type="checkbox" name="min_rating" value="4" {{ request('min_rating') === '4' ? 'checked' : '' }}>
 												<label for="chp62"> <span class="ho-hot-rat-star-list">
                                                         <span class="hot-list-left-part-rat">4.0</span> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> </span>
 												</label>
@@ -217,7 +98,7 @@
 										</li>
 										<li>
 											<div class="chbox">
-												<input id="chp63" class="styled" type="checkbox">
+												<input id="chp63" class="styled rating-checkbox" type="checkbox" name="min_rating" value="3" {{ request('min_rating') === '3' ? 'checked' : '' }}>
 												<label for="chp63"> <span class="ho-hot-rat-star-list">
                                                         <span class="hot-list-left-part-rat">3.0</span> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> </span>
 												</label>
@@ -225,7 +106,7 @@
 										</li>
 										<li>
 											<div class="chbox">
-												<input id="chp64" class="styled" type="checkbox">
+												<input id="chp64" class="styled rating-checkbox" type="checkbox" name="min_rating" value="2" {{ request('min_rating') === '2' ? 'checked' : '' }}>
 												<label for="chp64"> <span class="ho-hot-rat-star-list">
                                                         <span class="hot-list-left-part-rat">2.0</span> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> </span>
 												</label>
@@ -233,7 +114,7 @@
 										</li>
 										<li>
 											<div class="chbox">
-												<input id="chp65" class="styled" type="checkbox">
+												<input id="chp65" class="styled rating-checkbox" type="checkbox" name="min_rating" value="1" {{ request('min_rating') === '1' ? 'checked' : '' }}>
 												<label for="chp65"> <span class="ho-hot-rat-star-list">
                                                         <span class="hot-list-left-part-rat">1.0</span> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> </span>
 												</label>
@@ -241,6 +122,13 @@
 										</li>
 									</ul>
 								</form>
+								<script>
+									document.querySelectorAll('.rating-checkbox').forEach(checkbox => {
+										checkbox.addEventListener('change', function() {
+											document.querySelector('.rating-filter-form').submit();
+										});
+									});
+								</script>
 							</div>
 						</div>
 						<!--END PART 5 : LEFT LISTINGS-->
@@ -310,7 +198,11 @@
 								<div class="hot-page2-alp-r-list">
 									<div class="col-md-3 hot-page2-alp-r-list-re-sp">
 										<a href="{{ route('hotel.details', $hotel->id) }}">
-											<div class="hotel-list-score">{{ rand(3, 5) }}</div>
+											@php
+												$minPrice = $hotel->roomTypes()->min('price') ?? 0;
+												$avgRating = round($hotel->reviews()->avg('rating') ?? 3.5);
+											@endphp
+											<div class="hotel-list-score">{{ $avgRating }}</div>
 											<div class="hot-page2-hli-1"> <img src="{{ asset('uploads/hotels/' . $hotel->image) }}" alt="{{ $hotel->name }}"> </div>
 											<div class="hom-hot-av-tic hom-hot-av-tic-list"> Available Rooms: {{ $hotel->roomTypes()->count() }} </div>
 										</a>
@@ -325,7 +217,7 @@
 									</div>
 									<div class="col-md-3">
 										<div class="hot-page2-alp-ri-p3">
-											<div class="hot-page2-alp-r-hot-page-rat">10% Off</div> <span class="hot-list-p3-1">Price Per Night</span> <span class="hot-list-p3-2">${{ rand(100, 500) }}</span><span class="hot-list-p3-4">
+											<div class="hot-page2-alp-r-hot-page-rat">10% Off</div> <span class="hot-list-p3-1">Price Per Night</span> <span class="hot-list-p3-2">${{ number_format($minPrice, 2) }}</span><span class="hot-list-p3-4">
 												<a href="{{ route('hotel.details', $hotel->id) }}" class="hot-page2-alp-quot-btn">Book Now</a>
 											</span> </div>
 									</div>
@@ -395,4 +287,7 @@
 			</div>
 		</div>
 	</section>
+
+
+	
 @endsection
