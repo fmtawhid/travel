@@ -9,6 +9,8 @@ use App\Models\Tour;
 use App\Models\Hotel;
 use App\Models\RoomType;
 use App\Models\HotelBooking;
+use App\Models\Event;
+use App\Models\EventBooking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,6 +50,7 @@ class BookingController extends Controller
     public function storeTourBooking(Request $request)
     {
         $request->validate([
+            'tour_id'        => 'nullable|exists:tours,id',
             'package_id'     => 'required|exists:packages,id',
             'name'           => 'required|string|max:255',
             'phone'          => 'required|string|max:20',
@@ -61,6 +64,7 @@ class BookingController extends Controller
 
         TourBooking::create([
             'user_id'        => Auth::id(), // null if guest
+            'tour_id'        => $request->tour_id,
             'package_id'     => $request->package_id,
             'name'           => $request->name,
             'phone'          => $request->phone,
@@ -205,5 +209,35 @@ class BookingController extends Controller
         return back()->with('success', 'Hotel booking submitted successfully!');
     }
 
+    public function event($event_id = null)
+    {
+        $event = null;
+        if ($event_id) {
+            $event = Event::findOrFail($event_id);
+        }
+        return view('template.booking.event', compact('event'));
+    }
+
+    public function storeEventBooking(Request $request)
+    {
+        $request->validate([
+            'event_id' => 'required|exists:events,id',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'note' => 'nullable|string|max:1000',
+        ]);
+
+        EventBooking::create([
+            'user_id' => Auth::id(),
+            'event_id' => $request->event_id,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'note' => $request->note,
+        ]);
+
+        return back()->with('success', 'Event booking submitted successfully!');
+    }
 
 }

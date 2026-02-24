@@ -39,9 +39,15 @@
 							<a href="{{ route('user.booking.hotel') }}"><img src="{{ asset('assets/templates/images/icon/dbl3.png') }}" alt="" /> Hotel Bookings</a>
 						</li>
 						<li>
-							<a href="{{ route('user.booking.event') }}"><img src="{{ asset('assets/templates/images/icon/dbl4.png') }}" alt="" /> Event Bookings</a>
+							<a href="{{ route('user.booking.flight') }}"><img src="{{ asset('assets/templates/images/icon/dbl5.png') }}" alt="" /> Flight Bookings</a>
 						</li>
 						<li>
+							<a href="{{ route('user.booking.car') }}"><img src="{{ asset('assets/templates/images/icon/dbl8.png') }}" alt="" /> Car Rental Bookings</a>
+						</li>
+						<li>
+							<a href="{{ route('user.booking.event') }}"><img src="{{ asset('assets/templates/images/icon/dbl4.png') }}" alt="" /> Event Bookings</a>
+						</li>
+						<li>	
 							<a href="{{ route('user.profile') }}"><img src="{{ asset('assets/templates/images/icon/dbl6.png') }}" alt="" /> My Profile</a>
 						</li>
 						<li>

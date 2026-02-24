@@ -6,6 +6,7 @@ use App\Models\Hotel;
 use App\Models\Tour;
 use App\Models\RoomType;
 use App\Models\SightSeeing;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Blog;
@@ -230,9 +231,10 @@ class MainController extends Controller
         return view('template.tips');
     }
 
-    public function event()
+    public function events()
     {
-        return view('template.event');
+        $events = Event::latest()->paginate(10);
+        return view('template.events', compact('events'));
     }
     
 

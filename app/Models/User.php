@@ -67,4 +67,24 @@ class User extends Authenticatable
         return $this->hasMany(TourBooking::class);
     }
 
+    public function hotelBookings()
+    {
+        return $this->hasMany(HotelBooking::class);
+    }
+
+    public function carBookings()
+    {
+        return $this->hasMany(CarBooking::class);
+    }
+
+    public function flightBookings()
+    {
+        return $this->hasMany(FlightBooking::class);
+    }
+
+    public function eventBookings()
+    {
+        return $this->hasMany(EventBooking::class);
+    }
+
 }

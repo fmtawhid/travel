@@ -1,59 +1,54 @@
 @extends('layouts.user')
 @section('user_dashboard')
-			<!--CENTER SECTION-->
-			<div class="db-2">
-				<div class="db-2-com db-2-main">
-					<h4>Event Details</h4>
-					<div class="db-2-main-com db-2-main-com-table">
-						<table class="responsive-table">
-							<tbody>
-								<tr>
-									<td>Event Name</td>
-									<td>:</td>
-									<td>Europe Fancy</td>
-								</tr>
-								<tr>
-									<td>Duration</td>
-									<td>:</td>
-									<td>2Days</td>
-								</tr>
-								<tr>
-									<td>Price</td>
-									<td>:</td>
-									<td>$1280</td>
-								</tr>
-								<tr>
-									<td>Start Date</td>
-									<td>:</td>
-									<td>21 May 2017</td>
-								</tr>
-								<tr>
-									<td>End Date</td>
-									<td>:</td>
-									<td>03 Jun 2017</td>
-								</tr>
-								<tr>
-									<td>Total Members</td>
-									<td>:</td>
-									<td>7(Adult:5, Children:2)</td>
-								</tr>
-								<tr>
-									<td>Places Covered</td>
-									<td>:</td>
-									<td>Switzerland, Croatia, Austria, Bulgaria, Spain, Greece</td>
-								</tr>
-								<tr>
-									<td>Payment Status</td>
-									<td>:</td>
-									<td><span class="db-not-done">Pending</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<div class="db-mak-pay-bot">
-							<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p> <a href="db-payment.html" class="waves-effect waves-light btn-large">Make Paymeny Now</a> </div>
-					</div>
-				</div>
-			</div>
+
+    <!--CENTER SECTION-->
+    <div class="db-2">
+        <div class="db-2-com db-2-main">
+            <h4>Event Booking Details</h4>
+            <div style="background: #fff; padding: 30px; border-radius: 5px;">
+                <table class="db-detail-table">
+                    <tr>
+                        <td><strong>Event Name:</strong></td>
+                        <td>{{ $booking?->event?->name ?? 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Event Date:</strong></td>
+                        <td>{{ $booking?->event?->date ? \Carbon\Carbon::parse($booking->event->date)->format('d M Y') : 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Event Time:</strong></td>
+                        <td>{{ $booking?->event?->time ?? 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Event Location:</strong></td>
+                        <td>{{ $booking?->event?->location ?? 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Name:</strong></td>
+                        <td>{{ $booking?->name ?? 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phone:</strong></td>
+                        <td>{{ $booking?->phone ?? 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email:</strong></td>
+                        <td>{{ $booking?->email ?? 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Note:</strong></td>
+                        <td>{{ $booking?->note ?? 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top: 20px;">
+                            <a href="{{ route('user.payment') }}" class="btn btn-primary" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+                                Payment Method
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
 @endsection

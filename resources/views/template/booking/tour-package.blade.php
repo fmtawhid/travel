@@ -53,6 +53,11 @@
 
 								@csrf
 
+								{{-- Tour ID Hidden Field --}}
+								@if($tour)
+									<input type="hidden" name="tour_id" value="{{ $tour->id }}">
+								@endif
+
 								{{-- Success --}}
 								@if(session('success'))
 									<div class="alert alert-success">

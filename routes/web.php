@@ -23,6 +23,7 @@ route::get('/blog', [MainController::class, 'blog'])->name('blog');
 route::get('/blog-details/{slug}', [MainController::class, 'blogDetails'])->name('blog.details');
 route::get('/faq', [MainController::class, 'faq'])->name('faq');
 route::get('/tips', [MainController::class, 'tips'])->name('tips');
+route::get('/events', [MainController::class, 'events'])->name('events');
 
 
 Route::get('/booking/tour-package/{tour_id?}', [BookingController::class, 'tour_package'])->name('booking.tour-package');
@@ -38,6 +39,9 @@ route::post('/booking/car', [BookingController::class, 'storeCarBooking'])->name
 // route::get('/booking/hotel', [BookingController::class, 'hotel'])->name('booking.hotel');
 Route::get('/booking/hotel', [BookingController::class,'hotel'])->name('booking.hotel');
 Route::post('/booking/hotel/store', [BookingController::class,'storeHotelBooking'])->name('booking.hotel.store');
+
+Route::get('/booking/event/{event_id?}', [BookingController::class, 'event'])->name('booking.event');
+Route::post('/booking/event/store', [BookingController::class, 'storeEventBooking'])->name('booking.event.store');
 
 
 // web.php

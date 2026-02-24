@@ -80,19 +80,51 @@ class UserDashboardController extends Controller
     }
     public function hotel_booking()
     {
-        return view('user.hotel-booking');
+        $user = Auth::user();
+        $bookings = $user->hotelBookings()->with(['hotel', 'roomType'])->latest()->get();
+        return view('user.hotel-booking', compact('bookings'));
     }
-    public function hotel_booking_details()
+    public function hotel_booking_details($id)
     {
-        return view('user.hotel-booking-details');
+        $user = Auth::user();
+        $booking = $user->hotelBookings()->with(['hotel', 'roomType'])->findOrFail($id);
+        return view('user.hotel-booking-details', compact('booking'));
+    }
+    public function car_booking()
+    {
+        $user = Auth::user();
+        $bookings = $user->carBookings()->latest()->get();
+        return view('user.car-booking', compact('bookings'));
+    }
+    public function car_booking_details($id)
+    {
+        $user = Auth::user();
+        $booking = $user->carBookings()->findOrFail($id);
+        return view('user.car-booking-details', compact('booking'));
+    }
+    public function flight_booking()
+    {
+        $user = Auth::user();
+        $bookings = $user->flightBookings()->latest()->get();
+        return view('user.flight-booking', compact('bookings'));
+    }
+    public function flight_booking_details($id)
+    {
+        $user = Auth::user();
+        $booking = $user->flightBookings()->findOrFail($id);
+        return view('user.flight-booking-details', compact('booking'));
     }
     public function event_booking()
     {
-        return view('user.event-booking');
+        $user = Auth::user();
+        $bookings = $user->eventBookings()->with('event')->latest()->get();
+        return view('user.event-booking', compact('bookings'));
     }
-    public function event_booking_details()
+    public function event_booking_details($id)
     {
-        return view('user.event-booking-details');
+        $user = Auth::user();
+        $booking = $user->eventBookings()->with('event')->findOrFail($id);
+        return view('user.event-booking-details', compact('booking'));
     }
 
     
