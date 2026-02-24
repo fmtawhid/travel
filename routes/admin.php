@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\BlogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\BookingInquiryController;
+use App\Http\Controllers\Admin\CustomBookingController;
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
@@ -33,6 +34,7 @@ Route::middleware(['auth', 'admin'])
         Route::resource('hotel-amenities', HotelAmenityController::class);
         Route::resource('blogs', BlogController::class);
         Route::resource('events', EventController::class)->names('events');
+        Route::resource('custom-bookings', CustomBookingController::class);
 
         Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
         Route::post('settings', [SettingController::class, 'update'])->name('settings.update');

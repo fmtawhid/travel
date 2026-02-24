@@ -199,68 +199,68 @@
         </div>
     </section> --}}
 
-<!--====== Location HOTELS ==========-->
-<section>
-    <div class="rows pad-bot-redu">
-        <div class="container">
+    <!--====== Location HOTELS ==========-->
+    <section>
+        <div class="rows pad-bot-redu">
+            <div class="container">
 
-            <!-- TITLE -->
-            <div class="spe-title">
-                <h2>Top <span>Destinations</span></h2>
-                <div class="title-line">
-                    <div class="tl-1"></div>
-                    <div class="tl-2"></div>
-                    <div class="tl-3"></div>
+                <!-- TITLE -->
+                <div class="spe-title">
+                    <h2>Top <span>Destinations</span></h2>
+                    <div class="title-line">
+                        <div class="tl-1"></div>
+                        <div class="tl-2"></div>
+                        <div class="tl-3"></div>
+                    </div>
+                    <p>World's leading Hotel Booking website, Over 30,000 Hotel rooms worldwide.</p>
                 </div>
-                <p>World's leading Hotel Booking website, Over 30,000 Hotel rooms worldwide.</p>
+
+                @foreach($topLocations as $index => $location)
+
+                    {{-- First Item Big (col-6) --}}
+                    @if($index == 0)
+                        <div class="col-md-6">
+                            <a href="{{ route('packages', ['location' => $location->location]) }}">
+                                <div class="tour-mig-like-com">
+                                    <div class="tour-mig-lc-img">
+                                        <img src="{{ asset('assets/templates/images/listing/home.jpg') }}" alt="">
+                                    </div>
+                                    <div class="tour-mig-lc-con">
+                                        <h5>{{ $location->location }}</h5>
+                                        <p>
+                                            <span>{{ $location->total_packages }} Packages</span>
+                                            Starting from ${{ $location->min_price }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    {{-- Others Small (col-3) --}}
+                    @else
+                        <div class="col-md-3">
+                            <a href="{{ route('packages', ['location' => $location->location]) }}">
+                                <div class="tour-mig-like-com">
+                                    <div class="tour-mig-lc-img">
+                                        <img src="{{ asset('assets/templates/images/listing/home3.jpg') }}" alt="">
+                                    </div>
+                                    <div class="tour-mig-lc-con tour-mig-lc-con2">
+                                        <h5>{{ $location->location }}</h5>
+                                        <p>
+                                            {{-- <span>{{ $location->total_packages }} Packages</span><br> --}}
+                                            Starting from ${{ $location->min_price }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endif
+
+                @endforeach
+
             </div>
-
-            @foreach($topLocations as $index => $location)
-
-                {{-- First Item Big (col-6) --}}
-                @if($index == 0)
-                    <div class="col-md-6">
-                        <a href="{{ route('packages', ['location' => $location->location]) }}">
-                            <div class="tour-mig-like-com">
-                                <div class="tour-mig-lc-img">
-                                    <img src="{{ asset('assets/templates/images/listing/home.jpg') }}" alt="">
-                                </div>
-                                <div class="tour-mig-lc-con">
-                                    <h5>{{ $location->location }}</h5>
-                                    <p>
-                                        <span>{{ $location->total_packages }} Packages</span>
-                                        Starting from ${{ $location->min_price }}
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                {{-- Others Small (col-3) --}}
-                @else
-                    <div class="col-md-3">
-                        <a href="{{ route('packages', ['location' => $location->location]) }}">
-                            <div class="tour-mig-like-com">
-                                <div class="tour-mig-lc-img">
-                                    <img src="{{ asset('assets/templates/images/listing/home3.jpg') }}" alt="">
-                                </div>
-                                <div class="tour-mig-lc-con tour-mig-lc-con2">
-                                    <h5>{{ $location->location }}</h5>
-                                    <p>
-                                        {{-- <span>{{ $location->total_packages }} Packages</span><br> --}}
-                                        Starting from ${{ $location->min_price }}
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @endif
-
-            @endforeach
-
         </div>
-    </div>
-</section>
+    </section>
 
 
 
@@ -308,7 +308,7 @@
 
                                     </div>
 
-                                    <a href="#" class="fclick"></a>
+                                    <a href="{{ route('packages', ['package_id' => $package->id]) }}" class="fclick"></a>
 
                                 </div>
                             </li>
@@ -350,7 +350,7 @@
                                         <span>{{ $sightSeeing->description }}</span>
                                         <span>More details</span>
                                     </div>
-                                    <a href="#" class="fclick"></a>
+                                    <a href="{{ route('sightseeing.details', $sightSeeing->id) }}" class="fclick"></a>
                                 </div>
                             </li>
                         @endforeach
@@ -366,7 +366,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="offer-l"> <span class="ol-1"></span> <span class="ol-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> <span class="ol-4">Standardized Budget Packages</span>                            <span class="ol-3"></span> <span class="ol-5">$99/-</span>
+                        <div class="offer-l"> <span class="ol-1"></span> <span class="ol-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> <span class="ol-4">Do you Need Custom Package?</span>                            <span class="ol-3"></span> <span class="ol-5">$99/-</span>
                             <ul>
                                 <li class="wow fadeInUp" data-wow-duration="0.5s">
                                     <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis1.png') }}" alt="">
@@ -507,64 +507,64 @@
             </div>
         </div>
     </section>-->
-<!--====== POPULAR TOUR PLACES ==========-->
-<section>
-    <div class="rows pla pad-bot-redu tb-space">
-        <div class="pla1 p-home container">
-            <!-- TITLE & DESCRIPTION -->
-            <div class="spe-title spe-title-1">
-                <h2>Top <span>Sight Seeing</span> in this month</h2>
-                <div class="title-line">
-                    <div class="tl-1"></div>
-                    <div class="tl-2"></div>
-                    <div class="tl-3"></div>
+    <!--====== POPULAR TOUR PLACES ==========-->
+    <section>
+        <div class="rows pla pad-bot-redu tb-space">
+            <div class="pla1 p-home container">
+                <!-- TITLE & DESCRIPTION -->
+                <div class="spe-title spe-title-1">
+                    <h2>Top <span>Sight Seeing</span> in this month</h2>
+                    <div class="title-line">
+                        <div class="tl-1"></div>
+                        <div class="tl-2"></div>
+                        <div class="tl-3"></div>
+                    </div>
+                    <p>
+                        World's leading tour and travels Booking website,
+                        Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience
+                    </p>
                 </div>
-                <p>
-                    World's leading tour and travels Booking website,
-                    Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience
-                </p>
+
+                @foreach($featuredPackages->chunk(2) as $chunk)
+                    <div class="popu-places-home">
+                        @foreach($chunk as $package)
+                            @php
+                                $tour = $package->tours->first(); // latest tour
+                            @endphp
+
+                            @if($tour)
+                                <div class="col-md-6 col-sm-6 col-xs-12 place">
+                                    <!-- Image -->
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <img src="{{ asset('uploads/packages/'.$package->image) }}" 
+                                            alt="{{ $tour->title }}" 
+                                            loading="lazy">
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <h3>
+                                            <span>{{ $package->name }}</span> 
+                                            {{ $tour->duration }}
+                                        </h3>
+
+                                        <p>{{ \Illuminate\Support\Str::limit($tour->short_description, 120) }}</p>
+
+                                        <a href="{{ route('packages', ['package_id' => $package->id]) }}" 
+                                        class="link-btn">
+                                            more info
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+
+                        @endforeach
+                    </div>
+                @endforeach
+
             </div>
-
-            @foreach($featuredPackages->chunk(2) as $chunk)
-                <div class="popu-places-home">
-                    @foreach($chunk as $package)
-                        @php
-                            $tour = $package->tours->first(); // latest tour
-                        @endphp
-
-                        @if($tour)
-                            <div class="col-md-6 col-sm-6 col-xs-12 place">
-                                <!-- Image -->
-                                <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <img src="{{ asset('uploads/packages/'.$package->image) }}" 
-                                         alt="{{ $tour->title }}" 
-                                         loading="lazy">
-                                </div>
-
-                                <!-- Content -->
-                                <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <h3>
-                                        <span>{{ $package->name }}</span> 
-                                        {{ $tour->duration }}
-                                    </h3>
-
-                                    <p>{{ \Illuminate\Support\Str::limit($tour->short_description, 120) }}</p>
-
-                                    <a href="{{ route('packages', ['package_id' => $package->id]) }}" 
-                                       class="link-btn">
-                                        more info
-                                    </a>
-                                </div>
-                            </div>
-                        @endif
-
-                    @endforeach
-                </div>
-            @endforeach
-
         </div>
-    </div>
-</section>
+    </section>
 
     <!--====== REQUEST A QUOTE ==========-->
     <section>
@@ -587,51 +587,24 @@
                         </div>
                         <div class="hot-page2-hom-pre">
                             <ul>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/hotels/1.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Taaj Club House</h5> <span>City: illunois, United States</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>4.5</span> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/hotels/2.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Universal luxury Grand Hotel</h5> <span>City: Rio,Brazil</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>4.2</span> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/hotels/3.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Barcelona Grand Pales</h5> <span>City: Chennai,India</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>5.0</span> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/hotels/4.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Lake Palace view Hotel</h5> <span>City: Beijing,China</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>2.5</span> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/hotels/8.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>First Class Grandd Hotel</h5> <span>City: Berlin,Germany</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>4.0</span> </div>
-                                    </a>
-                                </li>
+                                @forelse($topHotels as $hotel)
+                                    <li>
+                                        <a href="{{ route('hotel.details', $hotel->id) }}">
+                                            <div class="hot-page2-hom-pre-1"> 
+                                                <img src="{{ asset('uploads/hotels/'.$hotel->image) }}" alt="{{ $hotel->name }}"> 
+                                            </div>
+                                            <div class="hot-page2-hom-pre-2">
+                                                <h5>{{ $hotel->name }}</h5> 
+                                                <span>City: {{ $hotel->city ?? 'N/A' }}</span> 
+                                            </div>
+                                            <div class="hot-page2-hom-pre-3"> 
+                                                <span>{{ $hotel->reviews_count ?? 0 }} Reviews</span> 
+                                            </div>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li style="text-align: center; padding: 20px; color: #999;">No hotels available</li>
+                                @endforelse
                             </ul>
                         </div>
                     </div>
@@ -641,51 +614,24 @@
                         </div>
                         <div class="hot-page2-hom-pre">
                             <ul>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/trends/1.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Family Package Luxury</h5> <span>Duration: 7 Days and 6 Nights</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>4.1</span> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/trends/2.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Honeymoon Package Luxury</h5> <span>Duration: 14 Days and 13 Nights</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>4.4</span> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/trends/3.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Group Package Luxury</h5> <span>Duration: 28 Days and 29 Nights</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>3.0</span> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/trends/4.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Regular Package Luxury</h5> <span>Duration: 12 Days and 11 Nights</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>3.5</span> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/trends/5.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Custom Package Luxury</h5> <span>Duration: 10 Days and 10 Nights</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <span>5.0</span> </div>
-                                    </a>
-                                </li>
+                                @forelse($topPackages as $package)
+                                    <li>
+                                        <a href="{{ route('packages', ['package_id' => $package->id]) }}">
+                                            <div class="hot-page2-hom-pre-1"> 
+                                                <img src="{{ asset('uploads/packages/'.$package->image) }}" alt="{{ $package->name }}"> 
+                                            </div>
+                                            <div class="hot-page2-hom-pre-2">
+                                                <h5>{{ $package->name }}</h5> 
+                                                <span>Duration: {{ $package->tours->first()?->duration ?? 'N/A' }}</span> 
+                                            </div>
+                                            <div class="hot-page2-hom-pre-3"> 
+                                                <span>{{ $package->reviews_count ?? 0 }} Reviews</span> 
+                                            </div>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li style="text-align: center; padding: 20px; color: #999;">No packages available</li>
+                                @endforelse
                             </ul>
                         </div>
                     </div>
@@ -695,51 +641,24 @@
                         </div>
                         <div class="hot-page2-hom-pre">
                             <ul>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/reviewer/1.jpg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Christopher</h5> <span>No of Reviews: 620, City: illunois</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/reviewer/2.png') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Matthew</h5> <span>No of Reviews: 48, City: Rio</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/reviewer/3.jpeg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Stephanie</h5> <span>No of Reviews: 560, City: Chennai</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/reviewer/4.jpeg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Robert</h5> <span>No of Reviews: 920, City: Beijing</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> </div>
-                                    </a>
-                                </li>
-                                <!--LISTINGS-->
-                                <li>
-                                    <a href="hotels-list.html">
-                                        <div class="hot-page2-hom-pre-1"> <img src="{{ asset('assets/templates/images/reviewer/5.jpeg') }}" alt=""> </div>
-                                        <div class="hot-page2-hom-pre-2">
-                                            <h5>Danielle</h5> <span>No of Reviews: 768, City: Berlin</span> </div>
-                                        <div class="hot-page2-hom-pre-3"> <i class="fa fa-hand-o-right" aria-hidden="true"></i> </div>
-                                    </a>
-                                </li>
+                                @forelse($topReviewers as $reviewer)
+                                    <li>
+                                        <a href="#">
+                                            <div class="hot-page2-hom-pre-1"> 
+                                                <img src="{{ $reviewer->image ? asset('uploads/users/'.$reviewer->image) : asset('assets/templates/images/reviewer/1.jpg') }}" alt="{{ $reviewer->name }}"> 
+                                            </div>
+                                            <div class="hot-page2-hom-pre-2">
+                                                <h5>{{ $reviewer->name }}</h5> 
+                                                <span>City: {{ $reviewer->city ?? 'N/A' }}</span> 
+                                            </div>
+                                            <div class="hot-page2-hom-pre-3"> 
+                                                <i class="fa fa-hand-o-right" aria-hidden="true"></i> 
+                                            </div>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li style="text-align: center; padding: 20px; color: #999;">No reviewers available</li>
+                                @endforelse
                             </ul>
                         </div>
                     </div>
@@ -748,7 +667,7 @@
         </div>
     </section>
     <!--====== REQUEST A QUOTE ==========-->
-    <section>
+    {{-- <section>
         <div class="foot-mob-sec tb-space">
             <div class="rows container">
                 <!-- FAMILY IMAGE(YOU CAN USE ANY PNG IMAGE) -->
@@ -771,7 +690,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!--====== REQUEST A QUOTE ==========-->
     
     <!--====== TIPS BEFORE TRAVEL ==========-->

@@ -32,6 +32,8 @@ Route::prefix('user')->middleware(['auth', UserMiddleware::class])->group(functi
     Route::get('/flight-booking-details/{id}', [UserDashboardController::class, 'flight_booking_details'])->name('user.booking.flight-details');
     Route::get('/event-booking', [UserDashboardController::class, 'event_booking'])->name('user.booking.event');
     Route::get('/event-booking-details/{id}', [UserDashboardController::class, 'event_booking_details'])->name('user.booking.event-details');
+    Route::get('/custom-booking', [UserDashboardController::class, 'custom_booking'])->name('user.booking.custom');
+    Route::get('/custom-booking-details/{id}', [UserDashboardController::class, 'custom_booking_details'])->name('user.booking.custom-details');
     Route::get('/payment', [UserDashboardController::class, 'payment'])->name('user.payment');
     Route::get('/claim-refund', [UserDashboardController::class, 'claim_refund'])->name('user.claim-refund');
     

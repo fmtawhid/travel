@@ -127,6 +127,20 @@ class UserDashboardController extends Controller
         return view('user.event-booking-details', compact('booking'));
     }
 
+    public function custom_booking()
+    {
+        $user = Auth::user();
+        $bookings = $user->customBookings()->latest()->get();
+        return view('user.custom-booking', compact('bookings'));
+    }
+
+    public function custom_booking_details($id)
+    {
+        $user = Auth::user();
+        $booking = $user->customBookings()->findOrFail($id);
+        return view('user.custom-booking-details', compact('booking'));
+    }
+
     
 
 

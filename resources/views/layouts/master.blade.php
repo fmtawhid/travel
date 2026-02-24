@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- FAV ICON -->
-    <link rel="shortcut icon" href="{{ asset('assets/templates/images/fav.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('uploads/settings/' . $settings['favicon']) }}" type="image/x-icon">
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Poppins%7CQuicksand:400,500,700" rel="stylesheet">
     <!-- FONT-AWESOME ICON CSS -->
@@ -24,6 +24,8 @@
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+
+
 </head>
 
 <body>
@@ -40,8 +42,9 @@
                 <div class="ed-mm-left">
                     <div class="wed-logo">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('uploads/settings/' . $settings['logo']) }}" alt="{{ $settings['name'] }}" />
-						</a>
+                            <img src="{{ asset('uploads/settings/' . $settings['logo']) }}"
+                                alt="{{ $settings['name'] }}" />
+                        </a>
                     </div>
                 </div>
                 <div class="ed-mm-right">
@@ -50,43 +53,43 @@
                         <div class="ed-mm-inn">
                             <a href="#!" class="ed-mi-close"><i class="fa fa-times"></i></a>
                             <h4>Home pages</h4>
-                            
+
                             <h4>Tour Packages</h4>
                             <ul>
-                                <li><a href="all-package.html">All Package</a></li><li><a href="family-package.html">Family Package</a></li>
-                                <li><a href="honeymoon-package.html">Honeymoon Package</a></li>
-                                <li><a href="group-package.html">Group Package</a></li>
-                                <li><a href="weekend-package.html">WeekEnd Package</a></li>
-                                <li><a href="regular-package.html">Regular Package</a></li>
-                                <li><a href="custom-package.html">Custom Package</a></li>
+                                <li><a href="{{ route('packages') }}">All Packages</a></li>
+                                @foreach($packageTypes as $package)
+                                    <li><a
+                                            href="{{ route('packages', ['package_id' => $package->id]) }}">{{ $package->name }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                             <h4>Sighe Seeings Pages</h4>
                             <ul>
-                                <li><a href="destinations.html">Seight Seeing 1</a></li>
-                                <li><a href="places-1.html">Seight Seeing 2</a></li>
-                                <li><a href="places-2.html">Seight Seeing 3</a></li>
+                                @foreach ($latestSightSeeings as $sightseeing)
+                                    
+                                        <li><a href="{{ route('sightseeing.details', $sightseeing->id) }}">{{ $sightseeing->name }}</a></li>
+                                @endforeach
+                               
                             </ul>
                             <h4>User Dashboard</h4>
                             <ul>
-                                <li><a href="dashboard.html">My Bookings</a></li>
-                                <li><a href="db-my-profile.html">My Profile</a></li>
-                                <li><a href="db-my-profile-edit.html">My Profile edit</a></li>
-                                <li><a href="db-travel-booking.html">Tour Packages</a></li>
-                                <li><a href="db-hotel-booking.html">Hotel Bookings</a></li>
-                                <li><a href="db-event-booking.html">Event bookings</a></li>
-                                <li><a href="db-payment.html">Make Payment</a></li>
-                                <li><a href="db-refund.html">Cancel Bookings</a></li>
-                                <li><a href="db-all-payment.html">Prient E-Tickets</a></li>
-                                <li><a href="db-event-details.html">Event booking details</a></li>
-                                <li><a href="db-hotel-details.html">Hotel booking details</a></li>
-                                <li><a href="db-travel-details.html">Travel booking details</a></li>
+                                <li><a href="{{ route('user.profile') }}">My Profile</a></li>
+                                <li><a href="{{ route('user.booking.tour-package') }}">Tour Packages</a></li>
+                                <li><a href="{{ route('user.booking.hotel') }}">Hotel Bookings</a></li>
+                                <li><a href="{{ route('user.booking.event') }}">Event bookings</a></li>
+                                <li><a href="{{ route('user.booking.car') }}">Car Rental Bookings</a></li> 
+                                <li><a href="{{ route('user.booking.flight') }}">Flight Bookings</a></li>
+                                <li><a href="{{ route('user.booking.custom') }}">Custom Package Booking</a></li>
+                                
+
                             </ul>
                             <h4>Other pages:1</h4>
                             <ul>
-                                <li><a href="tour-details.html">Travel details</a></li>
-                                <li><a href="hotel-details.html">Hotel details</a></li>
-                                <li><a href="all-package.html">All package</a></li><li><a href="hotels-list.html">All hotels</a></li>
-                                <li><a href="booking.html">Booking page</a></li>
+                                <li><a href="{{ route('tour-details') }}">Travel details</a></li>
+                                <li><a href="{{ route('hotel-details') }}">Hotel details</a></li>
+                                <li><a href="{{ route('all-packages') }}">All package</a></li>
+                                <li><a href="{{ route('hotels-list') }}">All hotels</a></li>
+                                <li><a href="{{ route('booking-page') }}">Booking page</a></li>
                             </ul>
                             <h4 class="ed-dr-men-mar-top">User login pages</h4>
                             <ul>
@@ -123,7 +126,7 @@
                     <div class="col-md-12">
                         <div class="ed-com-t1-left">
                             <ul>
-                                <li><a href="#">Contact: {{ $settings['address'] ?? 'N/A' }}</a>
+                                <li><a href="#">Contact: {{ $settings['location'] ?? 'N/A' }}</a>
                                 </li>
                                 <li><a href="#">Phone: {{ $settings['phone'] ?? 'N/A' }}</a>
                                 </li>
@@ -131,7 +134,8 @@
                         </div>
                         <div class="ed-com-t1-right">
                             <ul>
-                                <li><span class="sear-pop pop-ini" data-pop="pop-search"><i class="fa fa-search" aria-hidden="true"></i></span></li>
+                                <li><span class="sear-pop pop-ini" data-pop="pop-search"><i class="fa fa-search"
+                                            aria-hidden="true"></i></span></li>
                                 <li><a href="{{ route('login') }}" class="top-sign">Sign In</a>
                                 </li>
                                 <li><a href="{{ route('register') }}" class="top-regi">Sign Up</a>
@@ -142,15 +146,20 @@
                         </div>
                         <div class="ed-com-t1-social">
                             <ul>
-                                <li><a href="{{ $settings['facebook'] ?? '#' }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                <li><a href="{{ $settings['facebook'] ?? '#' }}"><i class="fa fa-facebook"
+                                            aria-hidden="true"></i></a>
                                 </li>
-                                <li><a href="{{ $settings['youtube'] ?? '#' }}"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                                <li><a href="{{ $settings['youtube'] ?? '#' }}"><i class="fa fa-youtube"
+                                            aria-hidden="true"></i></a>
                                 </li>
-                                <li><a href="{{ $settings['x'] ?? '#' }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                <li><a href="{{ $settings['x'] ?? '#' }}"><i class="fa fa-twitter"
+                                            aria-hidden="true"></i></a>
                                 </li>
-                                <li><a href="{{ $settings['instagram'] ?? '#' }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                <li><a href="{{ $settings['instagram'] ?? '#' }}"><i class="fa fa-instagram"
+                                            aria-hidden="true"></i></a>
                                 </li>
-                                <li><a href="{{ $settings['linkedin'] ?? '#' }}"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <li><a href="{{ $settings['linkedin'] ?? '#' }}"><i class="fa fa-linkedin"
+                                            aria-hidden="true"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -166,7 +175,8 @@
                     <div class="col-md-12">
                         <div class="wed-logo">
                             <a href="{{ route('home') }}">
-                                <img src="{{ asset('uploads/settings/' . $settings['logo']) }}" alt="{{ $settings['name'] }}" />
+                                <img src="{{ asset('uploads/settings/' . $settings['logo']) }}"
+                                    alt="{{ $settings['name'] }}" />
                             </a>
                         </div>
                         <div class="main-menu">
@@ -186,15 +196,18 @@
                                                     @endphp
                                                     @if($latestTour)
                                                         <div class="ed-course-in">
-                                                            <a class="course-overlay menu-about" href="{{ route('package.details', $latestTour->id) }}">
+                                                            <a class="course-overlay menu-about"
+                                                                href="{{ route('package.details', $latestTour->id) }}">
                                                                 <img src="{{ $imageUrl }}" alt="{{ $latestTour->title }}">
                                                                 <span>{{ $latestTour->title }}</span>
                                                             </a>
                                                         </div>
                                                     @else
                                                         <div class="ed-course-in">
-                                                            <a class="course-overlay menu-about" href="{{ route('packages') }}">
-                                                                <img src="{{ asset('assets/templates/images/sight/5.jpg') }}" alt="">
+                                                            <a class="course-overlay menu-about"
+                                                                href="{{ route('packages') }}">
+                                                                <img src="{{ asset('assets/templates/images/sight/5.jpg') }}"
+                                                                    alt="">
                                                                 <span>Popular Package</span>
                                                             </a>
                                                         </div>
@@ -205,20 +218,31 @@
                                                         $latestTour = \App\Models\Tour::latest()->first();
                                                     @endphp
                                                     @if($latestTour)
-                                                        <p>{{ $latestTour->short_description ?? 'Explore amazing travel packages with great experiences and unforgettable memories.' }}</p>
-                                                        <a href="{{ route('package.details', $latestTour->id) }}" class="mm-r-m-btn">Read more</a>
+                                                        <p>{{ $latestTour->short_description ?? 'Explore amazing travel packages with great experiences and unforgettable memories.' }}
+                                                        </p>
+                                                        <a href="{{ route('package.details', $latestTour->id) }}"
+                                                            class="mm-r-m-btn">Read more</a>
                                                     @else
-                                                        <p>Want to change the world? At Berkeley we're doing just that. When you join the Golden Bear community, you're part of an institution that shifts the global conversation every single day.</p>
+                                                        <p>Want to change the world? At Berkeley we're doing just that. When
+                                                            you join the Golden Bear community, you're part of an
+                                                            institution that shifts the global conversation every single
+                                                            day.</p>
                                                         <a href="{{ route('packages') }}" class="mm-r-m-btn">Read more</a>
                                                     @endif
                                                 </div>
                                                 <div class="mm1-com mm1-s3">
                                                     <ul>
                                                         {{-- <li><a href="booking-all.html">All Booking</a></li> --}}
-                                                        <li><a href="{{ route('booking.tour-package') }}">Tour Package Booking</a></li>
-                                                        <li><a href="{{ route('booking.hotel') }}">Hotel Booking</a></li>
-                                                        <li><a href="{{ route('booking.car') }}">Car Rentals Booking</a></li>
-                                                        <li><a href="{{ route('booking.flight') }}">Flight Booking</a></li>
+                                                        <li><a href="{{ route('booking.tour-package') }}">Tour Package
+                                                                Booking</a></li>
+                                                        <li><a href="{{ route('booking.hotel') }}">Hotel Booking</a>
+                                                        </li>
+                                                        <li><a href="{{ route('booking.car') }}">Car Rentals Booking</a>
+                                                        </li>
+                                                        <li><a href="{{ route('booking.flight') }}">Flight Booking</a>
+                                                        </li>
+                                                        <li><a href="{{ route('booking.custom-package') }}">Custom
+                                                                Package Booking</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="mm1-com mm1-s4">
@@ -226,7 +250,9 @@
                                                     <ul>
                                                         <li><a href="{{ route('packages') }}">All Packages</a></li>
                                                         @foreach($packageTypes as $package)
-                                                            <li><a href="{{ route('packages', ['package_id' => $package->id]) }}">{{ $package->name }}</a></li>
+                                                            <li><a
+                                                                    href="{{ route('packages', ['package_id' => $package->id]) }}">{{ $package->name }}</a>
+                                                            </li>
                                                         @endforeach
                                                     </ul>
                                                 </div>
@@ -235,7 +261,7 @@
                                     </div>
                                 </li>
                                 <li class="admi-menu">
-                                    <a href="{{ route( 'sightseeing') }}" class="mm-arr">Seight Seeing</a>
+                                    <a href="{{ route('sightseeing') }}" class="mm-arr">Seight Seeing</a>
                                     <!-- MEGA MENU 1 -->
                                     <div class="mm-pos">
                                         <div class="admi-mm m-menu">
@@ -243,13 +269,17 @@
                                                 @foreach($latestSightSeeings as $sightseeing)
                                                     <div class="mm2-com mm1-com mm1-s1">
                                                         <div class="ed-course-in">
-                                                            <a class="course-overlay" href="{{ route('sightseeing.details', $sightseeing->id) }}">
-                                                                <img src="{{ $sightseeing->image ? asset('uploads/sightseeing/' . $sightseeing->image) : asset('assets/templates/images/sight/5.jpg') }}" alt="{{ $sightseeing->name }}">
+                                                            <a class="course-overlay"
+                                                                href="{{ route('sightseeing.details', $sightseeing->id) }}">
+                                                                <img src="{{ $sightseeing->image ? asset('uploads/sightseeing/' . $sightseeing->image) : asset('assets/templates/images/sight/5.jpg') }}"
+                                                                    alt="{{ $sightseeing->name }}">
                                                                 <span>{{ $sightseeing->name }}</span>
                                                             </a>
                                                         </div>
-                                                        <p>{{ $sightseeing->short_description ?? 'Amazing sightseeing location to explore.' }}</p>
-                                                        <a href="{{ route('sightseeing.details', $sightseeing->id) }}" class="mm-r-m-btn">Read more</a>
+                                                        <p>{{ $sightseeing->short_description ?? 'Amazing sightseeing location to explore.' }}
+                                                        </p>
+                                                        <a href="{{ route('sightseeing.details', $sightseeing->id) }}"
+                                                            class="mm-r-m-btn">Read more</a>
                                                     </div>
                                                 @endforeach
 
@@ -265,11 +295,12 @@
                                     <div class="mm-pos">
                                         <div class="cour-mm m-menu">
                                             <div class="m-menu-inn">
-                                                
+
                                                 <div class="mm1-com mm1-cour-com mm1-s3">
                                                     <h4>Tour Packages</h4>
                                                     <ul>
-                                                        <li><a href="all-package.html">All Package</a></li><li><a href="family-package.html">Family Package</a></li>
+                                                        <li><a href="all-package.html">All Package</a></li>
+                                                        <li><a href="family-package.html">Family Package</a></li>
                                                         <li><a href="honeymoon-package.html">Honeymoon Package</a></li>
                                                         <li><a href="group-package.html">Group Package</a></li>
                                                         <li><a href="weekend-package.html">WeekEnd Package</a></li>
@@ -295,9 +326,12 @@
                                                         <li><a href="db-payment.html">Make Payment</a></li>
                                                         <li><a href="db-refund.html">Cancel Bookings</a></li>
                                                         <li><a href="db-all-payment.html">Prient E-Tickets</a></li>
-                                                        <li><a href="db-event-details.html">Event booking details</a></li>
-                                                        <li><a href="db-hotel-details.html">Hotel booking details</a></li>
-                                                        <li><a href="db-travel-details.html">Travel booking details</a></li>
+                                                        <li><a href="db-event-details.html">Event booking details</a>
+                                                        </li>
+                                                        <li><a href="db-hotel-details.html">Hotel booking details</a>
+                                                        </li>
+                                                        <li><a href="db-travel-details.html">Travel booking details</a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                                 <div class="mm1-com mm1-cour-com mm1-s3">
@@ -305,7 +339,8 @@
                                                     <ul>
                                                         <li><a href="tour-details.html">Travel details</a></li>
                                                         <li><a href="hotel-details.html">Hotel details</a></li>
-                                                        <li><a href="all-package.html">All package</a></li><li><a href="hotels-list.html">All hotels</a></li>
+                                                        <li><a href="all-package.html">All package</a></li>
+                                                        <li><a href="hotels-list.html">All hotels</a></li>
                                                         <li><a href="booking.html">Booking page</a></li>
                                                     </ul>
                                                     <h4 class="ed-dr-men-mar-top">User login pages</h4>
@@ -353,101 +388,102 @@
                 </div>
             </div>
         </div>
-         <!-- HEADER & MENU -->
-    <div class="menu-pop menu-pop2 pop pop-advi">
-        <span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-        <div class="inn">
-            <div class="menu-pop-help">
-                <h4>Support Team</h4>
-                <div class="user-pro">
-                    <img src="{{ asset('assets/templates/images/1.jpg') }}" alt="" loading="lazy">
+        <!-- HEADER & MENU -->
+        <div class="menu-pop menu-pop2 pop pop-advi">
+            <span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <div class="inn">
+                <div class="menu-pop-help">
+                    <h4>Support Team</h4>
+                    <div class="user-pro">
+                        <img src="{{ asset('assets/templates/images/1.jpg') }}" alt="" loading="lazy">
+                    </div>
+                    <div class="user-bio">
+                        <h5>Ashley emyy</h5>
+                        <span>Senior trip advisor</span>
+                        <a href="enquiry.html" class="btn btn-primary btn-sm">Ask your doubts</a>
+                    </div>
                 </div>
-                <div class="user-bio">
-                    <h5>Ashley emyy</h5>
-                    <span>Senior trip advisor</span>
-                    <a href="enquiry.html" class="btn btn-primary btn-sm">Ask your doubts</a>
+                <div class="menu-pop-soci">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                    </ul>
                 </div>
-            </div>
-            <div class="menu-pop-soci">
-                <ul>
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+
+                <ul class="menu-pop-info">
+                    <li><a href="#!"><i class="fa fa-phone" aria-hidden="true"></i>+92 (8800) 68 - 8960</a></li>
+                    <li><a href="#!"><i class="fa fa-whatsapp" aria-hidden="true"></i>+92 (8800) 68 - 8960</a></li>
+                    <li><a href="#!"><i class="fa fa-envelope-o" aria-hidden="true"></i>help@company.com</a></li>
+                    <li><a href="#!"><i class="fa fa-map-marker" aria-hidden="true"></i>3812 Lena Lane City Jackson
+                            Mississippi</a></li>
                 </ul>
-            </div>
 
-            <ul class="menu-pop-info">
-                <li><a href="#!"><i class="fa fa-phone" aria-hidden="true"></i>+92 (8800) 68 - 8960</a></li>
-                <li><a href="#!"><i class="fa fa-whatsapp" aria-hidden="true"></i>+92 (8800) 68 - 8960</a></li>
-                <li><a href="#!"><i class="fa fa-envelope-o" aria-hidden="true"></i>help@company.com</a></li>
-                <li><a href="#!"><i class="fa fa-map-marker" aria-hidden="true"></i>3812 Lena Lane City Jackson Mississippi</a></li>
-            </ul>
-
-            <div class="late-news">
-                <h4>Latest news</h4>
-                <ul>
-                    <li>
-                        <div class="rel-pro-img">
-                            <img src="{{ asset('assets/templates/images/news/01.jpg') }}" alt="" loading="lazy">
-                        </div>
-                        <div class="rel-pro-con">
-                            <h5>Long established fact that a reader distracted</h5>
-                            <span class="ic-date">12 Dec 2023</span>
-                        </div>
-                        <a href="hotel-detail.html" class="fclick"></a>
-                    </li>
-                    <li>
-                        <div class="rel-pro-img">
-                            <img src="{{ asset('assets/templates/images/rooms/02.jpeg') }}" alt="" loading="lazy">
-                        </div>
-                        <div class="rel-pro-con">
-                            <h5>Long established fact that a reader distracted</h5>
-                            <span class="ic-date">12 Dec 2023</span>
-                        </div>
-                        <a href="hotel-detail.html" class="fclick"></a>
-                    </li>
-                    <li>
-                        <div class="rel-pro-img">
-                            <img src="{{ asset('assets/templates/images/rooms/04.jpeg') }}" alt="" loading="lazy">
-                        </div>
-                        <div class="rel-pro-con">
-                            <h5>Long established fact that a reader distracted</h5>
-                            <span class="ic-date">12 Dec 2023</span>
-                        </div>
-                        <a href="hotel-detail.html" class="fclick"></a>
-                    </li>
-                    <li>
-                        <div class="rel-pro-img">
-                            <img src="{{ asset('assets/templates/images/rooms/05.jpeg') }}" alt="" loading="lazy">
-                        </div>
-                        <div class="rel-pro-con">
-                            <h5>Long established fact that a reader distracted</h5>
-                            <span class="ic-date">12 Dec 2023</span>
-                        </div>
-                        <a href="hotel-detail.html" class="fclick"></a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- HELP BOX -->
-            <div class="prof-rhs-help">
-                <div class="inn">
-                    <h3>Tell us your Needs</h3>
-                    <p>Tell us what kind of service you are looking for.</p>
-                    <a href="register.html">Register for free</a>
+                <div class="late-news">
+                    <h4>Latest news</h4>
+                    <ul>
+                        <li>
+                            <div class="rel-pro-img">
+                                <img src="{{ asset('assets/templates/images/news/01.jpg') }}" alt="" loading="lazy">
+                            </div>
+                            <div class="rel-pro-con">
+                                <h5>Long established fact that a reader distracted</h5>
+                                <span class="ic-date">12 Dec 2023</span>
+                            </div>
+                            <a href="hotel-detail.html" class="fclick"></a>
+                        </li>
+                        <li>
+                            <div class="rel-pro-img">
+                                <img src="{{ asset('assets/templates/images/rooms/02.jpeg') }}" alt="" loading="lazy">
+                            </div>
+                            <div class="rel-pro-con">
+                                <h5>Long established fact that a reader distracted</h5>
+                                <span class="ic-date">12 Dec 2023</span>
+                            </div>
+                            <a href="hotel-detail.html" class="fclick"></a>
+                        </li>
+                        <li>
+                            <div class="rel-pro-img">
+                                <img src="{{ asset('assets/templates/images/rooms/04.jpeg') }}" alt="" loading="lazy">
+                            </div>
+                            <div class="rel-pro-con">
+                                <h5>Long established fact that a reader distracted</h5>
+                                <span class="ic-date">12 Dec 2023</span>
+                            </div>
+                            <a href="hotel-detail.html" class="fclick"></a>
+                        </li>
+                        <li>
+                            <div class="rel-pro-img">
+                                <img src="{{ asset('assets/templates/images/rooms/05.jpeg') }}" alt="" loading="lazy">
+                            </div>
+                            <div class="rel-pro-con">
+                                <h5>Long established fact that a reader distracted</h5>
+                                <span class="ic-date">12 Dec 2023</span>
+                            </div>
+                            <a href="hotel-detail.html" class="fclick"></a>
+                        </li>
+                    </ul>
                 </div>
+
+                <!-- HELP BOX -->
+                <div class="prof-rhs-help">
+                    <div class="inn">
+                        <h3>Tell us your Needs</h3>
+                        <p>Tell us what kind of service you are looking for.</p>
+                        <a href="register.html">Register for free</a>
+                    </div>
+                </div>
+                <!-- END HELP BOX -->
             </div>
-            <!-- END HELP BOX -->
         </div>
-    </div>
-    <!-- END HEADER & MENU -->
+        <!-- END HEADER & MENU -->
     </section>
     <!--END HEADER SECTION-->
-    	<!-- TOP SEARCH BOX -->
-	<section>
+    <!-- TOP SEARCH BOX -->
+    <section>
         <div class="search-top pop pop-search">
             <div class="container">
                 <div class="row">
@@ -484,13 +520,15 @@
                                     <li class="sr-date">
                                         <div class="form-group">
                                             <label>Check in</label>
-                                            <input type="text" class="form-control datepicker" name="from" placeholder="Check in">
+                                            <input type="text" class="form-control datepicker" name="from"
+                                                placeholder="Check in">
                                         </div>
                                     </li>
                                     <li class="sr-date">
                                         <div class="form-group">
                                             <label>Check out</label>
-                                            <input type="text" class="form-control datepicker" name="to" placeholder="Check out">
+                                            <input type="text" class="form-control datepicker" name="to"
+                                                placeholder="Check out">
                                         </div>
                                     </li>
                                     <li class="sr-btn">
@@ -502,13 +540,13 @@
                     </div>
                 </div>
             </div>
-			<span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
         </div>
-		<!-- END TOP SEARCH BOX -->
+        <!-- END TOP SEARCH BOX -->
     </section>
     <!--END HEADER SECTION-->
     @yield('content')
-    
+
     <!--====== FOOTER 1 ==========-->
     <section>
         <div class="rows">
@@ -519,14 +557,16 @@
                         <div class="disco">
                             <h3>30%<span>OFF</span></h3>
                             <h4>Eiffel Tower,Rome</h4>
-                            <p>valid only for 24th Dec</p> <a href="booking.html">Book Now</a> </div>
+                            <p>valid only for 24th Dec</p> <a href="booking.html">Book Now</a>
+                        </div>
                     </div>
                     <!-- FOOTER OFFER 2 -->
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="disco1 disco">
                             <h3>42%<span>OFF</span></h3>
                             <h4>Colosseum,Burj Al Arab</h4>
-                            <p>valid only for 18th Nov</p> <a href="booking.html">Book Now</a> </div>
+                            <p>valid only for 18th Nov</p> <a href="booking.html">Book Now</a>
+                        </div>
                     </div>
                     <!-- FOOTER MOST POPULAR VACATIONS -->
                     <div class="col-md-6 col-sm-12 col-xs-12 foot-spec footer_places">
@@ -563,18 +603,20 @@
                         <div>
                             <div class="row">
                                 <div class="col-sm-3 foot-spec foot-com">
-                                    <h4><span>Holiday</span> Tour & Travels</h4>
-                                    <p>World's leading tour and travels Booking website,Over 30,000 packages worldwide.</p>
+                                    <h4>{{ $settings['name'] ?? 'Tour & Travel' }}</h4>
+                                    <p>World's leading tour and travels Booking website,Over 30,000 packages worldwide.
+                                    </p>
                                 </div>
                                 <div class="col-sm-3 foot-spec foot-com">
                                     <h4><span>Address</span> & Contact Info</h4>
-                                    <p>28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A. Landmark : Next To Airport</p>
-                                    <p> <span class="strong">Phone: </span> <span class="highlighted">+101-1231-1231</span> </p>
+                                    <p>{{ $settings['location'] ?? 'N/A'}}</p>
+                                    <p> <span class="strong">Phone: </span> <span
+                                            class="highlighted">{{ $settings['phone'] ?? 'N/A' }}</span> </p>
                                 </div>
                                 <div class="col-sm-3 col-md-3 foot-spec foot-com">
                                     <h4><span>SUPPORT</span> & HELP</h4>
                                     <ul class="two-columns">
-                                        <li> <a href="#">About Us</a> </li>
+                                        <li> <a href="{{ route('about') }}">About Us</a> </li>
                                         <li> <a href="#">FAQ</a> </li>
                                         <li> <a href="#">Feedbacks</a> </li>
                                         <li> <a href="#">Blog </a> </li>
@@ -583,18 +625,24 @@
                                         <li> <a href="#">Discount</a> </li>
                                         <li> <a href="#">Vacations</a> </li>
                                         <li> <a href="#">Branding Offers </a> </li>
-                                        <li> <a href="#">Contact Us</a> </li>
+                                        <li> <a href="{{ route('contact') }}">Contact Us</a> </li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-3 foot-social foot-spec foot-com">
                                     <h4><span>Follow</span> with us</h4>
-                                    <p>Join the thousands of other There are many variations of passages of Lorem Ipsum available</p>
+                                    <p>Join the thousands of other There are many variations of passages of Lorem Ipsum
+                                        available</p>
                                     <ul>
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-                                        <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-                                        <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
+                                        <li><a href="{{ $settings['facebook'] ?? '#'}}"><i class="fa fa-facebook"
+                                                    aria-hidden="true"></i></a> </li>
+                                        <li><a href="{{ $settings['google_plus'] ?? '#'}}"><i class="fa fa-google-plus"
+                                                    aria-hidden="true"></i></a> </li>
+                                        <li><a href="{{ $settings['x'] ?? '#'}}"><i class="fa fa-twitter"
+                                                    aria-hidden="true"></i></a> </li>
+                                        <li><a href="{{ $settings['linkedin'] ?? '#'}}"><i class="fa fa-linkedin"
+                                                    aria-hidden="true"></i></a> </li>
+                                        <li><a href="{{ $settings['youtube'] ?? '#'}}"><i class="fa fa-youtube"
+                                                    aria-hidden="true"></i></a> </li>
                                     </ul>
                                 </div>
                             </div>
@@ -634,43 +682,43 @@
     <script src="{{ asset('assets/templates/js/slick.js') }}"></script>
     <script src="{{ asset('assets/templates/js/custom.js') }}"></script>
     <script>
-         
-    $('.multiple-items').slick({
-        dots: true,
-        arrows: false,
-        infinite: false,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        responsive: [{
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                centerMode: false,
-            }
-        }]
 
-    });
-    $('.slider-all').slick({
-        dots: true,
-        infinite: false,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: false,
-        autoplaySpeed: 3000,
-        responsive: [{
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                centerMode: false,
-            }
-        }]
+        $('.multiple-items').slick({
+            dots: true,
+            arrows: false,
+            infinite: false,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            responsive: [{
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerMode: false,
+                }
+            }]
 
-    });
-  </script>
+        });
+        $('.slider-all').slick({
+            dots: true,
+            infinite: false,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: false,
+            autoplaySpeed: 3000,
+            responsive: [{
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerMode: false,
+                }
+            }]
+
+        });
+    </script>
 </body>
 
 </html>

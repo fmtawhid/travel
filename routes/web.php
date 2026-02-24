@@ -43,6 +43,9 @@ Route::post('/booking/hotel/store', [BookingController::class,'storeHotelBooking
 Route::get('/booking/event/{event_id?}', [BookingController::class, 'event'])->name('booking.event');
 Route::post('/booking/event/store', [BookingController::class, 'storeEventBooking'])->name('booking.event.store');
 
+Route::get('/booking/custom-package', [BookingController::class, 'custom_package'])->name('booking.custom-package');
+Route::post('/booking/custom-package/store', [BookingController::class, 'storeCustomPackage'])->name('booking.custom-package.store');
+
 
 // web.php
 Route::post('/tour/review', [MainController::class, 'storeTourReview'])

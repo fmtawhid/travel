@@ -18,7 +18,8 @@ class Package extends Model
     }
 
     public function tourBookings()
-{
-    return $this->hasMany(TourBooking::class);
+    {
+        return $this->hasMany(TourBooking::class);
+    }
 }
-}
+

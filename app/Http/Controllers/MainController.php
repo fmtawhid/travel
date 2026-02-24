@@ -32,7 +32,38 @@ class MainController extends Controller
         }])
         ->take(4) // শুধু ৪টা package homepage এ
         ->get();
-        return view('template.main', compact('locations', 'packageTypes', 'sightSeeings', 'packages', 'topLocations', 'featuredPackages'));
+
+        // Top Branding Hotels
+        $topHotels = Hotel::withCount('reviews')
+            ->orderByDesc('reviews_count')
+            ->take(5)
+            ->get();
+
+        // Top Branding Packages
+        $topPackages = Package::withCount([
+            'tours' => function ($query) {
+                $query->with('reviews');
+            }
+        ])
+            ->get()
+            ->map(function ($package) {
+                $package->reviews_count = $package->tours->flatMap->reviews->count();
+                return $package;
+            })
+            ->sortByDesc('reviews_count')
+            ->take(5);
+
+        // Top Branding Reviewers (Users with most reviews)
+        $topReviewers = Review::selectRaw('user_id, COUNT(*) as review_count')
+            ->groupBy('user_id')
+            ->with('user:id,name,city,image')
+            ->orderByDesc('review_count')
+            ->take(5)
+            ->get()
+            ->pluck('user')
+            ->filter();
+
+        return view('template.main', compact('locations', 'packageTypes', 'sightSeeings', 'packages', 'topLocations', 'featuredPackages', 'topHotels', 'topPackages', 'topReviewers'));
     }
 
     public function packages(Request $request)

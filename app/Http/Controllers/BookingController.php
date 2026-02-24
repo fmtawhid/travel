@@ -11,6 +11,7 @@ use App\Models\RoomType;
 use App\Models\HotelBooking;
 use App\Models\Event;
 use App\Models\EventBooking;
+use App\Models\CustomBooking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -239,5 +240,47 @@ class BookingController extends Controller
 
         return back()->with('success', 'Event booking submitted successfully!');
     }
+
+
+    public function custom_package()
+    {
+        return view('template.booking.custom-package');
+    }
+
+    public function storeCustomPackage(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'howmanytravellers' => 'nullable|integer|min:1',
+            'city' => 'nullable|string|max:255',
+            'arrival' => 'nullable|date',
+            'departure' => 'nullable|date|after_or_equal:arrival',
+            'noofadults' => 'nullable|integer|min:1',
+            'noofchildrens' => 'nullable|integer|min:0',
+            'minprice' => 'nullable|numeric|min:0',
+            'maxprice' => 'nullable|numeric|min:0',
+        ]);
+
+        CustomBooking::create([
+            'user_id' => Auth::id(),
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'howmanytravellers' => $request->howmanytravellers,
+            'city' => $request->city,
+            'arrival' => $request->arrival,
+            'departure' => $request->departure,
+            'noofadults' => $request->noofadults,
+            'noofchildrens' => $request->noofchildrens,
+            'minprice' => $request->minprice,
+            'maxprice' => $request->maxprice,
+        ]);
+
+        return back()->with('success', 'Custom package booking submitted successfully!');
+    }
+
+
 
 }

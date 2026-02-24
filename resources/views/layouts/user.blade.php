@@ -47,6 +47,9 @@
 						<li>
 							<a href="{{ route('user.booking.event') }}"><img src="{{ asset('assets/templates/images/icon/dbl4.png') }}" alt="" /> Event Bookings</a>
 						</li>
+						<li>
+							<a href="{{ route('user.booking.custom') }}"><img src="{{ asset('assets/templates/images/icon/28.png') }}" alt="" /> Custom Bookings</a>
+						</li>
 						<li>	
 							<a href="{{ route('user.profile') }}"><img src="{{ asset('assets/templates/images/icon/dbl6.png') }}" alt="" /> My Profile</a>
 						</li>
@@ -60,7 +63,7 @@
                             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn-logout" style="all: unset; cursor: pointer; display: flex; align-items: center;">
-                                    <img src="{{ asset('assets/templates/images/icon/logout-icon.png') }}" alt="" style="margin-right: 8px;" />
+                                    <img src="{{ asset('assets/templates/images/icon/26.png') }}" alt="" style="margin-right: 8px; width: 23px;" />
                                     Logout
                                 </button>
                             </form>
