@@ -36,5 +36,11 @@ class AppServiceProvider extends ServiceProvider
             $latestSightSeeings = \App\Models\SightSeeing::latest()->take(4)->get();
             View::share('latestSightSeeings', $latestSightSeeings);
         }
+        
+        if (Schema::hasTable('tours')) {
+            // Get unique locations from tours
+            $locations = \App\Models\Tour::distinct()->pluck('location')->filter()->sort()->values();
+            View::share('locations', $locations);
+        }
     }
 }

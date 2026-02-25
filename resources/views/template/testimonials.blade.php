@@ -1,67 +1,6 @@
 @extends('layouts.master')
 @section('content')
-	<!-- TOP SEARCH BOX -->
-	<section>
-        <div class="search-top pop pop-search">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="ban-search form-select">
-                            <form>
-                                <ul>
-                                    <li class="sr-look">
-                                        <div class="form-group">
-                                            <label>Your destination</label>
-                                            <select class="chosen-select">
-                                                <option>Your destination</option>
-                                                <option>Any location</option>
-                                                <option>Chennai</option>
-                                                <option>New york</option>
-                                                <option>Perth</option>
-                                                <option>London</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="sr-gue">
-                                        <div class="form-group">
-                                            <label>Package</label>
-                                            <select class="chosen-select">
-                                                <option>Package</option>
-                                                <option>Family Package</option>
-                                                <option>Honeymoon Package</option>
-                                                <option>Group Package</option>
-                                                <option>WeekEnd Package</option>
-                                                <option>Regular Package</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="sr-date">
-                                        <div class="form-group">
-                                            <label>Check in</label>
-                                            <input type="text" class="form-control datepicker" name="from" placeholder="Check in">
-                                        </div>
-                                    </li>
-                                    <li class="sr-date">
-                                        <div class="form-group">
-                                            <label>Check out</label>
-                                            <input type="text" class="form-control datepicker" name="to" placeholder="Check out">
-                                        </div>
-                                    </li>
-                                    <li class="sr-btn">
-                                        <input type="submit" value="Search">
-                                    </li>
-                                </ul>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-        </div>
-		<!-- END TOP SEARCH BOX -->
-    </section>
-    <!--END HEADER SECTION-->
-	
+
 	<!--====== BANNER ==========-->
 
     <section>
@@ -76,7 +15,7 @@
 					</div>
 					<p>World's leading Hotel Booking website,Over 30,000 Hotel rooms worldwide.</p>
 					<ul>
-						<li><a href="main.html">Home</a></li>
+						<li><a href="{{ route('home') }}">Home</a></li>
 						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
 						<li><a href="#" class="bread-acti">Testimonials</a>
 						</li>
@@ -90,179 +29,42 @@
 		<div class="rows inn-page-bg com-colo">
 			<div class="container tb-space inn-page-con-bg pad-bot-redu" id="inner-page-title">
 				<div class="p_testimonial">
+					@forelse($reviews as $review)
 					<!--====== TESTIMONIALS ======-->
 					<div class="col-md-6">
 						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
+							<div class="col-md-3 col-sm-3"> 
+								<img style="width: -webkit-fill-available;border-radius: 50%;" src="{{ $review->user && $review->user->image ? asset('uploads/users/' . $review->user->image) : asset('assets/templates/images/testi_img.png') }}" alt="{{ $review->user->name ?? 'User' }}"> 
+							</div>
+							<div class="col-md-9 col-sm-9">
+								<h4>{{ $review->user->name ?? 'Anonymous' }}</h4>
+								<div><span class="tour_star">
+									@for($i = 0; $i < floor($review->rating); $i++)
+										<i class="fa fa-star" aria-hidden="true"></i>
+									@endfor
+									@if($review->rating % 1 >= 0.5)
+										<i class="fa fa-star-half-o" aria-hidden="true"></i>
+									@endif
+								</span> </div>
+								<p>{{ Str::limit($review->message, 150, '...') }}</p>
+								<address>{{ $review->user->city ?? 'City' }}</address>
+							</div>
+						</div>
+					</div>
+					<!--====== TESTIMONIALS ======-->
+					@empty
+					<div class="col-md-12">
+						<p>No testimonials yet</p>
+					</div>
+					@endforelse
+					<!--====== TESTIMONIALS ======-->
+					<div class="col-md-6">
+						<div class="p-tesi">
+							<div class="col-md-3 col-sm-3"> <img src="{{ asset('assets/templates/images/testi_img.png') }}" alt=""> </div>
 							<div class="col-md-9 col-sm-9">
 								<h4>Best tour package forever</h4>
 								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
 								<p>Praesent rutrum convallis nisl vitae aliquam. Suspendisse non quam vehicula, tincidunt nibh at, porta orci. Maecenas egestas</p> <address>Illinois, USA</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Suspendisse tortor lacus, sodales nec elementum id, lobortis in arcu. Praesent sit amet purus mi. Praesent rutrum convallis.</p> <address>Perth, Australia</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Praesent rutrum convallis nisl vitae aliquam. Suspendisse non quam vehicula, tincidunt nibh at, porta orci. Maecenas egestas</p> <address>Illinois, USA</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Suspendisse tortor lacus, sodales nec elementum id, lobortis in arcu. Praesent sit amet purus mi. Praesent rutrum convallis.</p> <address>Perth, Australia</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Praesent rutrum convallis nisl vitae aliquam. Suspendisse non quam vehicula, tincidunt nibh at, porta orci. Maecenas egestas</p> <address>Illinois, USA</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Suspendisse tortor lacus, sodales nec elementum id, lobortis in arcu. Praesent sit amet purus mi. Praesent rutrum convallis.</p> <address>Perth, Australia</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Praesent rutrum convallis nisl vitae aliquam. Suspendisse non quam vehicula, tincidunt nibh at, porta orci. Maecenas egestas</p> <address>Illinois, USA</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Suspendisse tortor lacus, sodales nec elementum id, lobortis in arcu. Praesent sit amet purus mi. Praesent rutrum convallis.</p> <address>Perth, Australia</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Praesent rutrum convallis nisl vitae aliquam. Suspendisse non quam vehicula, tincidunt nibh at, porta orci. Maecenas egestas</p> <address>Illinois, USA</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Suspendisse tortor lacus, sodales nec elementum id, lobortis in arcu. Praesent sit amet purus mi. Praesent rutrum convallis.</p> <address>Perth, Australia</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Praesent rutrum convallis nisl vitae aliquam. Suspendisse non quam vehicula, tincidunt nibh at, porta orci. Maecenas egestas</p> <address>Illinois, USA</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Suspendisse tortor lacus, sodales nec elementum id, lobortis in arcu. Praesent sit amet purus mi. Praesent rutrum convallis.</p> <address>Perth, Australia</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Praesent rutrum convallis nisl vitae aliquam. Suspendisse non quam vehicula, tincidunt nibh at, porta orci. Maecenas egestas</p> <address>Illinois, USA</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Suspendisse tortor lacus, sodales nec elementum id, lobortis in arcu. Praesent sit amet purus mi. Praesent rutrum convallis.</p> <address>Perth, Australia</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Praesent rutrum convallis nisl vitae aliquam. Suspendisse non quam vehicula, tincidunt nibh at, porta orci. Maecenas egestas</p> <address>Illinois, USA</address> </div>
-						</div>
-					</div>
-					<!--====== TESTIMONIALS ======-->
-					<!--====== TESTIMONIALS ======-->
-					<div class="col-md-6">
-						<div class="p-tesi">
-							<div class="col-md-3 col-sm-3"> <img src="images/testi_img.png" alt=""> </div>
-							<div class="col-md-9 col-sm-9">
-								<h4>Best tour package forever</h4>
-								<div><span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span> </div>
-								<p>Suspendisse tortor lacus, sodales nec elementum id, lobortis in arcu. Praesent sit amet purus mi. Praesent rutrum convallis.</p> <address>Perth, Australia</address> </div>
 						</div>
 					</div>
 					<!--====== TESTIMONIALS ======-->

@@ -1,81 +1,20 @@
 @extends('layouts.master')
 @section('content')
 
-	<!-- TOP SEARCH BOX -->
-	<section>
-        <div class="search-top pop pop-search">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="ban-search form-select">
-                            <form>
-                                <ul>
-                                    <li class="sr-look">
-                                        <div class="form-group">
-                                            <label>Your destination</label>
-                                            <select class="chosen-select">
-                                                <option>Your destination</option>
-                                                <option>Any location</option>
-                                                <option>Chennai</option>
-                                                <option>New york</option>
-                                                <option>Perth</option>
-                                                <option>London</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="sr-gue">
-                                        <div class="form-group">
-                                            <label>Package</label>
-                                            <select class="chosen-select">
-                                                <option>Package</option>
-                                                <option>Family Package</option>
-                                                <option>Honeymoon Package</option>
-                                                <option>Group Package</option>
-                                                <option>WeekEnd Package</option>
-                                                <option>Regular Package</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="sr-date">
-                                        <div class="form-group">
-                                            <label>Check in</label>
-                                            <input type="text" class="form-control datepicker" name="from" placeholder="Check in">
-                                        </div>
-                                    </li>
-                                    <li class="sr-date">
-                                        <div class="form-group">
-                                            <label>Check out</label>
-                                            <input type="text" class="form-control datepicker" name="to" placeholder="Check out">
-                                        </div>
-                                    </li>
-                                    <li class="sr-btn">
-                                        <input type="submit" value="Search">
-                                    </li>
-                                </ul>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-        </div>
-		<!-- END TOP SEARCH BOX -->
-    </section>
-    <!--END HEADER SECTION-->
 		
 	<section>
 		<div class="rows inner_banner inner_banner_2">
 			<div class="container">
 				<div class="spe-title tit-inn-pg">
-					<h1>About <span>Us</span> </h1>
+					<h1>{{ $aboutPage->title ?? 'About' }} <span>Us</span> </h1>
 					<div class="title-line">
 						<div class="tl-1"></div>
 						<div class="tl-2"></div>
 						<div class="tl-3"></div>
 					</div>
-					<p>World's leading Hotel Booking website,Over 30,000 Hotel rooms worldwide.</p>
+					<p>{{ $aboutPage->subtitle ?? "World's leading Hotel Booking website,Over 30,000 Hotel rooms worldwide." }}</p>
 					<ul>
-						<li><a href="main.html">Home</a></li>
+						<li><a href="{{ route('home') }}">Home</a></li>
 						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
 						<li><a href="#" class="bread-acti">About</a>
 						</li>
@@ -90,12 +29,20 @@
 			<div class="row tourb2-ab-p1">
 				<div class="col-md-6 col-sm-6">
 					<div class="tourb2-ab-p1-left">
-						<h3>Hi! Welcome to Holiday Tour & Travels</h3> <span>Duis pretium gravida nisi, ut pulvinar lorem bibendum eget</span>
-						<p>Aliquam blandit nisl sem. Mauris quis enim purus. Vivamus nec tortor bibendum risus placerat vulputate at gravida ante. Nam sit amet tellus enim. Phasellus consectetur porttitor lobortis. Integer cursus odio at mattis porttitor. In hac habitasse platea dictumst. Nunc sit amet cursus felis. Etiam venenatis auctor metus, et lacinia elit dignissim non. Aenean auctor semper erat porta dictum.</p>
-						<p>Fusce velit sem, vestibulum ac enim ut, tincidunt pretium augue. Vestibulum purus sapien, porttitor a porta faucibus, hendrerit eget enim.</p> <a href="#" class="link-btn">Call to us: 13654 87898</a> </div>
+						<h3>{{ $aboutPage->title ?? 'Hi! Welcome to Holiday Tour & Travels' }}</h3>
+						@if($aboutPage->subtitle)
+							<span>{{ $aboutPage->subtitle }}</span>
+						@endif
+						<p>{!! nl2br(e($aboutPage->description ?? '')) !!}</p>
+						@if($aboutPage->phone)
+							<a href="tel:{{ $aboutPage->phone }}" class="link-btn">Call to us: {{ $aboutPage->phone }}</a>
+						@endif
+					</div>
 				</div>
 				<div class="col-md-6 col-sm-6">
-					<div class="tourb2-ab-p1-right"> <img src="images/iplace-8.jpg" alt="" /> </div>
+					<div class="tourb2-ab-p1-right"> 
+						<img src="{{ $aboutPage && $aboutPage->image ? asset($aboutPage->image) : asset('assets/templates/images/iplace-8.jpg') }}" alt="About Page" /> 
+					</div>
 				</div>
 			</div>
 		</div>
@@ -104,27 +51,27 @@
 		<div class="container">
 			<div class="row tourb2-ab-p3">
 				<div class="col-md-3 col-sm-6">
-					<div class="tourb2-ab-p3-1 tourb2-ab-p3-com"> <span>240</span>
+					<div class="tourb2-ab-p3-1 tourb2-ab-p3-com"> <span>{{ $totalPackages }}</span>
 						<h4>Packages</h4>
-						<p>Vivamus nec tortor bibendum risus placerat vulputate at gravida ante</p>
+						<p>Explore our curated collection of travel packages designed for every budget and preference. From luxurious getaways to adventure tours, find your perfect vacation.</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
-					<div class="tourb2-ab-p3-1 tourb2-ab-p3-com"> <span>960</span>
+					<div class="tourb2-ab-p3-1 tourb2-ab-p3-com"> <span>{{ $totalPlaces }}</span>
 						<h4>Places</h4>
-						<p>Vivamus nec tortor bibendum risus placerat vulputate at gravida ante</p>
+						<p>Discover stunning sightseeing locations around the world. From iconic landmarks to hidden gems, explore breathtaking destinations and create unforgettable memories.</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
-					<div class="tourb2-ab-p3-1 tourb2-ab-p3-com"> <span>400</span>
+					<div class="tourb2-ab-p3-1 tourb2-ab-p3-com"> <span>{{ $totalEvents }}</span>
 						<h4>Events</h4>
-						<p>Vivamus nec tortor bibendum risus placerat vulputate at gravida ante</p>
+						<p>Join exclusive travel events and experiences worldwide. Attend festivals, concerts, exhibitions, and cultural celebrations with guided tours and special packages.</p>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-6">
-					<div class="tourb2-ab-p3-1 tourb2-ab-p3-com"> <span>120</span>
+					<div class="tourb2-ab-p3-1 tourb2-ab-p3-com"> <span>{{ $totalHotels }}</span>
 						<h4>Hotels</h4>
-						<p>Vivamus nec tortor bibendum risus placerat vulputate at gravida ante</p>
+						<p>Stay in comfortable accommodations ranging from budget-friendly to 5-star luxury hotels. Book your perfect stay with exclusive discounts and special amenities.</p>
 					</div>
 				</div>
 			</div>
@@ -133,54 +80,69 @@
 	<section class="tourb2-ab-p-4 com-colo-abou">
 		<div class="container">
 			<div class="row tourb2-ab-p4">
-				<div class="col-md-6 col-sm-6">
-					<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-flag-o" aria-hidden="true"></i>
-						<div class="tourb2-ab-p4-text">
-							<h4><span>Travel</span> Booking</h4>
-							<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+				@if($aboutPage && $aboutPage->services && count($aboutPage->services) > 0)
+					@foreach($aboutPage->services as $service)
+						<div class="col-md-6 col-sm-6">
+							<div class="tourb2-ab-p4-1 tourb2-ab-p4-com">
+								<i class="{{ $service['icon'] ?? 'fa fa-flag-o' }}" aria-hidden="true"></i>
+								<div class="tourb2-ab-p4-text">
+									<h4><span>{{ $service['title'] ?? 'Service' }}</span></h4>
+									<p>{{ $service['description'] ?? 'Service description' }}</p>
+								</div>
+							</div>
+						</div>
+					@endforeach
+				@else
+					<!-- Default Services -->
+					<div class="col-md-6 col-sm-6">
+						<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-flag-o" aria-hidden="true"></i>
+							<div class="tourb2-ab-p4-text">
+								<h4><span>Travel</span> Booking</h4>
+								<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-map-o" aria-hidden="true"></i>
-						<div class="tourb2-ab-p4-text">
-							<h4><span>Hotel</span> Booking</h4>
-							<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+					<div class="col-md-6 col-sm-6">
+						<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-map-o" aria-hidden="true"></i>
+							<div class="tourb2-ab-p4-text">
+								<h4><span>Hotel</span> Booking</h4>
+								<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-gamepad" aria-hidden="true"></i>
-						<div class="tourb2-ab-p4-text">
-							<h4><span>Events</span> Booking</h4>
-							<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+					<div class="col-md-6 col-sm-6">
+						<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-gamepad" aria-hidden="true"></i>
+							<div class="tourb2-ab-p4-text">
+								<h4><span>Events</span> Booking</h4>
+								<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-umbrella" aria-hidden="true"></i>
-						<div class="tourb2-ab-p4-text">
-							<h4><span>Sight Seeing</span> Booking</h4>
-							<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+					<div class="col-md-6 col-sm-6">
+						<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-umbrella" aria-hidden="true"></i>
+							<div class="tourb2-ab-p4-text">
+								<h4><span>Sight Seeing</span> Booking</h4>
+								<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-binoculars" aria-hidden="true"></i>
-						<div class="tourb2-ab-p4-text">
-							<h4><span>Tour</span> Discount</h4>
-							<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+					<div class="col-md-6 col-sm-6">
+						<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-binoculars" aria-hidden="true"></i>
+							<div class="tourb2-ab-p4-text">
+								<h4><span>Tour</span> Discount</h4>
+								<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-globe" aria-hidden="true"></i>
-						<div class="tourb2-ab-p4-text">
-							<h4><span>Top</span> Brandings</h4>
-							<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+					<div class="col-md-6 col-sm-6">
+						<div class="tourb2-ab-p4-1 tourb2-ab-p4-com"> <i class="fa fa-globe" aria-hidden="true"></i>
+							<div class="tourb2-ab-p4-text">
+								<h4><span>Top</span> Brandings</h4>
+								<p>Curabitur vestibulum porta tortor vitae lacinia. Duis pretium gravida nisi, ut pulvinar lorem bibendum eget. Praesent turpis elit, dignissim nec tempor at, congue non justo.</p>
+							</div>
 						</div>
 					</div>
-				</div>
+				@endif
 			</div>
 		</div>
 	</section>
@@ -217,19 +179,19 @@
 						<ul>
 							<!-- LOCATION MANAGER -->
 							<li>
-								<a href="#"><img src="images/Location-Manager.png" alt=""> </a>
+								<a href="#"><img src="{{ asset('assets/templates/images/Location-Manager.png') }}" alt=""> </a>
 							</li>
 							<!-- PRIVATE GUIDE -->
 							<li>
-								<a href="#"><img src="images/Private-Guide.png" alt=""> </a>
+								<a href="#"><img src="{{ asset('assets/templates/images/Private-Guide.png') }}" alt=""> </a>
 							</li>
 							<!-- ARRANGEMENTS -->
 							<li>
-								<a href="#"><img src="images/Arrangements.png" alt=""> </a>
+								<a href="#"><img src="{{ asset('assets/templates/images/Arrangements.png') }}" alt=""> </a>
 							</li>
 							<!-- EVENT ACTIVITIES -->
 							<li>
-								<a href="#"><img src="images/Events-Activities.png" alt=""> </a>
+								<a href="#"><img src="{{ asset('assets/templates/images/Events-Activities.png') }}" alt=""> </a>
 							</li>
 						</ul>
 					</div>

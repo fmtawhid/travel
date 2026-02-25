@@ -85,31 +85,22 @@
                             </ul>
                             <h4>Other pages:1</h4>
                             <ul>
-                                <li><a href="{{ route('tour-details') }}">Travel details</a></li>
-                                <li><a href="{{ route('hotel-details') }}">Hotel details</a></li>
-                                <li><a href="{{ route('all-packages') }}">All package</a></li>
-                                <li><a href="{{ route('hotels-list') }}">All hotels</a></li>
-                                <li><a href="{{ route('booking-page') }}">Booking page</a></li>
+                                <li><a href="{{ route('packages') }}">All package</a></li>
+                                <li><a href="{{ route('hotels') }}">All hotels</a></li>
                             </ul>
                             <h4 class="ed-dr-men-mar-top">User login pages</h4>
                             <ul>
-                                <li><a href="register.html">Register</a></li>
-                                <li><a href="login.html">Login and Sign in</a></li>
-                                <li><a href="forgot-pass.html">Forgot pass</a></li>
+                                <li><a href="{{ route('register') }}">Register</a></li>
+                                <li><a href="{{ route('login') }}">Login and Sign in</a></li>
                             </ul>
                             <h4>Other pages:2</h4>
                             <ul>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="testimonials.html">Testimonials</a></li>
-                                <li><a href="events.html">Events</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="tips.html">Tips Before Travel</a></li>
-                                <li><a href="price-list.html">Price List</a></li>
-                                <li><a href="discount.html">Discount</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
-                                <li><a href="sitemap.html">Site map</a></li>
-                                <li><a href="404.html">404 Page</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="{{ route('about') }}">About Us</a></li>
+                                <li><a href="{{ route('testimonials') }}">Testimonials</a></li>
+                                <li><a href="{{ route('events') }}">Events</a></li>
+                                <li><a href="{{ route('blog') }}">Blog</a></li>
+                                <li><a href="{{ route('tips') }}">Tips Before Travel</a></li>
+                                <li><a href="{{ route('contact') }}">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -296,72 +287,16 @@
                                         <div class="cour-mm m-menu">
                                             <div class="m-menu-inn">
 
-                                                <div class="mm1-com mm1-cour-com mm1-s3">
-                                                    <h4>Tour Packages</h4>
-                                                    <ul>
-                                                        <li><a href="all-package.html">All Package</a></li>
-                                                        <li><a href="family-package.html">Family Package</a></li>
-                                                        <li><a href="honeymoon-package.html">Honeymoon Package</a></li>
-                                                        <li><a href="group-package.html">Group Package</a></li>
-                                                        <li><a href="weekend-package.html">WeekEnd Package</a></li>
-                                                        <li><a href="regular-package.html">Regular Package</a></li>
-                                                        <li><a href="custom-package.html">Custom Package</a></li>
-                                                    </ul>
-                                                    <h4 class="ed-dr-men-mar-top">Sighe Seeings Pages</h4>
-                                                    <ul>
-                                                        <li><a href="destinations.html">Seight Seeing 1</a></li>
-                                                        <li><a href="places-1.html">Seight Seeing 2</a></li>
-                                                        <li><a href="places-2.html">Seight Seeing 3</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="mm1-com mm1-cour-com mm1-s3">
-                                                    <h4>User Dashboard</h4>
-                                                    <ul>
-                                                        <li><a href="dashboard.html">My Bookings</a></li>
-                                                        <li><a href="db-my-profile.html">My Profile</a></li>
-                                                        <li><a href="db-my-profile-edit.html">My Profile edit</a></li>
-                                                        <li><a href="db-travel-booking.html">Tour Packages</a></li>
-                                                        <li><a href="db-hotel-booking.html">Hotel Bookings</a></li>
-                                                        <li><a href="db-event-booking.html">Event bookings</a></li>
-                                                        <li><a href="db-payment.html">Make Payment</a></li>
-                                                        <li><a href="db-refund.html">Cancel Bookings</a></li>
-                                                        <li><a href="db-all-payment.html">Prient E-Tickets</a></li>
-                                                        <li><a href="db-event-details.html">Event booking details</a>
-                                                        </li>
-                                                        <li><a href="db-hotel-details.html">Hotel booking details</a>
-                                                        </li>
-                                                        <li><a href="db-travel-details.html">Travel booking details</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="mm1-com mm1-cour-com mm1-s3">
-                                                    <h4>Other pages:1</h4>
-                                                    <ul>
-                                                        <li><a href="tour-details.html">Travel details</a></li>
-                                                        <li><a href="hotel-details.html">Hotel details</a></li>
-                                                        <li><a href="all-package.html">All package</a></li>
-                                                        <li><a href="hotels-list.html">All hotels</a></li>
-                                                        <li><a href="booking.html">Booking page</a></li>
-                                                    </ul>
-                                                    <h4 class="ed-dr-men-mar-top">User login pages</h4>
-                                                    <ul>
-                                                        <li><a href="register.html">Register</a></li>
-                                                        <li><a href="login.html">Login and Sign in</a></li>
-                                                        <li><a href="forgot-pass.html">Forgot pass</a></li>
-                                                    </ul>
-                                                </div>
+                                                
                                                 <div class="mm1-com mm1-cour-com mm1-s4">
                                                     <h4>Other pages:2</h4>
                                                     <ul>
                                                         <li><a href="{{ route('about') }}">About Us</a></li>
                                                         <li><a href="{{ route('testimonials') }}">Testimonials</a></li>
-                                                        <li><a href="">Events</a></li>
+                                                        <li><a href="{{ route('events') }}  ">Events</a></li>
                                                         <li><a href="{{ route('blog') }}">Blog</a></li>
                                                         <li><a href="{{ route('tips') }}">Tips Before Travel</a></li>
                                                         <li><a href="faq.html">FAQ</a></li>
-                                                        <li><a href="sitemap.html">Site map</a></li>
-                                                        <li><a href="404.html">404 Page</a></li>
-                                                        <li><a href="contact.html">Contact Us</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -422,49 +357,32 @@
                             Mississippi</a></li>
                 </ul>
 
+                @php
+                    $latestBlogs = \App\Models\Blog::latest()->take(4)->get();
+                @endphp
+
                 <div class="late-news">
                     <h4>Latest news</h4>
                     <ul>
+                        @foreach($latestBlogs as $blog)
                         <li>
                             <div class="rel-pro-img">
-                                <img src="{{ asset('assets/templates/images/news/01.jpg') }}" alt="" loading="lazy">
+                                <img src="{{ asset('uploads/blogs/'.$blog->image) }}" 
+                                    alt="{{ $blog->title }}" 
+                                    loading="lazy">
                             </div>
+
                             <div class="rel-pro-con">
-                                <h5>Long established fact that a reader distracted</h5>
-                                <span class="ic-date">12 Dec 2023</span>
+                                <h5>{{ \Illuminate\Support\Str::limit($blog->title, 50) }}</h5>
+                                <span class="ic-date">
+                                    {{ $blog->created_at->format('d M Y') }}
+                                </span>
                             </div>
-                            <a href="hotel-detail.html" class="fclick"></a>
+
+                            <!-- ✅ এখানে route ব্যবহার করো -->
+                            <a href="{{ route('blog.details', $blog->slug) }}" class="fclick"></a>
                         </li>
-                        <li>
-                            <div class="rel-pro-img">
-                                <img src="{{ asset('assets/templates/images/rooms/02.jpeg') }}" alt="" loading="lazy">
-                            </div>
-                            <div class="rel-pro-con">
-                                <h5>Long established fact that a reader distracted</h5>
-                                <span class="ic-date">12 Dec 2023</span>
-                            </div>
-                            <a href="hotel-detail.html" class="fclick"></a>
-                        </li>
-                        <li>
-                            <div class="rel-pro-img">
-                                <img src="{{ asset('assets/templates/images/rooms/04.jpeg') }}" alt="" loading="lazy">
-                            </div>
-                            <div class="rel-pro-con">
-                                <h5>Long established fact that a reader distracted</h5>
-                                <span class="ic-date">12 Dec 2023</span>
-                            </div>
-                            <a href="hotel-detail.html" class="fclick"></a>
-                        </li>
-                        <li>
-                            <div class="rel-pro-img">
-                                <img src="{{ asset('assets/templates/images/rooms/05.jpeg') }}" alt="" loading="lazy">
-                            </div>
-                            <div class="rel-pro-con">
-                                <h5>Long established fact that a reader distracted</h5>
-                                <span class="ic-date">12 Dec 2023</span>
-                            </div>
-                            <a href="hotel-detail.html" class="fclick"></a>
-                        </li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -473,7 +391,7 @@
                     <div class="inn">
                         <h3>Tell us your Needs</h3>
                         <p>Tell us what kind of service you are looking for.</p>
-                        <a href="register.html">Register for free</a>
+                        <a href="{{ route('register') }}">Register for free</a>
                     </div>
                 </div>
                 <!-- END HELP BOX -->
@@ -489,51 +407,59 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="ban-search form-select">
-                            <form>
+                            <form method="GET" action="{{ route('packages') }}">
                                 <ul>
+                                    <!-- Location -->
                                     <li class="sr-look">
                                         <div class="form-group">
                                             <label>Your destination</label>
-                                            <select class="chosen-select">
-                                                <option>Your destination</option>
-                                                <option>Any location</option>
-                                                <option>Chennai</option>
-                                                <option>New york</option>
-                                                <option>Perth</option>
-                                                <option>London</option>
+                                            <select name="location" class="chosen-select">
+                                                <option value="">Any location</option>
+                                                @foreach($locations as $location)
+                                                    <option value="{{ $location }}">
+                                                        {{ $location }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </li>
+
+                                    <!-- Package -->
                                     <li class="sr-gue">
                                         <div class="form-group">
                                             <label>Package</label>
-                                            <select class="chosen-select">
-                                                <option>Package</option>
-                                                <option>Family Package</option>
-                                                <option>Honeymoon Package</option>
-                                                <option>Group Package</option>
-                                                <option>WeekEnd Package</option>
-                                                <option>Regular Package</option>
+                                            <select name="package_id" class="chosen-select">
+                                                <option value="">Any Package</option>
+                                                @foreach($packageTypes as $package)
+                                                    <option value="{{ $package->id }}">
+                                                        {{ $package->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </li>
+
+                                    <!-- Check In -->
                                     <li class="sr-date">
                                         <div class="form-group">
-                                            <label>Check in</label>
-                                            <input type="text" class="form-control datepicker" name="from"
-                                                placeholder="Check in">
+                                            <label>Check In</label>
+                                            <input type="date" name="check_in" class="form-control">
                                         </div>
                                     </li>
+
+                                    <!-- Check Out -->
                                     <li class="sr-date">
                                         <div class="form-group">
-                                            <label>Check out</label>
-                                            <input type="text" class="form-control datepicker" name="to"
-                                                placeholder="Check out">
+                                            <label>Check Out</label>
+                                            <input type="date" name="check_out" class="form-control">
                                         </div>
                                     </li>
+
+                                    <!-- Submit -->
                                     <li class="sr-btn">
                                         <input type="submit" value="Search">
                                     </li>
+
                                 </ul>
                             </form>
                         </div>

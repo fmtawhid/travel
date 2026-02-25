@@ -56,6 +56,9 @@ Route::post('/hotel/review', [MainController::class, 'storeHotelReview'])
     ->middleware('auth')
     ->name('hotel.review.store');
 
+Route::post('/contact', [MainController::class, 'storeContact'])
+    ->name('store-contact');
+
 Route::get('/dashboard', function () {
     if (!auth()->check()) {
         return redirect('/login');

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\BookingInquiryController;
 use App\Http\Controllers\Admin\CustomBookingController;
+use App\Http\Controllers\Admin\AboutPageController;
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
@@ -38,6 +39,9 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
         Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+
+        Route::get('about-page/edit', [AboutPageController::class, 'edit'])->name('about-page.edit');
+        Route::post('about-page/update', [AboutPageController::class, 'update'])->name('about-page.update');
 
 
         Route::get('/booking-inquiries/tour-package', [BookingInquiryController::class, 'tour_package_inquiries'])->name('booking-inquiries.tour-package');

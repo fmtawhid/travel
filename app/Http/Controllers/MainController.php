@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Blog;
 use App\Models\Review;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
 class MainController extends Controller
 {
@@ -222,17 +223,31 @@ class MainController extends Controller
 
     public function contact()
     {
-        return view('template.contact');
+        $settings = \App\Models\Setting::first();
+        return view('template.contact', compact('settings'));
     }
 
     public function about()
     {
-        return view('template.about');
+        $aboutPage = \App\Models\AboutPage::first();
+        $totalPackages = Package::count();
+        $totalPlaces = SightSeeing::count();
+        $totalEvents = Event::count();
+        $totalHotels = Hotel::count();
+        
+        return view('template.about', compact('aboutPage', 'totalPackages', 'totalPlaces', 'totalEvents', 'totalHotels'));
     }
 
     public function testimonials()
     {
-        return view('template.testimonials');
+        $reviews = Review::whereNotNull('user_id')
+            ->with('user:id,name,image,city')
+            ->orderByDesc('created_at')
+            ->get()
+            ->unique('user_id')
+            ->values();
+        
+        return view('template.testimonials', compact('reviews'));
     }
 
     public function blog()
@@ -328,5 +343,28 @@ class MainController extends Controller
         ]);
 
         return back()->with('success', 'Review submitted successfully!');
+    }
+
+    public function storeContact(Request $request)
+    {
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
+            'phone'   => 'required|string|max:20',
+            'city'    => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        Contact::create([
+            'name'    => $request->name,
+            'email'   => $request->email,
+            'phone'   => $request->phone,
+            'city'    => $request->city,
+            'country' => $request->country,
+            'message' => $request->message,
+        ]);
+
+        return back()->with('success', 'Thank you! Your message has been sent successfully. We will contact you shortly.');
     }
 }
