@@ -107,6 +107,20 @@
                     <label class="active">YouTube</label>
                 </div>
 
+                <div class="col s12"><h5>Support Team</h5></div>
+
+                <div class="input-field col s12">
+                    <select name="support_team_id">
+                        <option value="">Select Support Team Member</option>
+                        @foreach($teams as $team)
+                            <option value="{{ $team->id }}" {{ old('support_team_id', $setting->support_team_id) == $team->id ? 'selected' : '' }}>
+                                {{ $team->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <label>Support Team Member</label>
+                </div>
+
             </div>
 
             <div class="row">

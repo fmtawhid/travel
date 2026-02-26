@@ -57,6 +57,10 @@
 							<a href="{{ route('user.payment') }}"><img src="{{ asset('assets/templates/images/icon/dbl9.png') }}" alt="" /> Payments</a>
 						</li>
 						<li>
+							<a href="{{ route('user.payments.list') }}"><img src="{{ asset('assets/templates/images/icon/dbl10.png') }}" alt="" /> Payments List</a>
+						</li>
+						
+						<li>
 							<a href="{{ route('user.claim-refund') }}"><img src="{{ asset('assets/templates/images/icon/dbl7.png') }}" alt="" /> Claim & Refund</a>
 						</li>
                         <li>

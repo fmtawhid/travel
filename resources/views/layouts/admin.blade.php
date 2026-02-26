@@ -213,6 +213,21 @@
                                 </ul>
                             </div>
                         </li>
+
+                        <li>
+                            @php
+                                $isPagesActive = Route::is('admin.pages.*', 'admin.about-page.*', 'admin.tips.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isPagesActive ? 'menu-active active' : '' }}"><i class="fa fa-file-text-o" aria-hidden="true"></i> Pages</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ route('admin.about-page.edit') }}" class="{{ Route::is('admin.about-page.edit') ? 'menu-active active' : '' }}">About Page</a>
+                                    </li>
+                                    <li><a href="{{ route('admin.tips.edit') }}" class="{{ Route::is('admin.tips.edit') ? 'menu-active active' : '' }}">Tips Page</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         
                         {{-- <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-braille" aria-hidden="true"></i> Ui-Kits</a>
                             <div class="collapsible-body left-sub-menu">
@@ -269,6 +284,24 @@
                                     </li>
                                     <li><a href="{{ route('admin.booking-inquiries.car') }}" class="{{ Route::is('admin.booking-inquiries.car') ? 'menu-active active' : '' }}">Car</a>
                                     </li>
+                                    <li><a href="{{ route('admin.booking-inquiries.custom') }}" class="{{ Route::is('admin.booking-inquiries.custom') ? 'menu-active active' : '' }}">Custom</a>
+                                    </li>
+                                    <li><a href="{{ route('admin.booking-inquiries.other') }}" class="{{ Route::is('admin.booking-inquiries.other') ? 'menu-active active' : '' }}">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            @php
+                                $isPaymentActive = Route::is('admin.payments.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isPaymentActive ? 'menu-active active' : '' }}"><i class="fa fa-credit-card" aria-hidden="true"></i> Payments</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ route('admin.payments.index') }}" class="{{ Route::is('admin.payments.index') ? 'menu-active active' : '' }}">All Payments</a>
+                                    </li>
+                                    <li><a href="{{ route('admin.payments.create') }}" class="{{ Route::is('admin.payments.create') ? 'menu-active active' : '' }}">Add New Payment</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -286,7 +319,23 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="social-media.html"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Social Media</a>
+
+
+                        <li>
+                            @php
+                                $isTeamsActive = Route::is('admin.teams.*');
+                            @endphp
+                            <a href="javascript:void(0)" class="collapsible-header {{ $isTeamsActive ? 'menu-active active' : '' }}"><i class="fa fa-users" aria-hidden="true"></i> Teams</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ route('admin.teams.index') }}" class="{{ Route::is('admin.teams.index') ? 'menu-active active' : '' }}">All Teams</a>
+                                    </li>
+                                    <li><a href="{{ route('admin.teams.create') }}" class="{{ Route::is('admin.teams.create') ? 'menu-active active' : '' }}">Add Team</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="{{ route('admin.settings.edit') }}"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Settings</a>
                         </li>
                         <li><a href="login.html" target="_blank"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
                         </li>

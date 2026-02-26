@@ -8,6 +8,9 @@ use App\Models\TourBooking;
 use App\Models\CarBooking;
 use App\Models\FlightBooking;
 use App\Models\HotelBooking;
+use App\Models\CustomBooking;
+use App\Models\Contact;
+
 
 class BookingInquiryController extends Controller
 {
@@ -67,4 +70,34 @@ class BookingInquiryController extends Controller
         $booking = HotelBooking::findOrFail($id);
         $booking->delete();
         return redirect()->back()->with('success', 'Hotel booking deleted successfully!');
-    }}
+    }
+    // Custom booking inquiries - show all bookings
+    public function custom_booking_inquiries()
+    {
+        $bookings = CustomBooking::latest()->paginate(10);
+        return view('admin.booking_inquiries.custom', compact('bookings'));
+    }   
+    // Delete a custom booking
+    public function destroy_custom_booking($id)
+    {
+        $booking = CustomBooking::findOrFail($id);
+        $booking->delete();
+        return redirect()->back()->with('success', 'Custom booking deleted successfully!');
+    }
+    // Other booking inquiries - show all bookings
+    public function other_booking_inquiries()
+    {
+        $bookings = Contact::latest()->paginate(10);
+        return view('admin.booking_inquiries.contact', compact('bookings'));
+    }   
+    // Delete an other booking
+    public function destroy_other_booking($id)
+    {
+        $booking = Contact::findOrFail($id);
+        $booking->delete();
+        return redirect()->back()->with('success', 'Other booking deleted successfully!');
+    }
+    
+    
+    
+    }

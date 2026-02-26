@@ -5,7 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Setting;
+use App\Models\PaymentMethod;
+use App\Policies\PaymentMethodPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,9 +19,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Register policies
+        Gate::policy(PaymentMethod::class, PaymentMethodPolicy::class);
+        
         if (Schema::hasTable('settings')) {
-            // সব settings row fetch
-            $settings = Setting::first();
+            // সব settings row fetch with supportTeam relation
+            $settings = Setting::with('supportTeam')->first();
             View::share('settings', $settings);
         }
         

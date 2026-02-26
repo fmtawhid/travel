@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -12,12 +13,13 @@ class SettingController extends Controller
     public function edit()
     {
         $setting = Setting::first();
+        $teams = Team::all();
 
         if (!$setting) {
             $setting = Setting::create([]);
         }
 
-        return view('admin.settings.edit', compact('setting'));
+        return view('admin.settings.edit', compact('setting', 'teams'));
     }
 
     // Update
@@ -26,17 +28,18 @@ class SettingController extends Controller
         $setting = Setting::first();
 
         $request->validate([
-            'name'      => 'nullable|string|max:255',
-            'logo'      => 'nullable|image|mimes:jpg,jpeg,png,webp,svg,ico|max:2048',
-            'favicon'   => 'nullable|image|mimes:jpg,jpeg,png,ico|max:1024',
-            'phone'     => 'nullable|string|max:50',
-            'email'     => 'nullable|email|max:255',
-            'location'  => 'nullable|string|max:255',
-            'facebook'  => 'nullable|url',
-            'instagram' => 'nullable|url',
-            'x'         => 'nullable|url',
-            'linkedin'  => 'nullable|url',
-            'youtube'   => 'nullable|url',
+            'name'               => 'nullable|string|max:255',
+            'logo'               => 'nullable|image|mimes:jpg,jpeg,png,webp,svg,ico|max:2048',
+            'favicon'            => 'nullable|image|mimes:jpg,jpeg,png,ico|max:1024',
+            'phone'              => 'nullable|string|max:50',
+            'email'              => 'nullable|email|max:255',
+            'location'           => 'nullable|string|max:255',
+            'facebook'           => 'nullable|url',
+            'instagram'          => 'nullable|url',
+            'x'                  => 'nullable|url',
+            'linkedin'           => 'nullable|url',
+            'youtube'            => 'nullable|url',
+            'support_team_id'    => 'nullable|exists:teams,id',
         ]);
 
         $data = $request->except(['logo', 'favicon']);

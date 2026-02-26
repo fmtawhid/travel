@@ -59,6 +59,10 @@
                                             <td>{{ $inquiry->noofadults }}</td>
                                             <td>{{ $inquiry->noofchildrens }}</td>
                                             <td>
+                                                <a href="{{ route('admin.payments.create', ['booking_type' => 'tour', 'booking_id' => $inquiry->id]) }}" 
+                                                   class="btn btn-sm btn-success" title="Make Payment">
+                                                    <i class="fa fa-credit-card"></i> Payment
+                                                </a>
                                                 <form action="{{ route('admin.booking-inquiries.tour-package.destroy', $inquiry->id) }}"
                                                       method="POST"
                                                       style="display:inline;">

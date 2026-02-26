@@ -6,15 +6,15 @@
 		<div class="rows inner_banner inner_banner_3">
 			<div class="container">
 				<div class="spe-title tit-inn-pg">
-					<h1>Tips <span>For your Travel</span> </h1>
+					<h1>{{ $tipPage->title ?? 'Tips' }} <span>{{ $tipPage->subtitle ?? 'For your Travel' }}</span> </h1>
 					<div class="title-line">
 						<div class="tl-1"></div>
 						<div class="tl-2"></div>
 						<div class="tl-3"></div>
 					</div>
-					<p>World's leading Hotel Booking website,Over 30,000 Hotel rooms worldwide.</p>
+					<p>{{ $tipPage->description ? Str::limit($tipPage->description, 100) : "World's leading Hotel Booking website,Over 30,000 Hotel rooms worldwide." }}</p>
 					<ul>
-						<li><a href="main.html">Home</a></li>
+						<li><a href="{{ route('home') }}">Home</a></li>
 						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
 						<li><a href="#" class="bread-acti">Tips</a>
 						</li>
@@ -30,100 +30,58 @@
 				<div class="tourb2-ab-p1 com-colo-abou">
 					<div class="col-md-6 col-sm-6">
 						<div class="tourb2-ab-p1-left">
-							<h3>Hi! Welcome to Holiday Tour & Travels</h3> <span>Duis pretium gravida nisi, ut pulvinar lorem bibendum eget</span>
-							<p>Aliquam blandit nisl sem. Mauris quis enim purus. Vivamus nec tortor bibendum risus placerat vulputate at gravida ante. Nam sit amet tellus enim. Phasellus consectetur porttitor lobortis. Integer cursus odio at mattis porttitor. In hac habitasse platea dictumst. Nunc sit amet cursus felis. Etiam venenatis auctor metus, et lacinia elit dignissim non. Aenean auctor semper erat porta dictum.</p>
-							<p>Fusce velit sem, vestibulum ac enim ut, tincidunt pretium augue. Vestibulum purus sapien, porttitor a porta faucibus, hendrerit eget enim.</p> <a href="#" class="link-btn">Call to us: 13654 87898</a> </div>
+							<h3>{{ $tipPage->title ?? 'Welcome to Holiday Tour & Travels' }}</h3>
+							<span>{{ $tipPage->subtitle ?? 'Your trusted travel partner' }}</span>
+							<p>{{ $tipPage->description ?? 'Travel with confidence and comfort.' }}</p>
+							@if($tipPage->phone)
+								<a href="tel:{{ $tipPage->phone }}" class="link-btn">Call to us: {{ $tipPage->phone }}</a>
+							@endif
+						</div>
 					</div>
 					<div class="col-md-6 col-sm-6">
-						<div class="tourb2-ab-p1-right"> <img src="{{ asset('assets/templates/images/iplace-8.jpg') }}" alt="" /> </div>
+						<div class="tourb2-ab-p1-right">
+							@if($tipPage->image && file_exists(public_path($tipPage->image)))
+								<img src="{{ asset($tipPage->image) }}" alt="{{ $tipPage->title ?? 'Tips' }}" />
+							@else
+								<img src="{{ asset('assets/templates/images/iplace-8.jpg') }}" alt="Tips Image" />
+							@endif
+						</div>
 					</div>
 				</div>
 				<div class="tips_travel_1">
 					<ul>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-address-card-o" aria-hidden="true"></i>
-								<h4>Bring copies of your passport</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-flag-o" aria-hidden="true"></i>
-								<h4>Register with your embassy</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-money" aria-hidden="true"></i>
-								<h4>Always have local cash</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-glide-g" aria-hidden="true"></i>
-								<h4>Get guidebooks</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-repeat" aria-hidden="true"></i>
-								<h4>Research events</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-camera-retro" aria-hidden="true"></i>
-								<h4>Bring your Camera</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-battery-1" aria-hidden="true"></i>
-								<h4>power bank</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-bicycle" aria-hidden="true"></i>
-								<h4>bicycle</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-building-o" aria-hidden="true"></i>
-								<h4>Book your Hotel</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-binoculars" aria-hidden="true"></i>
-								<h4>Research events</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-bolt" aria-hidden="true"></i>
-								<h4>Research events</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
-						<!--TIPS LIST-->
-						<li class="col-md-4 col-sm-4">
-							<div class="tips_travel_2"> <i class="fa fa-bullhorn" aria-hidden="true"></i>
-								<h4>Research events</h4>
-								<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
-							</div>
-						</li>
+						@if($tipPage->tips && count($tipPage->tips) > 0)
+							@foreach($tipPage->tips as $tip)
+							<!--TIPS LIST-->
+							<li class="col-md-4 col-sm-4">
+								<div class="tips_travel_2">
+									<i class="{{ $tip['icon'] ?? 'fa fa-lightbulb-o' }}" aria-hidden="true"></i>
+									<h4>{{ $tip['title'] ?? 'Travel Tip' }}</h4>
+									<p>{{ $tip['description'] ?? 'Important travel tip for a better journey.' }}</p>
+								</div>
+							</li>
+							@endforeach
+						@else
+							<!--DEFAULT TIPS (when no tips are set)-->
+							<li class="col-md-4 col-sm-4">
+								<div class="tips_travel_2"> <i class="fa fa-address-card-o" aria-hidden="true"></i>
+									<h4>Bring copies of your passport</h4>
+									<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
+								</div>
+							</li>
+							<li class="col-md-4 col-sm-4">
+								<div class="tips_travel_2"> <i class="fa fa-flag-o" aria-hidden="true"></i>
+									<h4>Register with your embassy</h4>
+									<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
+								</div>
+							</li>
+							<li class="col-md-4 col-sm-4">
+								<div class="tips_travel_2"> <i class="fa fa-money" aria-hidden="true"></i>
+									<h4>Always have local cash</h4>
+									<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years </p>
+								</div>
+							</li>
+						@endif
 					</ul>
 				</div>
 			</div>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\PaymentMethodController;
 use App\Http\Middleware\UserMiddleware;
 
 // User Dashboard
@@ -35,11 +36,20 @@ Route::prefix('user')->middleware(['auth', UserMiddleware::class])->group(functi
     Route::get('/custom-booking', [UserDashboardController::class, 'custom_booking'])->name('user.booking.custom');
     Route::get('/custom-booking-details/{id}', [UserDashboardController::class, 'custom_booking_details'])->name('user.booking.custom-details');
     Route::get('/payment', [UserDashboardController::class, 'payment'])->name('user.payment');
+    Route::get('/payments-list', [UserDashboardController::class, 'paymentsList'])->name('user.payments.list');
     Route::get('/claim-refund', [UserDashboardController::class, 'claim_refund'])->name('user.claim-refund');
     
     Route::get('/profile', [UserDashboardController::class, 'profile'])->name('user.profile');
     Route::get('/profile/edit', [UserDashboardController::class, 'edit_profile'])->name('user.profile.edit');
     Route::post('/profile/update', [UserDashboardController::class, 'update_profile'])->name('user.profile.update');
 
+    // Payment Methods Routes
+    Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('user.payment-methods.index');
+    Route::get('/payment-methods/create', [PaymentMethodController::class, 'create'])->name('user.payment-methods.create');
+    Route::post('/payment-methods', [PaymentMethodController::class, 'store'])->name('user.payment-methods.store');
+    Route::get('/payment-methods/{paymentMethod}/edit', [PaymentMethodController::class, 'edit'])->name('user.payment-methods.edit');
+    Route::put('/payment-methods/{paymentMethod}', [PaymentMethodController::class, 'update'])->name('user.payment-methods.update');
+    Route::post('/payment-methods/{paymentMethod}/set-default', [PaymentMethodController::class, 'setDefault'])->name('user.payment-methods.set-default');
+    Route::delete('/payment-methods/{paymentMethod}', [PaymentMethodController::class, 'destroy'])->name('user.payment-methods.destroy');
 
 });

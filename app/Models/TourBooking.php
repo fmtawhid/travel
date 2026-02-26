@@ -48,4 +48,9 @@ class TourBooking extends Model
     {
         return $this->belongsTo(Tour::class);
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

@@ -311,14 +311,22 @@
                         </div>
                         <div class="al">
                             <div class="head-pro pop-ini" data-pop="pop-advi">
-                                <img src="{{ asset('assets/templates/images/1.jpg') }}" alt="" loading="lazy">
+                                @php
+                                    $supportTeam = $settings->supportTeam ?? null;
+                                @endphp
+                                @if($supportTeam && $supportTeam->image && file_exists(public_path('uploads/teams/' . $supportTeam->image)))
+                                    <img src="{{ asset('uploads/teams/' . $supportTeam->image) }}" alt="{{ $supportTeam->name }}" loading="lazy">
+                                @else
+                                    <img src="{{ asset('assets/templates/images/1.jpg') }}" alt="Advisor" loading="lazy">
+                                @endif
                                 <div>
                                     <b>Advisor</b>
-                                    <h4>Ashley emyy</h4>
+                                    <h4>{{ $supportTeam ? $supportTeam->name : 'Ashley emyy' }}</h4>
                                 </div>
                                 <span class="fclick"></span>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -329,32 +337,82 @@
             <div class="inn">
                 <div class="menu-pop-help">
                     <h4>Support Team</h4>
-                    <div class="user-pro">
-                        <img src="{{ asset('assets/templates/images/1.jpg') }}" alt="" loading="lazy">
-                    </div>
-                    <div class="user-bio">
-                        <h5>Ashley emyy</h5>
-                        <span>Senior trip advisor</span>
-                        <a href="enquiry.html" class="btn btn-primary btn-sm">Ask your doubts</a>
-                    </div>
+                    @php
+                        $supportTeam = $settings->supportTeam ?? null;
+                    @endphp
+                    @if($supportTeam)
+                        <div class="user-pro">
+                            @if($supportTeam->image && file_exists(public_path('uploads/teams/' . $supportTeam->image)))
+                                <img src="{{ asset('uploads/teams/' . $supportTeam->image) }}" alt="{{ $supportTeam->name }}" loading="lazy">
+                            @else
+                                <img src="{{ asset('assets/templates/images/1.jpg') }}" alt="{{ $supportTeam->name }}" loading="lazy">
+                            @endif
+                        </div>
+                        <div class="user-bio">
+                            <h5>{{ $supportTeam->name }}</h5>
+                            <span>Travel Advisor</span>
+                            <a href="{{ route('contact') }}" class="btn btn-primary btn-sm">Ask your doubts</a>
+                        </div>
+                    @else
+                        <div class="user-pro">
+                            <img src="{{ asset('assets/templates/images/1.jpg') }}" alt="Support" loading="lazy">
+                        </div>
+                        <div class="user-bio">
+                            <h5>Ashley emyy</h5>
+                            <span>Senior trip advisor</span>
+                            <a href="{{ route('contact') }}" class="btn btn-primary btn-sm">Ask your doubts</a>
+                        </div>
+                    @endif
                 </div>
                 <div class="menu-pop-soci">
                     <ul>
-                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        @if($supportTeam && $supportTeam->facebook)
+                            <li><a href="{{ $supportTeam->facebook }}" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        @endif
+                        @if($supportTeam && $supportTeam->twitter)
+                            <li><a href="{{ $supportTeam->twitter }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        @endif
+                        @if($supportTeam && $supportTeam->whatsapp_number)
+                            <li><a href="https://wa.me/{{ str_replace(['+', ' ', '-'], '', $supportTeam->whatsapp_number) }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                        @endif
+                        @if($supportTeam && $supportTeam->linkedin)
+                            <li><a href="{{ $supportTeam->linkedin }}" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                        @endif
+                        @if($supportTeam && $supportTeam->youtube)
+                            <li><a href="{{ $supportTeam->youtube }}" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                        @endif
+                        @if($supportTeam && $supportTeam->instagram)
+                            <li><a href="{{ $supportTeam->instagram }}" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        @endif
+                        @if(!$supportTeam)
+                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        @endif
                     </ul>
                 </div>
 
                 <ul class="menu-pop-info">
-                    <li><a href="#!"><i class="fa fa-phone" aria-hidden="true"></i>+92 (8800) 68 - 8960</a></li>
-                    <li><a href="#!"><i class="fa fa-whatsapp" aria-hidden="true"></i>+92 (8800) 68 - 8960</a></li>
-                    <li><a href="#!"><i class="fa fa-envelope-o" aria-hidden="true"></i>help@company.com</a></li>
-                    <li><a href="#!"><i class="fa fa-map-marker" aria-hidden="true"></i>3812 Lena Lane City Jackson
-                            Mississippi</a></li>
+                    @if($supportTeam && $supportTeam->whatsapp_number)
+                        <li><a href="https://wa.me/{{ str_replace(['+', ' ', '-'], '', $supportTeam->whatsapp_number) }}" target="_blank"><i class="fa fa-phone" aria-hidden="true"></i>{{ $supportTeam->whatsapp_number }}</a></li>
+                        <li><a href="https://wa.me/{{ str_replace(['+', ' ', '-'], '', $supportTeam->whatsapp_number) }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i>{{ $supportTeam->whatsapp_number }}</a></li>
+                    @else
+                        <li><a href="#!"><i class="fa fa-phone" aria-hidden="true"></i>+92 (8800) 68 - 8960</a></li>
+                        <li><a href="#!"><i class="fa fa-whatsapp" aria-hidden="true"></i>+92 (8800) 68 - 8960</a></li>
+                    @endif
+                    @if($supportTeam && $supportTeam->email)
+                        <li><a href="mailto:{{ $supportTeam->email }}"><i class="fa fa-envelope-o" aria-hidden="true"></i>{{ $supportTeam->email }}</a></li>
+                    @else
+                        <li><a href="#!"><i class="fa fa-envelope-o" aria-hidden="true"></i>help@company.com</a></li>
+                    @endif
+                    @if($supportTeam && $supportTeam->location)
+                        <li><a href="#!"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ $supportTeam->location }}</a></li>
+                    @else
+                        <li><a href="#!"><i class="fa fa-map-marker" aria-hidden="true"></i>3812 Lena Lane City Jackson Mississippi</a></li>
+                    @endif
                 </ul>
 
                 @php

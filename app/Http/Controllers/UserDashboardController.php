@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Payment;
 class UserDashboardController extends Controller
 {
     public function index(Request $request)
@@ -146,7 +147,29 @@ class UserDashboardController extends Controller
 
     public function payment(Request $request)
     {
-        return view('user.payment');
+        $user = Auth::user();
+        $paymentMethods = $user->paymentMethods;
+        return view('user.payment', compact('paymentMethods'));
+    }
+
+    public function paymentsList(Request $request)
+    {
+        $user = Auth::user();
+        
+        // Get payments for all bookings belonging to this user
+        $payments = Payment::whereHas('tourBooking', function($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhereHas('hotelBooking', function($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhereHas('carBooking', function($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhereHas('flightBooking', function($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhereHas('customBooking', function($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->paginate(10);
+        
+        return view('user.payments-list', compact('payments'));
     }
 
     public function claim_refund(Request $request)

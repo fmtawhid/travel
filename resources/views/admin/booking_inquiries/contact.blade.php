@@ -5,7 +5,7 @@
     <div class="sb2-2-2">
         <ul>
             <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-            <li class="active-bre"><a href="#">Car Bookings</a></li>
+            <li class="active-bre"><a href="#">Contact Inquiries</a></li>
         </ul>
     </div>
 
@@ -21,7 +21,7 @@
 
                 <div class="box-inn-sp">
                     <div class="inn-title">
-                        <h4>All Car Bookings</h4>
+                        <h4>All Contact Inquiries</h4>
                     </div>
 
                     <div class="tab-inn">
@@ -30,14 +30,11 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Phone</th>
                                         <th>Email</th>
-                                        <th>Pickup</th>
-                                        <th>Dropoff</th>
-                                        <th>Pickup Date/Time</th>
-                                        <th>Dropoff Date/Time</th>
-                                        <th>Car Type</th>
-                                        <th>Passengers</th>
+                                        <th>Phone</th>
+                                        <th>City</th>
+                                        <th>Country</th>
+                                        <th>Message</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -45,20 +42,13 @@
                                     @forelse($bookings as $booking)
                                     <tr>
                                         <td>{{ $booking->name }}</td>
-                                        <td>{{ $booking->phone }}</td>
                                         <td>{{ $booking->email }}</td>
-                                        <td>{{ $booking->pickup_location }}</td>
-                                        <td>{{ $booking->dropoff_location }}</td>
-                                        <td>{{ $booking->pickup_date->format('d M Y') }} {{ \Carbon\Carbon::parse($booking->pickup_time)->format('H:i') }}</td>
-                                        <td>{{ $booking->dropoff_date->format('d M Y') }} {{ \Carbon\Carbon::parse($booking->dropoff_time)->format('H:i') }}</td>
-                                        <td>{{ $booking->car_type }}</td>
-                                        <td>{{ $booking->total_passengers }}</td>
+                                        <td>{{ $booking->phone }}</td>
+                                        <td>{{ $booking->city ?? '-' }}</td>
+                                        <td>{{ $booking->country ?? '-' }}</td>
+                                        <td>{{ Str::limit($booking->message, 50) ?? '-' }}</td>
                                         <td>
-                                            <a href="{{ route('admin.payments.create', ['booking_type' => 'car', 'booking_id' => $booking->id]) }}" 
-                                               class="btn btn-sm btn-success" title="Make Payment">
-                                                <i class="fa fa-credit-card"></i>
-                                            </a>
-                                            <form action="{{ route('admin.booking-inquiries.car.destroy', $booking->id) }}" method="POST" style="display:inline;">
+                                            <form action="{{ route('admin.booking-inquiries.other.destroy', $booking->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">
@@ -69,7 +59,7 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="10" class="text-center">No car bookings found</td>
+                                        <td colspan="7" class="text-center">No contact inquiries found</td>
                                     </tr>
                                     @endforelse
                                 </tbody>

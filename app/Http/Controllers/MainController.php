@@ -274,7 +274,9 @@ class MainController extends Controller
 
     public function tips()
     {
-        return view('template.tips');
+        $tipPage = \App\Models\Tip::first();
+        
+        return view('template.tips', compact('tipPage'));
     }
 
     public function events()

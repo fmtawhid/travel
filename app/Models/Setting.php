@@ -19,6 +19,12 @@ class Setting extends Model
         'instagram',
         'x',
         'linkedin',
-        'youtube'
+        'youtube',
+        'support_team_id'
     ];
+
+    public function supportTeam()
+    {
+        return $this->belongsTo(Team::class, 'support_team_id');
+    }
 }

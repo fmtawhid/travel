@@ -58,6 +58,10 @@
                                         <td>{{ $booking->no_of_adults }}</td>
                                         <td>{{ $booking->no_of_childrens }}</td>
                                         <td>
+                                            <a href="{{ route('admin.payments.create', ['booking_type' => 'flight', 'booking_id' => $booking->id]) }}" 
+                                               class="btn btn-sm btn-success" title="Make Payment">
+                                                <i class="fa fa-credit-card"></i>
+                                            </a>
                                             <form action="{{ route('admin.booking-inquiries.flight.destroy', $booking->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
