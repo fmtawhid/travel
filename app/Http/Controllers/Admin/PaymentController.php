@@ -192,4 +192,31 @@ class PaymentController extends Controller
         return redirect()->route('admin.payments.index')
             ->with('success', 'Payment deleted successfully.');
     }
+
+    /**
+     * Show payment requests list
+     */
+    public function paymentRequests()
+    {
+        $paymentRequests = \App\Models\PaymentRequest::with(['user', 'payment'])
+            ->orderByDesc('created_at')
+            ->paginate(15);
+        
+        return view('admin.payments.requests', compact('paymentRequests'));
+    }
+
+    /**
+     * Confirm payment request
+     */
+    public function confirmPaymentRequest(\App\Models\PaymentRequest $paymentRequest)
+    {
+        // Update payment request status to completed
+        $paymentRequest->update(['status' => 'completed']);
+
+        // Update payment status to completed
+        $paymentRequest->payment->update(['status' => 'completed']);
+
+        return redirect()->route('admin.payments.request')
+            ->with('success', 'Payment request confirmed successfully!');
+    }
 }

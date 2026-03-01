@@ -54,10 +54,13 @@
 							<a href="{{ route('user.profile') }}"><img src="{{ asset('assets/templates/images/icon/dbl6.png') }}" alt="" /> My Profile</a>
 						</li>
 						<li>
-							<a href="{{ route('user.payment') }}"><img src="{{ asset('assets/templates/images/icon/dbl9.png') }}" alt="" /> Payments</a>
+							<a href="{{ route('user.payment') }}"><img src="{{ asset('assets/templates/images/icon/dbl9.png') }}" alt="" />Make Payments</a>
 						</li>
 						<li>
 							<a href="{{ route('user.payments.list') }}"><img src="{{ asset('assets/templates/images/icon/dbl10.png') }}" alt="" /> Payments List</a>
+						</li>
+						<li>
+							<a href="{{ route('user.payment-requests') }}"><img src="{{ asset('assets/templates/images/icon/dbl9.png') }}" alt="" /> Payment Requests</a>
 						</li>
 						
 						<li>
@@ -133,4 +136,18 @@
 			</div>
 		</div>
 	</section>
+	
+	<!-- Alert Popup Script for Payment Check -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			@if($errors->any())
+				let errorMessage = '{{ implode(", ", $errors->all()) }}';
+				alert(errorMessage);
+			@endif
+			
+			@if(session('error'))
+				alert('{{ session('error') }}');
+			@endif
+		});
+	</script>
 @endsection

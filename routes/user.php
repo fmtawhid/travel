@@ -36,7 +36,10 @@ Route::prefix('user')->middleware(['auth', UserMiddleware::class])->group(functi
     Route::get('/custom-booking', [UserDashboardController::class, 'custom_booking'])->name('user.booking.custom');
     Route::get('/custom-booking-details/{id}', [UserDashboardController::class, 'custom_booking_details'])->name('user.booking.custom-details');
     Route::get('/payment', [UserDashboardController::class, 'payment'])->name('user.payment');
+    Route::post('/payment/process', [UserDashboardController::class, 'processPayment'])->name('user.payment.process');
     Route::get('/payments-list', [UserDashboardController::class, 'paymentsList'])->name('user.payments.list');
+    Route::get('/payment-requests', [UserDashboardController::class, 'paymentRequests'])->name('user.payment-requests');
+    Route::get('/payment/{bookingType}/{bookingId}', [UserDashboardController::class, 'viewPaymentByBooking'])->name('user.payment.view');
     Route::get('/claim-refund', [UserDashboardController::class, 'claim_refund'])->name('user.claim-refund');
     
     Route::get('/profile', [UserDashboardController::class, 'profile'])->name('user.profile');

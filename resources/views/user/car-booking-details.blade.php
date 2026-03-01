@@ -73,16 +73,15 @@
 								<td>:</td>
 								<td>${{ $booking->max_price ?? '0' }}</td>
 							</tr>
-							<tr style="background-color: #f8f9fa;">
-								<td><strong>Payment Status</strong></td>
-								<td>:</td>
-								<td><span class="db-not-done">Pending</span></td>
-							</tr>
+							
 						</tbody>
 					</table>
 					<div class="db-mak-pay-bot" style="margin-top: 30px; background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 5px solid #667eea;">
 						<p style="color: #555; line-height: 1.6;">Book your car for a comfortable journey. Your reservation details are secure with us.</p>
-						<a href="{{ route('user.payment') }}" class="waves-effect waves-light btn-large" style="background-color: #667eea; margin-top: 15px;">Make Payment Now</a>
+						<div style="margin-top: 15px; display: flex; gap: 10px;">
+							<a href="{{ route('user.payment.view', ['car', $booking->id]) }}" class="waves-effect waves-light btn-large" style="background-color: #43e97b; flex: 1; text-align: center; display: inline-block;">View Payment</a>
+							<a href="{{ route('user.payment') }}" class="waves-effect waves-light btn-large" style="background-color: #667eea; flex: 1; text-align: center; display: inline-block;">Make Payment Now</a>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -13,7 +13,6 @@
                             <th>Check-in</th>
                             <th>Check-out</th>
                             <th>Rooms</th>
-                            <th>Payment</th>
                             <th>More</th>
                         </tr>
                     </thead>
@@ -25,7 +24,6 @@
                                 <td>{{ $booking->check_in ? \Carbon\Carbon::parse($booking->check_in)->format('d M Y') : 'N/A' }}</td>
                                 <td>{{ $booking->check_out ? \Carbon\Carbon::parse($booking->check_out)->format('d M Y') : 'N/A' }}</td>
                                 <td>{{ $booking->no_of_rooms }}</td>
-                                <td><span class="db-done">Pending</span></td>
                                 <td><a href="{{ route('user.booking.hotel-details', $booking->id) }}" class="db-done">view more</a></td>
                             </tr>
                         @empty

@@ -41,7 +41,10 @@ Route::middleware(['auth', 'admin'])
         Route::resource('events', EventController::class)->names('events');
         Route::resource('custom-bookings', CustomBookingController::class);
         Route::resource('payments', PaymentController::class);
-        Route::resource('payments', PaymentController::class);
+        
+        // Payment Requests
+        Route::get('/payments-request', [PaymentController::class, 'paymentRequests'])->name('payments.request');
+        Route::post('/payments-request/{paymentRequest}/confirm', [PaymentController::class, 'confirmPaymentRequest'])->name('payments.confirm');
 
         Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
         Route::post('settings', [SettingController::class, 'update'])->name('settings.update');

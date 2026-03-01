@@ -57,7 +57,7 @@
                                 </td>
                                 <td>{{ $payment->created_at->format('d M Y') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.payments.show', $payment->id) }}" class="db-done" target="_blank" style="color: #2196F3; text-decoration: none; font-weight: bold;">
+                                    <a href="{{ route('user.payment.view', [strtolower($payment->getBookingType()), $payment->getBookingId()]) }}" class="db-done" style="color: #2196F3; text-decoration: none; font-weight: bold;">
                                         <i class="fa fa-eye"></i> View
                                     </a>
                                 </td>

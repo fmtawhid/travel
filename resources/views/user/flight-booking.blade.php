@@ -13,7 +13,6 @@
                             <th>To</th>
                             <th>Arrival Date</th>
                             <th>Passengers</th>
-                            <th>Payment</th>
                             <th>More</th>
                         </tr>
                     </thead>
@@ -25,7 +24,7 @@
                                 <td>{{ $booking->flying_to ?? 'N/A' }}</td>
                                 <td>{{ $booking->arrival_date ? \Carbon\Carbon::parse($booking->arrival_date)->format('d M Y') : 'N/A' }}</td>
                                 <td>{{ ($booking->no_of_adults ?? 0) + ($booking->no_of_childrens ?? 0) }}</td>
-                                <td><span class="db-done">Pending</span></td>
+                                
                                 <td><a href="{{ route('user.booking.flight-details', $booking->id) }}" class="db-done">view more</a></td>
                             </tr>
                         @empty

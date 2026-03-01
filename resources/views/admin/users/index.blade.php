@@ -64,14 +64,14 @@
                                         {{-- Avatar --}}
                                         <td>
                                             <span class="list-img">
-                                                <img src="{{ asset('images/user/placeholder.png') }}" alt="">
+                                                <img src="{{ $user->image ? asset('uploads/users/' . $user->image) : asset('assets/admin/images/user/1.png') }}" alt="">
                                             </span>
                                         </td>
 
                                         {{-- Name --}}
                                         <td>
                                             <span class="list-enq-name">
-                                                {{ $user->first_name }} {{ $user->last_name }}
+                                                {{ $user->name }}
                                             </span>
                                             <span class="list-enq-city">
                                                 {{ $user->city ?? '—' }},

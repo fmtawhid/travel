@@ -14,7 +14,6 @@
                             <th>Duration</th>
                             <th>Start Date</th>
                             <th>Price</th>
-                            <th>Payment</th>
                             <th>More</th>
                         </tr>
                     </thead>
@@ -25,8 +24,7 @@
                                 <td>{{ $booking->tour?->title ?? 'N/A' }}</td>
                                 <td>{{ $booking->tour?->duration ?? 'N/A' }}</td>
                                 <td>{{ $booking->tour?->start_date ? \Carbon\Carbon::parse($booking->tour->start_date)->format('d M Y') : 'N/A' }}</td>
-                                <td>${{ $booking->tour?->price ?? '0' }}</td>
-                                <td><span class="db-done">Pending</span></td>
+                                <td>${{ $booking->tour?->discount_price ?? $booking->tour?->price ?? '0' }}</td>
                                 <td><a href="{{ route('user.booking.tour-package-details', $booking->id) }}" class="db-done">view more</a></td>
                             </tr>
                         @empty

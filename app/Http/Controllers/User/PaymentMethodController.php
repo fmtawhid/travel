@@ -68,7 +68,10 @@ class PaymentMethodController extends Controller
      */
     public function edit(PaymentMethod $paymentMethod)
     {
-        $this->authorize('update', $paymentMethod);
+        // Check if user owns this payment method
+        if ($paymentMethod->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
         return view('user.payment-methods.edit', compact('paymentMethod'));
     }
 
@@ -77,7 +80,10 @@ class PaymentMethodController extends Controller
      */
     public function update(Request $request, PaymentMethod $paymentMethod)
     {
-        $this->authorize('update', $paymentMethod);
+        // Check if user owns this payment method
+        if ($paymentMethod->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
 
         // Clean card number - remove spaces BEFORE validation
         $cardNumber = str_replace(' ', '', $request->card_number);
@@ -113,7 +119,10 @@ class PaymentMethodController extends Controller
      */
     public function destroy(PaymentMethod $paymentMethod)
     {
-        $this->authorize('delete', $paymentMethod);
+        // Check if user owns this payment method
+        if ($paymentMethod->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
         
         $paymentMethod->delete();
 
@@ -125,7 +134,10 @@ class PaymentMethodController extends Controller
      */
     public function setDefault(PaymentMethod $paymentMethod)
     {
-        $this->authorize('update', $paymentMethod);
+        // Check if user owns this payment method
+        if ($paymentMethod->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
 
         PaymentMethod::where('user_id', Auth::id())->update(['is_default' => false]);
         $paymentMethod->update(['is_default' => true]);

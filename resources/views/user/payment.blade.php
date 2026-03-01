@@ -14,7 +14,7 @@
 			<div class="db-2-main-com db2-form-pay db2-form-com">
 				<div class="db-pay-card">
 					<h5>Accepted Card Types</h5>
-					<img src="{{ asset('assets/images/cards.png') }}" alt="Accepted Cards" /> 
+					<img src="{{ asset('assets/templates/images/cards.png') }}" alt="Accepted Cards" /> 
 				</div>
 
 				@if($paymentMethods && count($paymentMethods) > 0)
@@ -22,8 +22,13 @@
 					<div style="margin-bottom: 30px;">
 						<h5 style="margin-bottom: 15px;">Your Saved Cards</h5>
 						
-						<form id="paymentForm" class="col s12">
+						<form id="paymentForm" method="POST" action="{{ route('user.payment.process') }}" class="col s12">
 							@csrf
+							
+							<!-- Hidden field for payment_id if coming from payment details -->
+							@if($paymentId)
+								<input type="hidden" name="payment_id" value="{{ $paymentId }}">
+							@endif
 							
 							<div class="row">
 								<div class="input-field col s12">
@@ -57,7 +62,7 @@
 							<div class="row" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
 								<div class="input-field col s12">
 									<label for="amount">Amount to Pay</label>
-									<input type="number" id="amount" name="amount" class="validate" placeholder="Enter amount" step="0.01" required>
+									<input type="number" id="amount" name="amount" class="validate" placeholder="Enter amount" step="0.01" required value="{{ $amount ?? '' }}">
 								</div>
 							</div>
 
@@ -70,8 +75,13 @@
 					</div>
 				@else
 					<!-- No saved payment methods -->
-					<form id="paymentForm" class="col s12">
+					<form id="paymentForm" method="POST" action="{{ route('user.payment.process') }}" class="col s12">
 						@csrf
+						
+						<!-- Hidden field for payment_id if coming from payment details -->
+						@if($paymentId)
+							<input type="hidden" name="payment_id" value="{{ $paymentId }}">
+						@endif
 						
 						<div class="row" style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
 							<div class="col s12">
@@ -121,7 +131,7 @@
 						<div class="row">
 							<div class="input-field col s12">
 								<label for="amount">Amount to Pay</label>
-								<input type="number" id="amount" name="amount" class="validate" placeholder="Enter amount" step="0.01" required>
+								<input type="number" id="amount" name="amount" class="validate" placeholder="Enter amount" step="0.01" required value="{{ $amount ?? '' }}">
 							</div>
 						</div>
 

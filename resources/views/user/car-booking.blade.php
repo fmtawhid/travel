@@ -13,7 +13,6 @@
                             <th>Pickup Date</th>
                             <th>Dropoff Date</th>
                             <th>Passengers</th>
-                            <th>Payment</th>
                             <th>More</th>
                         </tr>
                     </thead>
@@ -25,7 +24,6 @@
                                 <td>{{ $booking->pickup_date ? \Carbon\Carbon::parse($booking->pickup_date)->format('d M Y') : 'N/A' }}</td>
                                 <td>{{ $booking->dropoff_date ? \Carbon\Carbon::parse($booking->dropoff_date)->format('d M Y') : 'N/A' }}</td>
                                 <td>{{ $booking->total_passengers }}</td>
-                                <td><span class="db-done">Pending</span></td>
                                 <td><a href="{{ route('user.booking.car-details', $booking->id) }}" class="db-done">view more</a></td>
                             </tr>
                         @empty

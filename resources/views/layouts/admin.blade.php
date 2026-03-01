@@ -64,20 +64,18 @@
 
                 <!-- Dropdown Structure -->
                 <ul id='top-menu' class='dropdown-content top-menu-sty'>
-                    <li><a href="setting.html" class="waves-effect"><i class="fa fa-cogs" aria-hidden="true"></i>Admin Setting</a>
+                    <li><a href="{{ route('admin.settings.edit') }}" class="waves-effect"><i class="fa fa-cogs" aria-hidden="true"></i>Admin Setting</a>
                     </li>
-                    <li><a href="hotel-all.html" class="waves-effect"><i class="fa fa-building-o" aria-hidden="true"></i> Hotels</a>
+                    <li><a href="{{ route('admin.hotels.index') }}" class="waves-effect"><i class="fa fa-building-o" aria-hidden="true"></i> Hotels</a>
                     </li>
-                    <li><a href="package-all.html" class="waves-effect"><i class="fa fa-umbrella" aria-hidden="true"></i> Tour Packages</a>
+                    <li><a href="{{ route('admin.tours.index') }}" class="waves-effect"><i class="fa fa-umbrella" aria-hidden="true"></i> Tour Packages</a>
                     </li>
-                    <li><a href="event-all.html" class="waves-effect"><i class="fa fa-flag-checkered" aria-hidden="true"></i> Events</a>
+                    <li><a href="{{ route('admin.events.index') }}" class="waves-effect"><i class="fa fa-flag-checkered" aria-hidden="true"></i> Events</a>
                     </li>
-                    <li><a href="offers.html" class="waves-effect"><i class="fa fa-tags" aria-hidden="true"></i> Offers</a>
+                    <li><a href="{{ route('admin.users.index') }}" class="waves-effect"><i class="fa fa-user-plus" aria-hidden="true"></i> Add New User</a>
                     </li>
-                    <li><a href="user-add.html" class="waves-effect"><i class="fa fa-user-plus" aria-hidden="true"></i> Add New User</a>
-                    </li>
-                    <li><a href="#" class="waves-effect"><i class="fa fa-undo" aria-hidden="true"></i> Backup Data</a>
-                    </li>
+                    {{-- <li><a href="#" class="waves-effect"><i class="fa fa-undo" aria-hidden="true"></i> Backup Data</a>
+                    </li> --}}
                     <li class="divider"></li>
                     <li>
                         <a href="{{ route('logout') }}" class="ho-dr-con-last waves-effect"
@@ -302,6 +300,8 @@
                                     </li>
                                     <li><a href="{{ route('admin.payments.create') }}" class="{{ Route::is('admin.payments.create') ? 'menu-active active' : '' }}">Add New Payment</a>
                                     </li>
+                                    <li><a href="{{ route('admin.payments.request') }}" class="{{ Route::is('admin.payments.request') ? 'menu-active active' : '' }}">Payment Request</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -337,7 +337,7 @@
                         </li>
                         <li><a href="{{ route('admin.settings.edit') }}"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Settings</a>
                         </li>
-                        <li><a href="login.html" target="_blank"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+                        {{-- <li><a href="login.html" target="_blank"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a> --}}
                         </li>
                     </ul>
                 </div>
@@ -351,17 +351,15 @@
     <section>
         <div class="fixed-action-btn vertical">
             <a class="btn-floating btn-large red pulse">
-                <i class="large material-icons">mode_edit</i>
+                <i class="large material-icons">add</i>
             </a>
             <ul>
-                <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a>
-                </li>
-                <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a>
-                </li>
-                <li><a class="btn-floating green"><i class="material-icons">publish</i></a>
-                </li>
-                <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a>
-                </li>
+                <li><a href="{{ route('admin.dashboard') }}" class="btn-floating blue" title="Dashboard"><i class="material-icons">dashboard</i></a></li>
+                <li><a href="{{ route('admin.users.create') }}" class="btn-floating green" title="Add User"><i class="material-icons">person_add</i></a></li>
+                <li><a href="{{ route('admin.hotels.create') }}" class="btn-floating cyan" title="Add Hotel"><i class="material-icons">add_location</i></a></li>
+                <li><a href="{{ route('admin.tours.create') }}" class="btn-floating orange" title="Add Tour"><i class="material-icons">explore</i></a></li>
+                <li><a href="{{ route('admin.events.create') }}" class="btn-floating purple" title="Add Event"><i class="material-icons">event</i></a></li>
+                <li><a href="{{ route('admin.settings.edit') }}" class="btn-floating indigo" title="Settings"><i class="material-icons">settings</i></a></li>
             </ul>
         </div>
     </section>

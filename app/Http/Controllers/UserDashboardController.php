@@ -149,7 +149,26 @@ class UserDashboardController extends Controller
     {
         $user = Auth::user();
         $paymentMethods = $user->paymentMethods;
-        return view('user.payment', compact('paymentMethods'));
+        
+        // Get amount and payment_id from query parameters if available
+        $amount = $request->query('amount', null);
+        $paymentId = $request->query('payment_id', null);
+        
+        // If coming from payment details page
+        if ($amount && $paymentId) {
+            $payment = Payment::find($paymentId);
+            if ($payment && $payment->getBooking()->user_id === $user->id) {
+                // Create a payment request
+                \App\Models\PaymentRequest::create([
+                    'user_id' => $user->id,
+                    'payment_id' => $paymentId,
+                    'amount' => $amount,
+                    'status' => 'requested',
+                ]);
+            }
+        }
+        
+        return view('user.payment', compact('paymentMethods', 'amount', 'paymentId'));
     }
 
     public function paymentsList(Request $request)
@@ -175,5 +194,111 @@ class UserDashboardController extends Controller
     public function claim_refund(Request $request)
     {
         return view('user.claim-refund');
+    }
+
+    public function paymentRequests(Request $request)
+    {
+        $user = Auth::user();
+        $paymentRequests = \App\Models\PaymentRequest::where('user_id', $user->id)
+            ->with('payment')
+            ->latest()
+            ->paginate(10);
+        
+        return view('user.payment-requests', compact('paymentRequests'));
+    }
+
+    public function viewPaymentByBooking($bookingType, $bookingId)
+    {
+        $user = Auth::user();
+        $payment = null;
+
+        // Find payment based on booking type
+        switch($bookingType) {
+            case 'tour':
+                $payment = Payment::where('tour_booking_id', $bookingId)
+                    ->whereHas('tourBooking', function($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    })->first();
+                break;
+            case 'hotel':
+                $payment = Payment::where('hotel_booking_id', $bookingId)
+                    ->whereHas('hotelBooking', function($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    })->first();
+                break;
+            case 'car':
+                $payment = Payment::where('car_booking_id', $bookingId)
+                    ->whereHas('carBooking', function($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    })->first();
+                break;
+            case 'flight':
+                $payment = Payment::where('flight_booking_id', $bookingId)
+                    ->whereHas('flightBooking', function($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    })->first();
+                break;
+            case 'custom':
+                $payment = Payment::where('custom_booking_id', $bookingId)
+                    ->whereHas('customBooking', function($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    })->first();
+                break;
+        }
+
+        if ($payment) {
+            return view('user.payment-details', compact('payment'));
+        } else {
+            // Return with alert message
+            return redirect()->back()->with([
+                'error' => 'Your payment is not ready',
+                'alert_type' => 'warning'
+            ]);
+        }
+    }
+
+    public function processPayment(Request $request)
+    {
+        $user = Auth::user();
+
+        // Validate the payment form
+        $request->validate([
+            'amount' => 'required|numeric|min:0.01',
+            'payment_method_id' => 'nullable|exists:payment_methods,id',
+            'card_number' => 'nullable|string',
+            'expiry_date' => 'nullable|string',
+            'cvv' => 'nullable|string',
+            'full_name' => 'nullable|string',
+            'card_name' => 'nullable|string',
+        ]);
+
+        $amount = $request->input('amount');
+        $paymentMethodId = $request->input('payment_method_id');
+        $paymentId = $request->input('payment_id');
+
+        // Check if using saved card or new card
+        if (!$paymentMethodId && !$request->input('card_number')) {
+            return redirect()->back()->with('error', 'Please select a payment method or enter card details');
+        }
+
+        try {
+            // Create payment record if coming from payment details
+            if ($paymentId) {
+                $payment = Payment::find($paymentId);
+                if (!$payment || $payment->getBooking()->user_id !== $user->id) {
+                    return redirect()->back()->with('error', 'Invalid payment');
+                }
+
+                // Payment request status remains "requested"
+                // Payment status remains unchanged
+                // TODO: Here you would integrate with a payment gateway (Stripe, PayPal, etc.)
+            }
+
+            return redirect()->route('user.payment-requests')
+                ->with('success', 'Payment request submitted successfully! Your payment status is still pending.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Payment processing failed: ' . $e->getMessage());
+        }
     }
 }

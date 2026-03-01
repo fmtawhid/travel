@@ -12,7 +12,6 @@
                             <th>No</th>
                             <th>Event Name</th>
                             <th>Event Date</th>
-                            <th>Payment</th>
                             <th>More</th>
                         </tr>
                     </thead>
@@ -22,7 +21,6 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $booking->event?->name ?? 'N/A' }}</td>
                                 <td>{{ $booking->event?->date ? \Carbon\Carbon::parse($booking->event->date)->format('d M Y') : 'N/A' }}</td>
-                                <td><span class="db-done">Pending</span></td>
                                 <td><a href="{{ route('user.booking.event-details', $booking->id) }}" class="db-done">view more</a></td>
                             </tr>
                         @empty

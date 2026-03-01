@@ -53,6 +53,31 @@ class Payment extends Model
 
     /*
     |--------------------------------------------------------------------------
+    | Custom Methods
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Get the user associated with this payment
+     */
+    public function getUser()
+    {
+        if ($this->tourBooking) {
+            return $this->tourBooking->user;
+        } elseif ($this->hotelBooking) {
+            return $this->hotelBooking->user;
+        } elseif ($this->carBooking) {
+            return $this->carBooking->user;
+        } elseif ($this->flightBooking) {
+            return $this->flightBooking->user;
+        } elseif ($this->customBooking) {
+            return $this->customBooking->user;
+        }
+        return null;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Helper Methods
     |--------------------------------------------------------------------------
     */
