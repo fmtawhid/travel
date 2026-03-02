@@ -51,9 +51,7 @@
             <!--== NOTIFICATION ==-->
             <div class="col-md-2 tab-hide">
                 <div class="top-not-cen">
-                    <a class='waves-effect btn-noti' href='#'><i class="fa fa-commenting-o" aria-hidden="true"></i><span>5</span></a>
-                    <a class='waves-effect btn-noti' href='#'><i class="fa fa-envelope-o" aria-hidden="true"></i><span>5</span></a>
-                    <a class='waves-effect btn-noti' href='#'><i class="fa fa-tag" aria-hidden="true"></i><span>5</span></a>
+                    @include('notifications.admin-dropdown')
                 </div>
             </div>
             <!--== MY ACCCOUNT ==-->
@@ -334,6 +332,8 @@
                                     </li>
                                 </ul>
                             </div>
+                        </li>
+                        <li><a href="{{ route('notifications.index') }}"><i class="fa fa-bell" aria-hidden="true"></i> Notifications</a>
                         </li>
                         <li><a href="{{ route('admin.settings.edit') }}"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Settings</a>
                         </li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -41,7 +42,15 @@ class BlogController extends Controller
             $data['image'] = $filename;
         }
 
-        Blog::create($data);
+        $blog = Blog::create($data);
+
+        // Send notification to all users
+        NotificationService::notifyAllUsers(
+            'New Blog Published 📝',
+            'A new blog "' . $blog->title . '" has been published. Check it now!',
+            route('blog.details', $blog->slug),
+            $blog->image ? 'uploads/blogs/' . $blog->image : null
+        );
 
         return redirect()->route('admin.blogs.index')
             ->with('success', 'Blog created successfully.');

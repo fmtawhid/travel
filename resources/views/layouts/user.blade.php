@@ -23,8 +23,8 @@
                                 style="border-radius:8px;">
                         </li>
 
-						<li><span>80%</span> profile compl</li>
-						<li><span>18</span> Notifications</li>
+						{{-- <li><span>80%</span> profile compl</li>
+						<li><span>18</span> Notifications</li> --}}
 					</ul>
 				</div>
 				<div class="db-l-2">
@@ -84,54 +84,45 @@
 			<div class="db-3">
 				<h4>Notifications</h4>
 				<ul>
-					<li>
-						<a href="#!"> <img src="{{ asset('assets/templates/images/icon/dbr1.jpg') }}" alt="" />
-							<h5>50% Discount Offer</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
+					@php
+						$latestNotifications = \App\Models\Notification::forCurrentUser()
+							->orderBy('created_at', 'desc')
+							->take(10)
+							->get();
+					@endphp
+
+					@foreach($latestNotifications as $notif)
+						<li>
+							<a href="{{ $notif->url ?? '#' }}"
+							onclick="event.preventDefault(); document.getElementById('read-{{ $notif->id }}').submit();">
+
+								{{-- Image --}}
+								<img src="{{ $notif->image ? asset($notif->image) : asset('assets/templates/images/icon/dbr1.jpg') }}"
+									alt="notification">
+
+								{{-- Title --}}
+								<h5 style="white-space:nowrap;text-overflow:ellipsis;
+										font-weight:{{ !$notif->is_read ? 'bold' : 'normal' }};">
+									{{ \Illuminate\Support\Str::limit($notif->title, 30) }}
+								</h5>
+
+								{{-- Description --}}
+								<p style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+									{{ \Illuminate\Support\Str::limit($notif->description, 37) }}
+								</p>
+							</a>
+
+							{{-- Hidden Form for Mark as Read --}}
+							<form id="read-{{ $notif->id }}"
+								action="{{ route('notifications.read', $notif->id) }}"
+								method="POST"
+								style="display:none;">
+								@csrf
+							</form>
+						</li>
+					@endforeach
 					</li>
-					<li>
-						<a href="#!"> <img src="{{ asset('assets/templates/images/icon/dbr2.jpg') }}" alt="" />
-							<h5>paris travel package</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{{ asset('assets/templates/images/icon/dbr3.jpg') }}" alt="" />
-							<h5>Group Trip - Available</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{{ asset('assets/templates/images/icon/dbr4.jpg') }}" alt="" />
-							<h5>world best travel agency</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{{ asset('assets/templates/images/icon/dbr5.jpg') }}" alt="" />
-							<h5>special travel coupons</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{{ asset('assets/templates/images/icon/dbr6.jpg') }}" alt="" />
-							<h5>70% Offer 2018</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{{ asset('assets/templates/images/icon/dbr7.jpg') }}" alt="" />
-							<h5>Popular Cities</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{{ asset('assets/templates/images/icon/dbr8.jpg') }}" alt="" />
-							<h5>variations of passages</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
+					
 				</ul>
 			</div>
 		</div>

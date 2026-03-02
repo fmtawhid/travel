@@ -7,6 +7,7 @@ use App\Models\Tour;
 use App\Models\Itinerary;
 use App\Models\Gallery;
 use App\Models\Package;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class TourController extends Controller
@@ -97,8 +98,17 @@ class TourController extends Controller
             }
         }
 
+        // Send notification to all users
+        NotificationService::notifyAllUsers(
+            'New Tour Package Available! 🎉',
+            'A new tour "' . $tour->title . '" in ' . $tour->location . ' is available. Book now!',
+            route('package.details', $tour->id),
+            $tour->image ? 'uploads/tours/' . $tour->image : null
+        );
+
         return redirect()->route('admin.tours.index')->with('success', 'Tour created successfully');
-    }
+    }       
+    
 
     // Show edit form
     public function edit(Tour $tour)

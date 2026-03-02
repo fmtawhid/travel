@@ -6,11 +6,78 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Payment;
+use App\Models\TourBooking;
+use App\Models\HotelBooking;
+use App\Models\EventBooking;
+
 class UserDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        return view('user.dashboard');
+        $user = Auth::user();
+        
+        // Get ONLY LATEST booking of each type for dashboard
+        $tourBooking = $user->tourBookings()
+            ->with(['package', 'tour'])
+            ->latest()
+            ->first();
+        if($tourBooking) {
+            $payment = Payment::where('tour_booking_id', $tourBooking->id)->latest()->first();
+            $tourBooking->latest_payment = $payment;
+            $tourBooking->remaining_days = $tourBooking->departure ? now()->diffInDays($tourBooking->departure, false) : null;
+        }
+        
+        $hotelBooking = $user->hotelBookings()
+            ->with(['hotel', 'roomType'])
+            ->latest()
+            ->first();
+        if($hotelBooking) {
+            $payment = Payment::where('hotel_booking_id', $hotelBooking->id)->latest()->first();
+            $hotelBooking->latest_payment = $payment;
+            $hotelBooking->remaining_days = $hotelBooking->check_out ? now()->diffInDays($hotelBooking->check_out, false) : null;
+        }
+        
+        $eventBooking = $user->eventBookings()
+            ->with('event')
+            ->latest()
+            ->first();
+        if($eventBooking) {
+            $payment = Payment::where('custom_booking_id', $eventBooking->id)->latest()->first();
+            $eventBooking->latest_payment = $payment;
+            $eventBooking->remaining_days = $eventBooking->event && $eventBooking->event->date ? now()->diffInDays($eventBooking->event->date, false) : null;
+        }
+        
+        $carBooking = $user->carBookings()
+            ->latest()
+            ->first();
+        if($carBooking) {
+            $payment = Payment::where('car_booking_id', $carBooking->id)->latest()->first();
+            $carBooking->latest_payment = $payment;
+            $carBooking->remaining_days = $carBooking->pickup_date ? now()->diffInDays($carBooking->pickup_date, false) : null;
+        }
+        
+        $flightBooking = $user->flightBookings()
+            ->latest()
+            ->first();
+        if($flightBooking) {
+            $payment = Payment::where('flight_booking_id', $flightBooking->id)->latest()->first();
+            $flightBooking->latest_payment = $payment;
+            $flightBooking->remaining_days = $flightBooking->departure_date ? now()->diffInDays($flightBooking->departure_date, false) : null;
+        }
+        
+        $customBooking = $user->customBookings()
+            ->latest()
+            ->first();
+        if($customBooking) {
+            $payment = Payment::where('custom_booking_id', $customBooking->id)->latest()->first();
+            $customBooking->latest_payment = $payment;
+            $customBooking->remaining_days = $customBooking->departure ? now()->diffInDays($customBooking->departure, false) : null;
+        }
+        
+        return view('user.dashboard', compact(
+            'tourBooking', 'hotelBooking', 'eventBooking', 
+            'carBooking', 'flightBooking', 'customBooking', 'user'
+        ));
     }
 
     public function profile()

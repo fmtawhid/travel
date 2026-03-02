@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -36,7 +37,15 @@ class EventController extends Controller
             $data['image'] = $filename;
         }
 
-        Event::create($data);
+        $event = Event::create($data);
+
+        // Send notification to all users
+        NotificationService::notifyAllUsers(
+            'New Event Available! 🎪',
+            'A new event "' . $event->name . '" is coming on ' . $event->date . '. Book your tickets now!',
+            route('booking.event', $event->id),
+            $event->image ? 'uploads/events/' . $event->image : null
+        );
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event created successfully.');

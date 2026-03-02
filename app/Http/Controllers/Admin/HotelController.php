@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Hotel;
 use App\Models\RoomType;
 use App\Models\HotelAmenity;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class HotelController extends Controller
@@ -141,6 +142,14 @@ class HotelController extends Controller
                 }
             }
         }
+
+        // Send notification to all users
+        NotificationService::notifyAllUsers(
+            'New Hotel Available! 🏨',
+            'A new hotel "' . $hotel->name . '" in ' . $hotel->location . ' is now available. Reserve your room today!',
+            route('hotel.details', $hotel->id),
+            $hotel->image ? 'uploads/hotels/' . $hotel->image : null
+        );
 
         return redirect()->route('admin.hotels.index')->with('success', 'Hotel created successfully.');
     }

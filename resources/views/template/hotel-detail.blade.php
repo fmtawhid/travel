@@ -167,23 +167,25 @@
 						<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 							<!-- Indicators -->
 							<ol class="carousel-indicators carousel-indicators-1">
-								@foreach($hotel->gallery_images as $image)
-									@if(is_string($image))
-										<li data-target="#myCarousel1" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif><img src="{{ asset('uploads/hotels/gallery/' . $image) }}" alt="Hotel Gallery">
-										</li>
-									@endif
-								@endforeach
-
-								
+								@if($hotel->gallery_images && is_array($hotel->gallery_images))
+									@foreach($hotel->gallery_images as $image)
+										@if(is_string($image))
+											<li data-target="#myCarousel1" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif><img src="{{ asset('uploads/hotels/gallery/' . $image) }}" alt="Hotel Gallery">
+											</li>
+										@endif
+									@endforeach
+								@endif
 							</ol>
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner carousel-inner1" role="listbox">
-								@foreach($hotel->gallery_images as $image)
-									@if(is_string($image))
-										<div class="item @if($loop->first) active @endif"> <img src="{{ asset('uploads/hotels/gallery/' . $image) }}" alt="Hotel Gallery" width="460" height="345"> </div>
-									@endif
-								@endforeach
-								<div class="item active"> <img src="{{ asset('uploads/hotels/' . $hotel->image) }}" alt="No Gallery Available" width="460" height="345"></div>
+								@if($hotel->gallery_images && is_array($hotel->gallery_images))
+									@foreach($hotel->gallery_images as $image)
+										@if(is_string($image))
+											<div class="item @if($loop->first) active @endif"> <img src="{{ asset('uploads/hotels/gallery/' . $image) }}" alt="Hotel Gallery" width="460" height="345"> </div>
+										@endif
+									@endforeach
+								@endif
+								<div class="item @if(!$hotel->gallery_images || !is_array($hotel->gallery_images)) active @endif"> <img src="{{ asset('uploads/hotels/' . $hotel->image) }}" alt="No Gallery Available" width="460" height="345"></div>
 							</div>
 							<!-- Left and right controls -->
 							<a class="left carousel-control" href="#myCarousel1" role="button" data-slide="prev"> <span><i class="fa fa-angle-left hotel-gal-arr" aria-hidden="true"></i></span> </a>

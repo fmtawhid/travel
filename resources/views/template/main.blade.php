@@ -361,7 +361,7 @@
         </div>
     </section>
     <!--====== SECTION: FREE CONSULTANT ==========-->
-    <section>
+    {{-- <section>
         <div class="offer">
             <div class="container">
                 <div class="row">
@@ -389,16 +389,21 @@
                     </div>
                     <div class="col-md-6">
                         <div class="offer-r">
-                            <div class="or-1"> <span class="or-11">go</span> <span class="or-12">Stays</span> </div>
-                            <div class="or-2"> <span class="or-21">Get</span> <span class="or-22">70%</span> <span class="or-23">Off</span> <span class="or-24">use code: RG5481WERQ</span> <span class="or-25"></span> </div>
+                        <div class="or-1">
+                            <a href="{{ route('booking.custom-package') }}" class="or-link">
+                                <span class="or-11">go</span>
+                                <span class="or-12">Stays</span>
+                            </a>
+                        </div>                            
+                        <div class="or-2"> <span class="or-21">UP TO</span> <span class="or-22">50%</span> <span class="or-23">Off</span> <span class="or-24">Start From: 99$</span> <span class="or-25"></span> </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!--====== EVENTS ==========-->
-    <!--<section>
+    <section>
         <div class="rows tb-space">
             <div class="container events events-1" id="inner-page-title">
                
@@ -409,7 +414,7 @@
                         <div class="tl-2"></div>
                         <div class="tl-3"></div>
                     </div>
-                    <p>World's leading tour and travels Booking website,Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience</p>
+                    <p>World's leading tour and travels Booking website, Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience</p>
                 </div>
                 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Event Name.." title="Type in a name">
                 <table id="myTable">
@@ -422,91 +427,58 @@
                             <th class="e_h1">Location</th>
                             <th>Book</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><img src="images/iplace-1.jpg" alt="" /><a href="hotels-list.html" class="events-title">Taj Mahal,Agra, India</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">Australia</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><img src="images/iplace-2.jpg" alt="" /><a href="hotels-list.html" class="events-title">Salesforce Summer, Dubai</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">Dubai</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><img src="images/iplace-3.jpg" alt="" /><a href="hotels-list.html" class="events-title">God Towers, TOKYO, JAPAN</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">JAPAN</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td><img src="images/iplace-4.jpg" alt="" /><a href="hotels-list.html" class="events-title">TOUR DE ROMANDIE, Switzerland</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">Switzerland</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td><img src="images/iplace-5.jpg" alt="" /><a href="hotels-list.html" class="events-title">TOUR DE POLOGNE, Poland</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">Poland</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td><img src="images/iplace-6.jpg" alt="" /><a href="hotels-list.html" class="events-title">Future of Marketing,Sydney, Australia</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">Australia</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td><img src="images/iplace-7.jpg" alt="" /><a href="hotels-list.html" class="events-title">Eiffel Tower, Paris</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">France</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td><img src="images/iplace-8.jpg" alt="" /><a href="hotels-list.html" class="events-title">PARIS - ROUBAIX, England</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">England</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td><img src="images/iplace-9.jpg" alt="" /><a href="hotels-list.html" class="events-title">Dubai Beach Resort, Dubai</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">Dubai</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td><img src="images/iplace-4.jpg" alt="" /><a href="hotels-list.html" class="events-title">TOUR DE POLOGNE, Poland</a> </td>
-                            <td class="e_h1">16.12.2016</td>
-                            <td class="e_h1">10.00 PM</td>
-                            <td class="e_h1">Poland</td>
-                            <td><a href="booking.html" class="link-btn">Book Now</a> </td>
-                        </tr>
+                        @forelse($events as $index => $event)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>
+                                    @if($event->image)
+                                        <img src="{{ asset('uploads/events/'.$event->image) }}" alt="{{ $event->name }}" style="max-width: 50px; height: auto;" />
+                                    @endif
+                                    <a href="#" class="events-title">{{ $event->name }}</a>
+                                </td>
+                                <td class="e_h1">{{ \Carbon\Carbon::parse($event->date)->format('d.m.Y') }}</td>
+                                <td class="e_h1">{{ $event->time }}</td>
+                                <td class="e_h1">{{ $event->location }}</td>
+                                {{-- <td><a href="#" class="link-btn">Book Now</a></td>01 --}}
+                                <td>
+                                    @auth
+                                        <a href="{{ route('booking.event', $event->id) }}" class="link-btn">Book Now</a>
+                                    @else
+                                        <a href="{{ route('login') }}" class="link-btn">Login to Book</a>
+                                    @endauth
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 20px;">No events available at the moment.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-    </section>-->
+    </section>
+    
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
     <!--====== POPULAR TOUR PLACES ==========-->
     <section>
         <div class="rows pla pad-bot-redu tb-space">

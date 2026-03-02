@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SightSeeing;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class SightSeeingController extends Controller
@@ -41,7 +42,15 @@ class SightSeeingController extends Controller
             $data['image'] = $filename;
         }
 
-        SightSeeing::create($data);
+        $sightseeing = SightSeeing::create($data);
+
+        // Send notification to all users
+        NotificationService::notifyAllUsers(
+            'New Sightseeing Destination! 🏞️',
+            'Discover "' . $sightseeing->name . '" - a new amazing destination waiting for you!',
+            route('sightseeing.details', $sightseeing->id),
+            $sightseeing->image ? 'uploads/sightseeing/' . $sightseeing->image : null
+        );
 
         return redirect()->route('admin.sightseeings.index')->with('success', 'SightSeeing created successfully.');
     }

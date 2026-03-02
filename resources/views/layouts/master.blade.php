@@ -127,6 +127,9 @@
                             <ul>
                                 <li><span class="sear-pop pop-ini" data-pop="pop-search"><i class="fa fa-search"
                                             aria-hidden="true"></i></span></li>
+                                @auth
+                                    <li>@include('notifications.dropdown')</li>
+                                @endauth
                                 <li><a href="{{ route('login') }}" class="top-sign">Sign In</a>
                                 </li>
                                 <li><a href="{{ route('register') }}" class="top-regi">Sign Up</a>

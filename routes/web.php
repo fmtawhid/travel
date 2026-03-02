@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -78,6 +79,16 @@ Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
     ->name('admin.dashboard');
 
+// Notification Routes (Authenticated Users)
+Route::middleware('auth')->prefix('notifications')->name('notifications.')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('index');
+    Route::get('/latest', [NotificationController::class, 'getLatest'])->name('latest');
+    Route::get('/unread-count', [NotificationController::class, 'getUnreadCount'])->name('unread-count');
+    Route::post('/{notification}/read', [NotificationController::class, 'markAsRead'])->name('read');
+    Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
+    Route::delete('/{notification}', [NotificationController::class, 'destroy'])->name('destroy');
+    Route::delete('/', [NotificationController::class, 'destroyAll'])->name('destroy-all');
+});
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';

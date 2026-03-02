@@ -7,6 +7,7 @@ use App\Models\Tour;
 use App\Models\RoomType;
 use App\Models\SightSeeing;
 use App\Models\Event;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use App\Models\Package;
 use App\Models\Blog;
@@ -64,7 +65,10 @@ class MainController extends Controller
             ->pluck('user')
             ->filter();
 
-        return view('template.main', compact('locations', 'packageTypes', 'sightSeeings', 'packages', 'topLocations', 'featuredPackages', 'topHotels', 'topPackages', 'topReviewers'));
+        // Get events for homepage
+        $events = Event::latest()->get();
+
+        return view('template.main', compact('locations', 'packageTypes', 'sightSeeings', 'packages', 'topLocations', 'featuredPackages', 'topHotels', 'topPackages', 'topReviewers', 'events'));
     }
 
     public function packages(Request $request)
@@ -306,7 +310,7 @@ class MainController extends Controller
             return back()->with('error', 'You already reviewed this tour.');
         }
 
-        Review::create([
+        $review = Review::create([
             'tour_id' => $request->tour_id,
             'user_id' => Auth::id(),
             'name'    => Auth::user()->name,
@@ -314,6 +318,13 @@ class MainController extends Controller
             'message' => $request->message,
             'rating'  => $request->rating,
         ]);
+
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Tour Review! ⭐',
+            Auth::user()->name . ' left a ' . $request->rating . '-star review on a tour.',
+            route('admin.dashboard')
+        );
 
         return back()->with('success', 'Review submitted successfully!');
     }
@@ -335,7 +346,7 @@ class MainController extends Controller
             return back()->with('error', 'You already reviewed this hotel.');
         }
 
-        Review::create([
+        $review = Review::create([
             'hotel_id' => $request->hotel_id,
             'user_id' => Auth::id(),
             'name'    => Auth::user()->name,
@@ -343,6 +354,13 @@ class MainController extends Controller
             'message' => $request->message,
             'rating'  => $request->rating,
         ]);
+
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Hotel Review! ⭐',
+            Auth::user()->name . ' left a ' . $request->rating . '-star review on a hotel.',
+            route('admin.dashboard')
+        );
 
         return back()->with('success', 'Review submitted successfully!');
     }
@@ -358,7 +376,7 @@ class MainController extends Controller
             'message' => 'required|string|max:1000',
         ]);
 
-        Contact::create([
+        $contact = Contact::create([
             'name'    => $request->name,
             'email'   => $request->email,
             'phone'   => $request->phone,
@@ -366,6 +384,13 @@ class MainController extends Controller
             'country' => $request->country,
             'message' => $request->message,
         ]);
+
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Contact Message! 📧',
+            'A new contact message from ' . $request->name . ' from ' . $request->city . ', ' . $request->country . ' has been received.',
+            route('admin.dashboard')
+        );
 
         return back()->with('success', 'Thank you! Your message has been sent successfully. We will contact you shortly.');
     }

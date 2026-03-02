@@ -12,6 +12,7 @@ use App\Models\HotelBooking;
 use App\Models\Event;
 use App\Models\EventBooking;
 use App\Models\CustomBooking;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -77,6 +78,13 @@ class BookingController extends Controller
             'noofchildrens'  => $request->noofchildrens,
         ]);
 
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Tour Booking Received! 🎫',
+            'A new tour booking from ' . $request->name . ' for ' . $request->noofadults . ' adults has been submitted.',
+            route('admin.dashboard')
+        );
+
         return back()->with('success', 'Tour booking submitted successfully!');
     }
 
@@ -113,6 +121,13 @@ class BookingController extends Controller
             'min_price' => $request->min_price,
             'max_price' => $request->max_price,
         ]);
+
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Flight Booking Received! ✈️',
+            'A new flight booking from ' . $request->name . ' from ' . $request->flying_from . ' to ' . $request->flying_to . ' has been submitted.',
+            route('admin.dashboard')
+        );
 
         return back()->with('success', 'Flight booking submitted successfully!');
     }
@@ -161,6 +176,13 @@ class BookingController extends Controller
             'max_price'        => $request->max_price,
         ]);
 
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Car Rental Booking Received! 🚗',
+            'A new car booking from ' . $request->name . ' for a ' . $request->car_type . ' has been submitted.',
+            route('admin.dashboard')
+        );
+
         return back()->with('success', 'Car booking submitted successfully!');
     }
 
@@ -207,6 +229,13 @@ class BookingController extends Controller
             'max_price'=>$request->maxprice,
         ]);
 
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Hotel Booking Received! 🏨',
+            'A new hotel booking from ' . $request->name . ' for ' . $request->noofrooms . ' room(s) has been submitted.',
+            route('admin.dashboard')
+        );
+
         return back()->with('success', 'Hotel booking submitted successfully!');
     }
 
@@ -237,6 +266,13 @@ class BookingController extends Controller
             'email' => $request->email,
             'note' => $request->note,
         ]);
+
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Event Booking Received! 🎫',
+            'A new event booking from ' . $request->name . ' has been submitted.',
+            route('admin.dashboard')
+        );
 
         return back()->with('success', 'Event booking submitted successfully!');
     }
@@ -277,6 +313,13 @@ class BookingController extends Controller
             'minprice' => $request->minprice,
             'maxprice' => $request->maxprice,
         ]);
+
+        // Send notification to all admins
+        NotificationService::notifyAdmins(
+            'New Custom Package Request! 📦',
+            'A new custom package booking from ' . $request->name . ' to ' . $request->city . ' has been submitted.',
+            route('admin.dashboard')
+        );
 
         return back()->with('success', 'Custom package booking submitted successfully!');
     }
