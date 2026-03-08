@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\Team;
+use App\Models\Tour;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -14,12 +15,13 @@ class SettingController extends Controller
     {
         $setting = Setting::first();
         $teams = Team::all();
+        $tours = Tour::all();
 
         if (!$setting) {
             $setting = Setting::create([]);
         }
 
-        return view('admin.settings.edit', compact('setting', 'teams'));
+        return view('admin.settings.edit', compact('setting', 'teams', 'tours'));
     }
 
     // Update
@@ -34,12 +36,15 @@ class SettingController extends Controller
             'phone'              => 'nullable|string|max:50',
             'email'              => 'nullable|email|max:255',
             'location'           => 'nullable|string|max:255',
+            'description'        => 'nullable|string|max:1000',
+            'follow_text'        => 'nullable|string|max:500',
             'facebook'           => 'nullable|url',
             'instagram'          => 'nullable|url',
             'x'                  => 'nullable|url',
             'linkedin'           => 'nullable|url',
             'youtube'            => 'nullable|url',
             'support_team_id'    => 'nullable|exists:teams,id',
+            'feature_package_id' => 'nullable|exists:tours,id',
         ]);
 
         $data = $request->except(['logo', 'favicon']);

@@ -1,66 +1,7 @@
 @extends('layouts.master')
 @section('content')
 
-    <!--END HEADER SECTION-->
-	<!-- TOP SEARCH BOX -->
-	<section>
-        <div class="search-top pop pop-search">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="ban-search form-select">
-                            <form>
-                                <ul>
-                                    <li class="sr-look">
-                                        <div class="form-group">
-                                            <label>Your destination</label>
-                                            <select class="chosen-select">
-                                                <option>Your destination</option>
-                                                <option>Any location</option>
-                                                <option>Chennai</option>
-                                                <option>New york</option>
-                                                <option>Perth</option>
-                                                <option>London</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="sr-gue">
-                                        <div class="form-group">
-                                            <label>Package</label>
-                                            <select class="chosen-select">
-                                                <option>Package</option>
-                                                <option>Family Package</option>
-                                                <option>Honeymoon Package</option>
-                                                <option>Group Package</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li class="sr-date">
-                                        <div class="form-group">
-                                            <label>Check in</label>
-                                            <input type="text" class="form-control datepicker" name="from" placeholder="Check in">
-                                        </div>
-                                    </li>
-                                    <li class="sr-date">
-                                        <div class="form-group">
-                                            <label>Check out</label>
-                                            <input type="text" class="form-control datepicker" name="to" placeholder="Check out">
-                                        </div>
-                                    </li>
-                                    <li class="sr-btn">
-                                        <input type="submit" value="Search">
-                                    </li>
-                                </ul>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-        </div>
-		<!-- END TOP SEARCH BOX -->
-    </section>
-    <!--END HEADER SECTION-->
+
 	
 	<!--====== BANNER ==========-->
 	<section>
@@ -287,46 +228,52 @@
 
 							<div class="dir-rat-inn">
 								@auth
-									<form action="{{ route('hotel.review.store') }}" method="POST">
-										@csrf
-
-										{{-- Hotel ID --}}
-										<input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
-
-										{{-- ⭐ Star Rating --}}
-										<fieldset class="rating">
-											@for($i = 5; $i >= 1; $i--)
-												<input type="radio" id="hotel-star{{ $i }}" name="rating" value="{{ $i }}" required />
-												<label class="full" for="hotel-star{{ $i }}"></label>
-											@endfor
-										</fieldset>
-
-										<div class="clearfix"></div>
-										<br>
-
-										{{-- Name --}}
-										<div class="form-group col-md-6 pad-left-o">
-											<input type="text" name="name" class="form-control" placeholder="Enter Name"
-												value="{{ auth()->user()->name }}" readonly required>
+									@if($userAlreadyReviewed)
+										<div style="padding: 20px; background: #d4edda; border-radius: 5px; margin-top: 20px; color: #155724;">
+											<p><i class="fa fa-check-circle"></i> <strong>You have already reviewed this hotel. Thank you for your feedback!</strong></p>
 										</div>
+									@else
+										<form action="{{ route('hotel.review.store') }}" method="POST">
+											@csrf
 
-										{{-- Email --}}
-										<div class="form-group col-md-6 pad-left-o">
-											<input type="email" name="email" class="form-control" placeholder="Enter Email id"
-												value="{{ auth()->user()->email }}" readonly>
-										</div>
+											{{-- Hotel ID --}}
+											<input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
 
-										{{-- Message --}}
-										<div class="form-group col-md-12 pad-left-o">
-											<textarea name="message" class="form-control" placeholder="Write your message"
-												required>{{ old('message') }}</textarea>
-										</div>
+											{{-- ⭐ Star Rating --}}
+											<fieldset class="rating">
+												@for($i = 5; $i >= 1; $i--)
+													<input type="radio" id="hotel-star{{ $i }}" name="rating" value="{{ $i }}" required />
+													<label class="full" for="hotel-star{{ $i }}"></label>
+												@endfor
+											</fieldset>
 
-										{{-- Submit --}}
-										<div class="form-group col-md-12 pad-left-o">
-											<button type="submit" class="link-btn">SUBMIT</button>
-										</div>
-									</form>
+											<div class="clearfix"></div>
+											<br>
+
+											{{-- Name --}}
+											<div class="form-group col-md-6 pad-left-o">
+												<input type="text" name="name" class="form-control" placeholder="Enter Name"
+													value="{{ auth()->user()->name }}" readonly required>
+											</div>
+
+											{{-- Email --}}
+											<div class="form-group col-md-6 pad-left-o">
+												<input type="email" name="email" class="form-control" placeholder="Enter Email id"
+													value="{{ auth()->user()->email }}" readonly>
+											</div>
+
+											{{-- Message --}}
+											<div class="form-group col-md-12 pad-left-o">
+												<textarea name="message" class="form-control" placeholder="Write your message"
+													required>{{ old('message') }}</textarea>
+											</div>
+
+											{{-- Submit --}}
+											<div class="form-group col-md-12 pad-left-o">
+												<button type="submit" class="link-btn">SUBMIT</button>
+											</div>
+										</form>
+									@endif
 								@else
 									<div style="padding: 20px; background: #fff3cd; border-radius: 5px; margin-top: 20px;">
 										<p><strong>Please <a href="{{ route('login') }}">login</a> to write a review</strong></p>
@@ -442,38 +389,5 @@
 		</div>
 	</section>
 
-	<!--====== TIPS BEFORE TRAVEL ==========-->
-	<section>
-		<div class="rows tips tips-home tb-space home_title">
-			<div class="container tips_1">
-				<!-- TIPS BEFORE TRAVEL -->
-				<div class="col-md-4 col-sm-6 col-xs-12">
-					<h3>Tips Before Travel</h3>
-					<div class="tips_left tips_left_1">
-						<h5>Check amenities offered</h5>
-						<p>Verify all amenities and services available at the hotel before booking.</p>
-					</div>
-					<div class="tips_left tips_left_2">
-						<h5>Read guest reviews</h5>
-						<p>Check previous guest reviews to ensure quality service and facilities.</p>
-					</div>
-					<div class="tips_left tips_left_3">
-						<h5>Plan your stay</h5>
-						<p>Book in advance and plan your accommodation according to your needs.</p>
-					</div>
-				</div>
 
-				<!-- CUSTOMER TESTIMONIALS -->
-				<div class="col-md-8 col-sm-6 col-xs-12 testi-2">
-					<!-- TESTIMONIAL TITLE -->
-					<h3>Customer Testimonials</h3>
-					<div class="testi">
-						<h4>Guest Review</h4>
-						<p>Fantastic experience at this hotel. Great service, comfortable rooms, and excellent staff.</p>
-						<address>Satisfied Guest</address>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 @endsection

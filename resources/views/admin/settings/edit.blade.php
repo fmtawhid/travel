@@ -80,6 +80,31 @@
                     <label class="active">Location</label>
                 </div>
 
+                {{-- Description --}}
+                <div class="input-field col s12">
+                    <textarea name="description" class="materialize-textarea">{{ old('description', $setting->description) }}</textarea>
+                    <label class="active">Description</label>
+                </div>
+
+                {{-- Follow Text --}}
+                <div class="input-field col s12">
+                    <textarea name="follow_text" class="materialize-textarea">{{ old('follow_text', $setting->follow_text) }}</textarea>
+                    <label class="active">Follow Text</label>
+                </div>
+
+                {{-- Featured Package --}}
+                <div class="input-field col s12">
+                    <select name="feature_package_id">
+                        <option value="">Select Featured Package</option>
+                        @foreach($tours as $tour)
+                            <option value="{{ $tour->id }}" {{ old('feature_package_id', $setting->feature_package_id) == $tour->id ? 'selected' : '' }}>
+                                {{ $tour->title }} ({{ $tour->location }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <label>Featured Package</label>
+                </div>
+
                 <div class="col s12"><h5>Social Media</h5></div>
 
                 <div class="input-field col s6">

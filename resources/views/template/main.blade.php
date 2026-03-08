@@ -361,47 +361,129 @@
         </div>
     </section>
     <!--====== SECTION: FREE CONSULTANT ==========-->
-    {{-- <section>
+    <section>
         <div class="offer">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="offer-l"> <span class="ol-1"></span> <span class="ol-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> <span class="ol-4">Do you Need Custom Package?</span>                            <span class="ol-3"></span> <span class="ol-5">$99/-</span>
-                            <ul>
-                                <li class="wow fadeInUp" data-wow-duration="0.5s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis1.png') }}" alt="">
-									</a><span>Free WiFi</span>
-                                </li>
-                                <li class="wow fadeInUp" data-wow-duration="0.7s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis2.png') }}" alt=""> </a><span>Breakfast</span>
-                                </li>
-                                <li class="wow fadeInUp" data-wow-duration="0.9s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis3.png') }}" alt=""> </a><span>Pool</span>
-                                </li>
-                                <li class="wow fadeInUp" data-wow-duration="1.1s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis4.png') }}" alt=""> </a><span>Television</span>
-                                </li>
-                                <li class="wow fadeInUp" data-wow-duration="1.3s">
-                                    <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis5.png') }}" alt=""> </a><span>GYM</span>
-                                </li>
-                            </ul>
-                        </div>
+                        @if(isset($featuredPackageFromSettings) && $featuredPackageFromSettings)
+                            @php
+                                $pkg = $featuredPackageFromSettings;
+                                $discountPercent = $pkg->discount_price ? round((($pkg->price - $pkg->discount_price) / $pkg->price) * 100) : '0';
+                                $displayPrice = $pkg->discount_price ?? $pkg->price;
+                            @endphp
+                            <div class="offer-l"> 
+                                <span class="ol-1"></span> 
+                                <span class="ol-2">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </span> 
+                                <span class="ol-4">{{ Str::limit($pkg->title, 40) }}</span>
+                                <span class="ol-3"></span> 
+                                <span class="ol-5">${{ $displayPrice }}/-</span>
+                                <ul>
+                                    @if($pkg->include_sightseeing)
+                                        <li class="wow fadeInUp" data-wow-duration="0.5s">
+                                            <a href="#!" class="waves-effect waves-light btn-large offer-btn">
+                                                <img src="{{ asset('assets/templates/images/icon/dis1.png') }}" alt="">
+                                            </a><span>Sightseeing</span>
+                                        </li>
+                                    @endif
+                                    @if($pkg->include_hotel)
+                                        <li class="wow fadeInUp" data-wow-duration="0.7s">
+                                            <a href="#!" class="waves-effect waves-light btn-large offer-btn">
+                                                <img src="{{ asset('assets/templates/images/icon/dis2.png') }}" alt="">
+                                            </a><span>Hotel</span>
+                                        </li>
+                                    @endif
+                                    @if($pkg->include_transfer)
+                                        <li class="wow fadeInUp" data-wow-duration="0.9s">
+                                            <a href="#!" class="waves-effect waves-light btn-large offer-btn">
+                                                <img src="{{ asset('assets/templates/images/icon/dis3.png') }}" alt="">
+                                            </a><span>Transfer</span>
+                                        </li>
+                                    @endif
+                                    @if($pkg->include_luggage)
+                                        <li class="wow fadeInUp" data-wow-duration="1.1s">
+                                            <a href="#!" class="waves-effect waves-light btn-large offer-btn">
+                                                <img src="{{ asset('assets/templates/images/icon/dis4.png') }}" alt="">
+                                            </a><span>Luggage</span>
+                                        </li>
+                                    @endif
+                                    <li class="wow fadeInUp" data-wow-duration="1.3s">
+                                        <a href="#!" class="waves-effect waves-light btn-large offer-btn">
+                                            <img src="{{ asset('assets/templates/images/icon/dis5.png') }}" alt="">
+                                        </a><span>{{ $pkg->duration }} Days</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        @else
+                            <div class="offer-l"> 
+                                <span class="ol-1"></span> 
+                                <span class="ol-2">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </span> 
+                                <span class="ol-4">Do you Need Custom Package?</span>
+                                <span class="ol-3"></span> 
+                                <span class="ol-5">$99/-</span>
+                                <ul>
+                                    <li class="wow fadeInUp" data-wow-duration="0.5s">
+                                        <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis1.png') }}" alt=""></a><span>Free WiFi</span>
+                                    </li>
+                                    <li class="wow fadeInUp" data-wow-duration="0.7s">
+                                        <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis2.png') }}" alt=""> </a><span>Breakfast</span>
+                                    </li>
+                                    <li class="wow fadeInUp" data-wow-duration="0.9s">
+                                        <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis3.png') }}" alt=""> </a><span>Pool</span>
+                                    </li>
+                                    <li class="wow fadeInUp" data-wow-duration="1.1s">
+                                        <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis4.png') }}" alt=""> </a><span>Television</span>
+                                    </li>
+                                    <li class="wow fadeInUp" data-wow-duration="1.3s">
+                                        <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img src="{{ asset('assets/templates/images/icon/dis5.png') }}" alt=""> </a><span>GYM</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
                         <div class="offer-r">
-                        <div class="or-1">
-                            <a href="{{ route('booking.custom-package') }}" class="or-link">
-                                <span class="or-11">go</span>
-                                <span class="or-12">Stays</span>
-                            </a>
-                        </div>                            
-                        <div class="or-2"> <span class="or-21">UP TO</span> <span class="or-22">50%</span> <span class="or-23">Off</span> <span class="or-24">Start From: 99$</span> <span class="or-25"></span> </div>
+                            <div class="or-1">
+                                @if(isset($featuredPackageFromSettings) && $featuredPackageFromSettings)
+                                    <a href="{{ route('package.details', $featuredPackageFromSettings->id) }}" class="or-link">
+                                        <span class="or-11">go</span>
+                                        {{-- <span class="or-12">{{ Str::limit($featuredPackageFromSettings->title, 15) }}</span> --}}
+                                        <span class="or-12">Now</span>
+                                    </a>
+                                @else
+                                    <a href="{{ route('booking.custom-package') }}" class="or-link">
+                                        <span class="or-11">go</span>
+                                        <span class="or-12">Stays</span>
+                                    </a>
+                                @endif
+                            </div>                            
+                            <div class="or-2"> 
+                                @if(isset($featuredPackageFromSettings) && $featuredPackageFromSettings && $featuredPackageFromSettings->discount_price)
+                                    @php
+                                        $discount = round((($featuredPackageFromSettings->price - $featuredPackageFromSettings->discount_price) / $featuredPackageFromSettings->price) * 100);
+                                    @endphp
+                                    <span class="or-21">UP TO</span> 
+                                    <span class="or-22">{{ $discount }}%</span> 
+                                    <span class="or-23">Off</span> 
+                                    <span class="or-24">Start From: ${{ $featuredPackageFromSettings->discount_price }}</span> 
+                                @else
+                                    <span class="or-21">UP TO</span> 
+                                    <span class="or-22">50%</span> 
+                                    <span class="or-23">Off</span> 
+                                    <span class="or-24">Start From: 99$</span> 
+                                @endif
+                                <span class="or-25"></span> 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section> --}}
+    </section>
     <!--====== EVENTS ==========-->
     <section>
         <div class="rows tb-space">
@@ -666,7 +748,7 @@
     <!--====== REQUEST A QUOTE ==========-->
     
     <!--====== TIPS BEFORE TRAVEL ==========-->
-    <section>
+    {{-- <section>
         <div class="rows tips tips-home tb-space home_title">
             <div class="container tips_1">
                 <!-- TIPS BEFORE TRAVEL -->
@@ -717,5 +799,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection

@@ -44,7 +44,7 @@
                                     <span>{{ Str::limit($sightseeing->short_description, 50) }}</span>
                                     <span>More details</span>
                                 </div>
-                                <a href="" class="fclick"></a>
+                                <a href="{{ route('sightseeing.details', $sightseeing->id) }}" class="fclick"></a>
                             </div>
                         </li>
                     @empty

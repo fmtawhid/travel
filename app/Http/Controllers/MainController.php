@@ -125,6 +125,12 @@ class MainController extends Controller
         // Paginate results - 10 per page
         $tours = $query->paginate(10);
         
+        // Calculate average rating for each tour
+        $tours->each(function($tour) {
+            $tour->avgRating = round($tour->reviews()->avg('rating') ?? 4.0, 1);
+            $tour->reviewCount = $tour->reviews()->count();
+        });
+        
         // Get dynamic suggestions - latest 5 tours
         $suggestedTours = Tour::latest()->take(5)->get();
         
@@ -144,12 +150,21 @@ class MainController extends Controller
         $itineraries = $tour->itineraries()->orderBy('day_number')->get();
         $galleries = $tour->galleries()->get();
         $reviews = $tour->reviews()->get();
+        
+        // Check if current user already reviewed this tour
+        $userAlreadyReviewed = false;
+        if (Auth::check()) {
+            $userAlreadyReviewed = Review::where('user_id', Auth::id())
+                ->where('tour_id', $id)
+                ->exists();
+        }
+        
         // Popular packages (latest 3 tours excluding current tour)
         $popularPackages = Tour::where('id', '!=', $tour->id)
             ->orderBy('created_at', 'desc')
             ->take(3)
             ->get();
-        return view('template.package-details', compact('tour', 'itineraries', 'galleries', 'reviews', 'popularPackages'));
+        return view('template.package-details', compact('tour', 'itineraries', 'galleries', 'reviews', 'popularPackages', 'userAlreadyReviewed'));
     }
 
 
@@ -204,6 +219,12 @@ class MainController extends Controller
         // Paginate results - 10 per page
         $hotels = $query->latest()->paginate(10);
         
+        // Calculate average rating for each hotel
+        $hotels->each(function($hotel) {
+            $hotel->avgRating = round($hotel->reviews()->avg('rating') ?? 3.5, 1);
+            $hotel->reviewCount = $hotel->reviews()->count();
+        });
+        
         // Get top 5 hotels by average rating for sidebar
         $topHotels = Hotel::withAvg('reviews', 'rating')
             ->orderByDesc('reviews_avg_rating')
@@ -222,7 +243,16 @@ class MainController extends Controller
         $reviews = $hotel->reviews()->latest()->get();
         // Calculate average rating
         $averageRating = $hotel->reviews()->avg('rating') ?? 0;
-        return view('template.hotel-detail', compact('hotel', 'roomTypes', 'reviews', 'averageRating'));
+        
+        // Check if current user already reviewed this hotel
+        $userAlreadyReviewed = false;
+        if (Auth::check()) {
+            $userAlreadyReviewed = Review::where('user_id', Auth::id())
+                ->where('hotel_id', $id)
+                ->exists();
+        }
+        
+        return view('template.hotel-detail', compact('hotel', 'roomTypes', 'reviews', 'averageRating', 'userAlreadyReviewed'));
     }
 
     public function contact()

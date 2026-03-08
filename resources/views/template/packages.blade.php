@@ -2,71 +2,6 @@
 @section('content')
 
 
-	<!--END HEADER SECTION-->
-	<!-- TOP SEARCH BOX -->
-	<section>
-		<div class="search-top pop pop-search">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="ban-search form-select">
-							<form>
-								<ul>
-									<li class="sr-look">
-										<div class="form-group">
-											<label>Your destination</label>
-											<select class="chosen-select">
-												<option>Your destination</option>
-												<option>Any location</option>
-												<option>Chennai</option>
-												<option>New york</option>
-												<option>Perth</option>
-												<option>London</option>
-											</select>
-										</div>
-									</li>
-									<li class="sr-gue">
-										<div class="form-group">
-											<label>Package</label>
-											<select class="chosen-select">
-												<option>Package</option>
-												<option>Family Package</option>
-												<option>Honeymoon Package</option>
-												<option>Group Package</option>
-												<option>WeekEnd Package</option>
-												<option>Regular Package</option>
-											</select>
-										</div>
-									</li>
-									<li class="sr-date">
-										<div class="form-group">
-											<label>Check in</label>
-											<input type="text" class="form-control datepicker" name="from"
-												placeholder="Check in">
-										</div>
-									</li>
-									<li class="sr-date">
-										<div class="form-group">
-											<label>Check out</label>
-											<input type="text" class="form-control datepicker" name="to"
-												placeholder="Check out">
-										</div>
-									</li>
-									<li class="sr-btn">
-										<input type="submit" value="Search">
-									</li>
-								</ul>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-		</div>
-		<!-- END TOP SEARCH BOX -->
-	</section>
-	<!--END HEADER SECTION-->
-
 
 	<!--====== HOTELS LIST ==========-->
 	<section class="hot-page2-alp hot-page2-pa-sp-top">
@@ -287,7 +222,7 @@
 									<div class="hot-page2-alp-r-list">
 										<div class="col-md-3 hot-page2-alp-r-list-re-sp">
 											<a href="{{ route('package.details', $tour->id) }}">
-												<div class="hotel-list-score">{{ $tour->rating ?? '4.0' }}</div>
+												<div class="hotel-list-score">{{ $tour->avgRating ?? '4.0' }}</div>
 												<div class="hot-page2-hli-1"> <img
 														src="{{ asset('uploads/tours/' . $tour->image) }}"
 														alt="{{ $tour->title }}"> </div>
@@ -375,60 +310,5 @@
 			</div>
 		</div>
 	</section>
-	<!--====== TIPS BEFORE TRAVEL ==========-->
-	<section>
-		<div class="rows tips tips-home tb-space home_title">
-			<div class="container tips_1">
-				<!-- TIPS BEFORE TRAVEL -->
-				<div class="col-md-4 col-sm-6 col-xs-12">
-					<h3>Tips Before Travel</h3>
-					<div class="tips_left tips_left_1">
-						<h5>Bring copies of your passport</h5>
-						<p>Aliquam pretium id justo eget tristique. Aenean feugiat vestibulum blandit.</p>
-					</div>
-					<div class="tips_left tips_left_2">
-						<h5>Register with your embassy</h5>
-						<p>Mauris efficitur, ante sit amet rhoncus malesuada, orci justo sollicitudin.</p>
-					</div>
-					<div class="tips_left tips_left_3">
-						<h5>Always have local cash</h5>
-						<p>Donec et placerat ante. Etiam et velit in massa. </p>
-					</div>
-				</div>
-				<!-- CUSTOMER TESTIMONIALS -->
-				<div class="col-md-8 col-sm-6 col-xs-12 testi-2">
-					<!-- TESTIMONIAL TITLE -->
-					<h3>Customer Testimonials</h3>
-					<div class="testi">
-						<h4>John William</h4>
-						<p>Ut sed sem quis magna ultricies lacinia et sed tortor. Ut non tincidunt nisi, non elementum
-							lorem. Aliquam gravida sodales</p>
-						<address>Illinois, United States of America</address>
-					</div>
-					<!-- ARRANGEMENTS & HELPS -->
-					<h3>Arrangement & Helps</h3>
-					<div class="arrange">
-						<ul>
-							<!-- LOCATION MANAGER -->
-							<li>
-								<a href="#"><img src="images/Location-Manager.png" alt=""> </a>
-							</li>
-							<!-- PRIVATE GUIDE -->
-							<li>
-								<a href="#"><img src="images/Private-Guide.png" alt=""> </a>
-							</li>
-							<!-- ARRANGEMENTS -->
-							<li>
-								<a href="#"><img src="images/Arrangements.png" alt=""> </a>
-							</li>
-							<!-- EVENT ACTIVITIES -->
-							<li>
-								<a href="#"><img src="images/Events-Activities.png" alt=""> </a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+
 @endsection

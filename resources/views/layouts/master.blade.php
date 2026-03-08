@@ -74,12 +74,12 @@
                             <h4>User Dashboard</h4>
                             <ul>
                                 <li><a href="{{ route('user.profile') }}">My Profile</a></li>
-                                <li><a href="{{ route('user.booking.tour-package') }}">Tour Packages</a></li>
-                                <li><a href="{{ route('user.booking.hotel') }}">Hotel Bookings</a></li>
-                                <li><a href="{{ route('user.booking.event') }}">Event bookings</a></li>
-                                <li><a href="{{ route('user.booking.car') }}">Car Rental Bookings</a></li> 
-                                <li><a href="{{ route('user.booking.flight') }}">Flight Bookings</a></li>
-                                <li><a href="{{ route('user.booking.custom') }}">Custom Package Booking</a></li>
+                                <li><a href="{{ route('booking.tour-package') }}">Tour Packages</a></li>
+                                <li><a href="{{ route('booking.hotel') }}">Hotel Bookings</a></li>
+                                <li><a href="{{ route('booking.event') }}">Event bookings</a></li>
+                                <li><a href="{{ route('booking.car') }}">Car Rental Bookings</a></li> 
+                                <li><a href="{{ route('booking.flight') }}">Flight Bookings</a></li>
+                                <li><a href="{{ route('booking.custom-package') }}">Custom Package Booking</a></li>
                                 
 
                             </ul>
@@ -299,7 +299,7 @@
                                                         <li><a href="{{ route('events') }}  ">Events</a></li>
                                                         <li><a href="{{ route('blog') }}">Blog</a></li>
                                                         <li><a href="{{ route('tips') }}">Tips Before Travel</a></li>
-                                                        <li><a href="faq.html">FAQ</a></li>
+                                                        {{-- <li><a href="faq.html">FAQ</a></li> --}}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -540,41 +540,70 @@
             <div class="footer1 home_title tb-space">
                 <div class="pla1 container">
                     <!-- FOOTER OFFER 1 -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="disco">
-                            <h3>30%<span>OFF</span></h3>
-                            <h4>Eiffel Tower,Rome</h4>
-                            <p>valid only for 24th Dec</p> <a href="booking.html">Book Now</a>
+                    @if(isset($popularTours) && $popularTours->count() > 0)
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="disco">
+                                @php
+                                    $tour1 = $popularTours[0];
+                                    $discount1 = $tour1->discount_price ? round((($tour1->price - $tour1->discount_price) / $tour1->price) * 100) : '0';
+                                @endphp
+                                <h3>{{ $discount1 }}<span>%OFF</span></h3>
+                                <h4>{{ Str::limit($tour1->title, 30) }}</h4>
+                                <p>{{ $tour1->location }}</p>
+                                <a href="{{ route('package.details', $tour1->id) }}">Book Now</a>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="disco">
+                                <h3>30%<span>OFF</span></h3>
+                                <h4>Eiffel Tower,Rome</h4>
+                                <p>valid only for 24th Dec</p>
+                                <a href="booking.html">Book Now</a>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- FOOTER OFFER 2 -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="disco1 disco">
-                            <h3>42%<span>OFF</span></h3>
-                            <h4>Colosseum,Burj Al Arab</h4>
-                            <p>valid only for 18th Nov</p> <a href="booking.html">Book Now</a>
+                    @if(isset($popularTours) && $popularTours->count() > 1)
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="disco1 disco">
+                                @php
+                                    $tour2 = $popularTours[1];
+                                    $discount2 = $tour2->discount_price ? round((($tour2->price - $tour2->discount_price) / $tour2->price) * 100) : '0';
+                                @endphp
+                                <h3>{{ $discount2 }}<span>%OFF</span></h3>
+                                <h4>{{ Str::limit($tour2->title, 30) }}</h4>
+                                <p>{{ $tour2->location }}</p>
+                                <a href="{{ route('package.details', $tour2->id) }}">Book Now</a>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="disco1 disco">
+                                <h3>42%<span>OFF</span></h3>
+                                <h4>Colosseum,Burj Al Arab</h4>
+                                <p>valid only for 18th Nov</p>
+                                <a href="booking.html">Book Now</a>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- FOOTER MOST POPULAR VACATIONS -->
                     <div class="col-md-6 col-sm-12 col-xs-12 foot-spec footer_places">
                         <h4><span>Most Popular</span> Vacations</h4>
                         <ul>
-                            <li><a href="tour-details.html">Angkor Wat</a> </li>
-                            <li><a href="tour-details.html">Buckingham Palace</a> </li>
-                            <li><a href="tour-details.html">High Line</a> </li>
-                            <li><a href="tour-details.html">Sagrada Família</a> </li>
-                            <li><a href="tour-details.html">Statue of Liberty </a> </li>
-                            <li><a href="tour-details.html">Notre Dame de Paris</a> </li>
-                            <li><a href="tour-details.html">Taj Mahal</a> </li>
-                            <li><a href="tour-details.html">The Louvre</a> </li>
-                            <li><a href="tour-details.html">Tate Modern, London</a> </li>
-                            <li><a href="tour-details.html">Gothic Quarter</a> </li>
-                            <li><a href="tour-details.html">Table Mountain</a> </li>
-                            <li><a href="tour-details.html">Bayon</a> </li>
-                            <li><a href="tour-details.html">Great Wall of China</a> </li>
-                            <li><a href="tour-details.html">Hermitage Museum</a> </li>
-                            <li><a href="tour-details.html">Yellowstone</a> </li>
-                            <li><a href="tour-details.html">Musée d'Orsay</a> </li>
+                            @if(isset($popularTours) && $popularTours->count() > 2)
+                                @foreach($popularTours->skip(2)->take(5) as $tour)
+                                    <li><a href="{{ route('package.details', $tour->id) }}">{{ Str::limit($tour->title, 25) }}</a> </li>
+                                @endforeach
+                            @else
+                                <li><a href="tour-details.html">Angkor Wat</a> </li>
+                                <li><a href="tour-details.html">Buckingham Palace</a> </li>
+                                <li><a href="tour-details.html">High Line</a> </li>
+                                <li><a href="tour-details.html">Sagrada Família</a> </li>
+                                <li><a href="tour-details.html">Statue of Liberty </a> </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -591,8 +620,7 @@
                             <div class="row">
                                 <div class="col-sm-3 foot-spec foot-com">
                                     <h4>{{ $settings['name'] ?? 'Tour & Travel' }}</h4>
-                                    <p>World's leading tour and travels Booking website,Over 30,000 packages worldwide.
-                                    </p>
+                                    <p>{{ $settings['description'] ?? 'Description not available' }}</p>
                                 </div>
                                 <div class="col-sm-3 foot-spec foot-com">
                                     <h4><span>Address</span> & Contact Info</h4>
@@ -604,9 +632,8 @@
                                     <h4><span>SUPPORT</span> & HELP</h4>
                                     <ul class="two-columns">
                                         <li> <a href="{{ route('about') }}">About Us</a> </li>
-                                        <li> <a href="#">FAQ</a> </li>
-                                        <li> <a href="#">Feedbacks</a> </li>
-                                        <li> <a href="#">Blog </a> </li>
+                                        {{-- <li> <a href="#">FAQ</a> </li> --}}
+                                        <li> <a href="{{ route('blog') }}">Blog </a> </li>
                                         <li> <a href="#">Use Cases</a> </li>
                                         <li> <a href="#">Advertise us</a> </li>
                                         <li> <a href="#">Discount</a> </li>
@@ -617,8 +644,7 @@
                                 </div>
                                 <div class="col-sm-3 foot-social foot-spec foot-com">
                                     <h4><span>Follow</span> with us</h4>
-                                    <p>Join the thousands of other There are many variations of passages of Lorem Ipsum
-                                        available</p>
+                                    <p>{{ $settings['follow_text'] ?? 'Follow us on social media' }}</p>
                                     <ul>
                                         <li><a href="{{ $settings['facebook'] ?? '#'}}"><i class="fa fa-facebook"
                                                     aria-hidden="true"></i></a> </li>
@@ -643,20 +669,20 @@
     <section>
         <div class="rows copy">
             <div class="container">
-                <p>Copyrights © 2023 Company Name. All Rights Reserved</p>
+                <p>Copyrights © 2023 {{ $settings['name'] ?? '#'}}. All Rights Reserved</p>
             </div>
         </div>
     </section>
     <section>
         <div class="icon-float">
             <ul>
-                <li><a href="#" class="sh">1k <br> Share</a> </li>
-                <li><a href="#" class="fb1"><i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-                <li><a href="#" class="gp1"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-                <li><a href="#" class="tw1"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-                <li><a href="#" class="li1"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-                <li><a href="#" class="wa1"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> </li>
-                <li><a href="#" class="sh1"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> </li>
+                <li><a href="#" class="sh" onclick="copyToClipboard(event)">1k <br> Share</a> </li>
+                <li><a href="{{ $settings['facebook'] ?? '#' }}" class="fb1" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
+                <li><a href="{{ $settings['google_plus'] ?? '#' }}" class="gp1" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+                <li><a href="{{ $settings['x'] ?? '#' }}" class="tw1" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
+                <li><a href="{{ $settings['linkedin'] ?? '#' }}" class="li1" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+                <li><a href="https://api.whatsapp.com/send?text={{ urlencode(request()->url()) }}" class="wa1" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> </li>
+                <li><a href="mailto:?subject=Check this out&body={{ urlencode(request()->url()) }}" class="sh1"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> </li>
             </ul>
         </div>
     </section>
@@ -668,7 +694,47 @@
     <script src="{{ asset('assets/templates/js/select-opt.js') }}"></script>
     <script src="{{ asset('assets/templates/js/slick.js') }}"></script>
     <script src="{{ asset('assets/templates/js/custom.js') }}"></script>
+    
     <script>
+        // Copy current URL to clipboard
+        function copyToClipboard(event) {
+            event.preventDefault();
+            
+            const url = window.location.href;
+            
+            // Modern approach using Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    // Show success message
+                    alert('URL copied to clipboard!');
+                }).catch(() => {
+                    fallbackCopyToClipboard(url);
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyToClipboard(url);
+            }
+        }
+        
+        // Fallback method for older browsers
+        function fallbackCopyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('URL copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+            
+            document.body.removeChild(textarea);
+        }
 
         $('.multiple-items').slick({
             dots: true,

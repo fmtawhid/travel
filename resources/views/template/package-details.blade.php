@@ -2,70 +2,6 @@
 @section('content')
 
 
-	<!--END HEADER SECTION-->
-	<!-- TOP SEARCH BOX -->
-	<section>
-		<div class="search-top pop pop-search">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="ban-search form-select">
-							<form>
-								<ul>
-									<li class="sr-look">
-										<div class="form-group">
-											<label>Your destination</label>
-											<select class="chosen-select">
-												<option>Your destination</option>
-												<option>Any location</option>
-												<option>Chennai</option>
-												<option>New york</option>
-												<option>Perth</option>
-												<option>London</option>
-											</select>
-										</div>
-									</li>
-									<li class="sr-gue">
-										<div class="form-group">
-											<label>Package</label>
-											<select class="chosen-select">
-												<option>Package</option>
-												<option>Family Package</option>
-												<option>Honeymoon Package</option>
-												<option>Group Package</option>
-												<option>WeekEnd Package</option>
-												<option>Regular Package</option>
-											</select>
-										</div>
-									</li>
-									<li class="sr-date">
-										<div class="form-group">
-											<label>Check in</label>
-											<input type="text" class="form-control datepicker" name="from"
-												placeholder="Check in">
-										</div>
-									</li>
-									<li class="sr-date">
-										<div class="form-group">
-											<label>Check out</label>
-											<input type="text" class="form-control datepicker" name="to"
-												placeholder="Check out">
-										</div>
-									</li>
-									<li class="sr-btn">
-										<input type="submit" value="Search">
-									</li>
-								</ul>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<span class="menu-pop-clo pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-		</div>
-		<!-- END TOP SEARCH BOX -->
-	</section>
-	<!--END HEADER SECTION-->
 
 	<!--====== BANNER ==========-->
 	<section>
@@ -252,67 +188,73 @@
 								<p>Share your experience about this tour</p>
 							</div>
 
-							<div class="dir-rat-inn">
-								<form action="{{ route('tour.review.store', $tour->id) }}" method="POST">
-									@csrf
+							@if($userAlreadyReviewed)
+								<div class="dir-rat-inn" style="background-color: #fff3cd; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+									<p style="color: #856404; margin: 0;"><i class="fa fa-check-circle"></i> You have already reviewed this tour. Thank you for your feedback!</p>
+								</div>
+							@else
+								<div class="dir-rat-inn">
+									<form action="{{ route('tour.review.store', $tour->id) }}" method="POST">
+										@csrf
 
-									{{-- Tour ID --}}
-									<input type="hidden" name="tour_id" value="{{ $tour->id }}">
+										{{-- Tour ID --}}
+										<input type="hidden" name="tour_id" value="{{ $tour->id }}">
 
-									{{-- Hidden user id if logged in --}}
-									@auth
-										<input type="hidden" name="user_id" value="{{ auth()->id() }}">
-									@endauth
+										{{-- Hidden user id if logged in --}}
+										@auth
+											<input type="hidden" name="user_id" value="{{ auth()->id() }}">
+										@endauth
 
-									{{-- ⭐ Star Rating --}}
-									<fieldset class="rating">
-										@for($i = 5; $i >= 1; $i--)
-											<input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" required />
-											<label class="full" for="star{{ $i }}"></label>
-										@endfor
-									</fieldset>
+										{{-- ⭐ Star Rating --}}
+										<fieldset class="rating">
+											@for($i = 5; $i >= 1; $i--)
+												<input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" required />
+												<label class="full" for="star{{ $i }}"></label>
+											@endfor
+										</fieldset>
 
-									<div class="clearfix"></div>
-									<br>
+										<div class="clearfix"></div>
+										<br>
 
-									{{-- Name --}}
-									<div class="form-group col-md-6 pad-left-o">
-										<input type="text" name="name" class="form-control" placeholder="Enter Name"
-											value="{{ auth()->check() ? auth()->user()->name : old('name') }}" 
-											{{ auth()->check() ? 'readonly' : '' }} required>
-									</div>
+										{{-- Name --}}
+										<div class="form-group col-md-6 pad-left-o">
+											<input type="text" name="name" class="form-control" placeholder="Enter Name"
+												value="{{ auth()->check() ? auth()->user()->name : old('name') }}" 
+												{{ auth()->check() ? 'readonly' : '' }} required>
+										</div>
 
-									{{-- Mobile --}}
-									<div class="form-group col-md-6 pad-left-o">
-										<input type="number" name="mobile" class="form-control" placeholder="Enter Mobile"
-											value="{{ old('mobile') }}">
-									</div>
+										{{-- Mobile --}}
+										<div class="form-group col-md-6 pad-left-o">
+											<input type="number" name="mobile" class="form-control" placeholder="Enter Mobile"
+												value="{{ old('mobile') }}">
+										</div>
 
-									{{-- Email --}}
-									<div class="form-group col-md-6 pad-left-o">
-										<input type="email" name="email" class="form-control" placeholder="Enter Email id"
-											value="{{ auth()->check() ? auth()->user()->email : old('email') }}" 
-											{{ auth()->check() ? 'readonly' : '' }}>
-									</div>
+										{{-- Email --}}
+										<div class="form-group col-md-6 pad-left-o">
+											<input type="email" name="email" class="form-control" placeholder="Enter Email id"
+												value="{{ auth()->check() ? auth()->user()->email : old('email') }}" 
+												{{ auth()->check() ? 'readonly' : '' }}>
+										</div>
 
-									{{-- City --}}
-									<div class="form-group col-md-6 pad-left-o">
-										<input type="text" name="city" class="form-control" placeholder="Enter your City"
-											value="{{ old('city') }}">
-									</div>
+										{{-- City --}}
+										<div class="form-group col-md-6 pad-left-o">
+											<input type="text" name="city" class="form-control" placeholder="Enter your City"
+												value="{{ old('city') }}">
+										</div>
 
-									{{-- Message --}}
-									<div class="form-group col-md-12 pad-left-o">
-										<textarea name="message" class="form-control" placeholder="Write your message"
-											required>{{ old('message') }}</textarea>
-									</div>
+										{{-- Message --}}
+										<div class="form-group col-md-12 pad-left-o">
+											<textarea name="message" class="form-control" placeholder="Write your message"
+												required>{{ old('message') }}</textarea>
+										</div>
 
-									{{-- Submit --}}
-									<div class="form-group col-md-12 pad-left-o">
-										<button type="submit" class="link-btn">SUBMIT</button>
-									</div>
-								</form>
-							</div>
+										{{-- Submit --}}
+										<div class="form-group col-md-12 pad-left-o">
+											<button type="submit" class="link-btn">SUBMIT</button>
+										</div>
+									</form>
+								</div>
+							@endif
 
 							{{-- ================= REVIEW LIST ================= --}}
 							@forelse($reviews as $review)
@@ -484,60 +426,5 @@
 			</div>
 		</div>
 	</section>
-	<!--====== TIPS BEFORE TRAVEL ==========-->
-	<section>
-		<div class="rows tips tips-home tb-space home_title">
-			<div class="container tips_1">
-				<!-- TIPS BEFORE TRAVEL -->
-				<div class="col-md-4 col-sm-6 col-xs-12">
-					<h3>Tips Before Travel</h3>
-					<div class="tips_left tips_left_1">
-						<h5>Bring copies of your passport</h5>
-						<p>Aliquam pretium id justo eget tristique. Aenean feugiat vestibulum blandit.</p>
-					</div>
-					<div class="tips_left tips_left_2">
-						<h5>Register with your embassy</h5>
-						<p>Mauris efficitur, ante sit amet rhoncus malesuada, orci justo sollicitudin.</p>
-					</div>
-					<div class="tips_left tips_left_3">
-						<h5>Always have local cash</h5>
-						<p>Donec et placerat ante. Etiam et velit in massa. </p>
-					</div>
-				</div>
-				<!-- CUSTOMER TESTIMONIALS -->
-				<div class="col-md-8 col-sm-6 col-xs-12 testi-2">
-					<!-- TESTIMONIAL TITLE -->
-					<h3>Customer Testimonials</h3>
-					<div class="testi">
-						<h4>John William</h4>
-						<p>Ut sed sem quis magna ultricies lacinia et sed tortor. Ut non tincidunt nisi, non elementum
-							lorem. Aliquam gravida sodales</p>
-						<address>Illinois, United States of America</address>
-					</div>
-					<!-- ARRANGEMENTS & HELPS -->
-					<h3>Arrangement & Helps</h3>
-					<div class="arrange">
-						<ul>
-							<!-- LOCATION MANAGER -->
-							<li>
-								<a href="#"><img src="{{ asset('assets/templates/images/Location-Manager.png') }}" alt=""> </a>
-							</li>
-							<!-- PRIVATE GUIDE -->
-							<li>
-								<a href="#"><img src="{{ asset('assets/templates/images/Private-Guide.png') }}" alt=""> </a>
-							</li>
-							<!-- ARRANGEMENTS -->
-							<li>
-								<a href="#"><img src="{{ asset('assets/templates/images/Arrangements.png') }}" alt=""> </a>
-							</li>
-							<!-- EVENT ACTIVITIES -->
-							<li>
-								<a href="#"><img src="{{ asset('assets/templates/images/Events-Activities.png') }}" alt=""> </a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+
 @endsection

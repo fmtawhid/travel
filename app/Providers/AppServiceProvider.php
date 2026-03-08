@@ -26,6 +26,12 @@ class AppServiceProvider extends ServiceProvider
             // সব settings row fetch with supportTeam relation
             $settings = Setting::with('supportTeam')->first();
             View::share('settings', $settings);
+            
+            // Get featured package if exists
+            if ($settings && $settings->feature_package_id) {
+                $featuredPackageFromSettings = \App\Models\Tour::find($settings->feature_package_id);
+                View::share('featuredPackageFromSettings', $featuredPackageFromSettings);
+            }
         }
         
         if (Schema::hasTable('packages')) {
@@ -47,6 +53,13 @@ class AppServiceProvider extends ServiceProvider
             // Get unique locations from tours
             $locations = \App\Models\Tour::distinct()->pluck('location')->filter()->sort()->values();
             View::share('locations', $locations);
+            
+            // Get most popular tours by booking count (for footer)
+            $popularTours = \App\Models\Tour::withCount('tourBookings')
+                ->orderByDesc('tour_bookings_count')
+                ->take(7)
+                ->get();
+            View::share('popularTours', $popularTours);
         }
     }
 }
